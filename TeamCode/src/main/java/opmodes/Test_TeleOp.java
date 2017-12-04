@@ -75,6 +75,9 @@ public class Test_TeleOp extends OpMode
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Ready");
     }
@@ -121,6 +124,17 @@ public class Test_TeleOp extends OpMode
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
+
+        if (gamepad1.right_bumper) {
+            // If it's set to unknown, we'd prefer brake
+            if (leftDrive.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE) {
+                leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            } else {
+                leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+        }
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Running, for time: " + runtime.toString());
