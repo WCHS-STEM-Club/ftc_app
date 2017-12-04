@@ -76,7 +76,7 @@ public class Test_OpMode extends LinearOpMode {
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        Command driveForTime = new DriveForTime()
+        Command driveForTime = new DriveForTime(5, 1, leftDrive, rightDrive);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -87,7 +87,6 @@ public class Test_OpMode extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }

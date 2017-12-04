@@ -52,7 +52,7 @@ public class Robot2017 implements Robot {
             Command command = (Command) args[0];
             HardwareMap hwMap = (HardwareMap) args[1];
 
-            return command.executeCommand(hwMap);
+            return command.executeCommand();
         }
     }
 }
