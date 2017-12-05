@@ -29,11 +29,10 @@
 
 package opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.commands.Command;
 import org.firstinspires.ftc.teamcode.commands.DriveForTime;
@@ -52,7 +51,7 @@ import org.firstinspires.ftc.teamcode.commands.DriveForTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Test OpMode", group="Linear Opmode")
+@Autonomous(name="Test OpMode", group="Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
 
     // Declare OpMode members.
@@ -84,10 +83,13 @@ public class Test_OpMode extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
+
+            driveForTime.executeCommand();
+
+            while (true && opModeIsActive());
         }
     }
 }
