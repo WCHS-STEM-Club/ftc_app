@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Robot;
+
 public class DriveForTime implements Command {
+    // TODO: This command needs updating eventually, but is low priority
     private float seconds;
     private float power;
     private DcMotor left;
@@ -18,7 +21,7 @@ public class DriveForTime implements Command {
     }
 
     @Override
-    public boolean executeCommand() {
+    public boolean executeCommand(Robot robot) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
 

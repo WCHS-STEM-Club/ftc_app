@@ -34,7 +34,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.Command;
+import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.DriveForTime;
 
 
@@ -56,27 +59,28 @@ public class Test_OpMode extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
 
     @Override
     public void runOpMode() {
+        Robot robot = new Robot2017(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        DcMotor leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        Command driveForTime = new DriveForTime(5, 1, leftDrive, rightDrive);
+        Command driveForDistance = new DriveForDistance(10, 1, telemetry);
 
+        robot.addCommand(driveForDistance);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -87,9 +91,7 @@ public class Test_OpMode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            driveForTime.executeCommand();
-
-            while (true && opModeIsActive());
+            robot.start();
         }
     }
 }
