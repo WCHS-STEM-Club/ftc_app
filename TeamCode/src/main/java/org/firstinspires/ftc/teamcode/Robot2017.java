@@ -39,7 +39,7 @@ public class Robot2017 extends Robot {
         runningCommands = true;
         while (runningCommands && commandCache.size() > 0) {
             Command nextCommand = commandCache.get(0);
-            new RunCommand().execute(nextCommand, this);
+            nextCommand.executeCommand(this);
             commandCache.remove(0);
         }
 
