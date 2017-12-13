@@ -9,19 +9,10 @@ public abstract class Robot {
     public final int X_CLICKS;
     public final double MM_PER_X_CLICKS;
 
-    public Robot() {
-        this.X_CLICKS = 0;
-        this.MM_PER_X_CLICKS = 0;
-    }
-
     public Robot(int X_CLICKS, double MM_PER_X_CLICKS) {
         this.X_CLICKS = X_CLICKS;
         this.MM_PER_X_CLICKS = MM_PER_X_CLICKS;
     }
-
-    abstract public boolean addCommand(Command command);
-    abstract public boolean stop();
-    abstract public boolean start();
 
     abstract public HardwareMap getHwMap();
 }

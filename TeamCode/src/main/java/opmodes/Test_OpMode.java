@@ -78,9 +78,8 @@ public class Test_OpMode extends LinearOpMode {
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        Command driveForTime = new DriveForTime(1,1,leftDrive, rightDrive);
+        Command driveForDistance = new DriveForDistance(10, 1, telemetry);
 
-        robot.addCommand(driveForTime);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -91,7 +90,7 @@ public class Test_OpMode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            robot.start();
+            driveForDistance.executeCommand(robot);
         }
     }
 }
