@@ -1,18 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.commands.Command;
-
 public abstract class Robot {
-    // Millimeters/x encoder clicks
-    public final int X_CLICKS;
-    public final double MM_PER_X_CLICKS;
+    public final MotorGroup forwardMotors;
+    public final MotorGroup[] turnMotors;
+    public final MotorGroup[] strafeMotors;
 
-    public Robot(int X_CLICKS, double MM_PER_X_CLICKS) {
-        this.X_CLICKS = X_CLICKS;
-        this.MM_PER_X_CLICKS = MM_PER_X_CLICKS;
+    /**
+     * Constructor
+     *
+     * @param forwardMotors A MotorGroup with motors that go forward when you want to go forward.
+     * @param turnMotors A list of MotorGroups. On a right turn, element 0 goes forward and 1 goes
+     *                   backward.
+     * @param strafeMotors A list of MotorGroups. On a strafe right, element 0 goes forward and
+     *                     1 goes backward.
+     */
+    public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors) {
+        this.forwardMotors = forwardMotors;
+        this.turnMotors = turnMotors;
+        this.strafeMotors = strafeMotors;
     }
-
-    abstract public HardwareMap getHwMap();
 }

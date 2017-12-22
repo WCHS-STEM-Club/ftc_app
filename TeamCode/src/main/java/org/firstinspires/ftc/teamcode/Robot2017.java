@@ -1,24 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.os.AsyncTask;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.commands.Command;
-
-import java.util.ArrayList;
-
 public class Robot2017 extends Robot {
-    private HardwareMap hwMap;
-
     public Robot2017(HardwareMap hwMap) {
-        super(1440, 319);
+        super(
+                new MotorGroup(
+                        1440,
+                        319,
+                        hwMap.get(DcMotor.class, "left_drive"),
+                        hwMap.get(DcMotor.class, "right_drive")
+                )
+        );
 
-        this.hwMap = hwMap;
-    }
+        DcMotor leftDrive  = hwMap.get(DcMotor.class, "left_drive");
+        DcMotor rightDrive = hwMap.get(DcMotor.class, "right_drive");
 
-    @Override
-    public HardwareMap getHwMap() {
-        return hwMap;
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
     }
 }

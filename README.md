@@ -187,7 +187,7 @@ Please note, however, that version 3.00 is considered "alpha" code.  This code i
 Changes include:
  * Major rework of sensor-related infrastructure.  Includes rewriting sensor classes to implement synchronous I2C communication.
  * Fix to reset Autonomous timer back to 30 seconds.
- * Implementation of specific motor profiles for approved 12V motors (includes Tetrix, AndyMark, Matrix and REV models).
+ * Implementation of specific motor profiles for approved 12V servos (includes Tetrix, AndyMark, Matrix and REV models).
  * Modest improvements to enhance Wi-Fi P2P pairing.
  * Fixes telemetry log addition race.
  * Publishes all the sources (not just a select few).

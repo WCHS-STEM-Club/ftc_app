@@ -1,41 +1,50 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import android.os.AsyncTask;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-public class DriveForTime implements Command {
-    // TODO: This command needs updating eventually, but is low priority
+public class DriveForTime extends Command {
     private float seconds;
     private float power;
-    private DcMotor left;
-    private DcMotor right;
+    private Robot robot;
 
-    public DriveForTime(float seconds, float power, DcMotor left, DcMotor right) {
+    /**
+     * Constructor
+     * @param seconds The number of seconds to drive for
+     * @param power The motor's power, on a scale from 0 to 1
+     * @param robot For access to the drive train
+     * @param opMode The LinearOpMode in which the command is being run
+     */
+    public DriveForTime(float seconds, float power, Robot robot, LinearOpMode opMode) {
+        super(opMode);
         this.seconds = seconds;
         this.power = power;
-        this.left = left;
-        this.right = right;
+        this.robot = robot;
     }
 
     @Override
-    public boolean executeCommand(Robot robot) {
+    boolean execute(AsyncTask commandThread) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
 
-        left.setPower(power);
-        right.setPower(power);
+        robot.forwardMotors.setPower(power);
 
-        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // Run while we still have time to wait and the command was not cancelled
+        // Any commands that have loops should have isCancelled as a condition in the loop
+        while((runtime.milliseconds() / 1000 < this.seconds) && !commandThread.isCancelled()) {
+            // Loops within commands should use yield so that the command doesn't take all the
+            // processing power doing nothing
+            Thread.yield();
+        }
 
-        while(runtime.milliseconds() / 1000 < this.seconds);
+        robot.forwardMotors.brake();
 
-        left.setPower(0);
-        right.setPower(0);
-
-        return true;
+        // Return false if the thread was cancelled, true if it was not.
+        // This is because cancellation could cause the thread to end early.
+        return !commandThread.isCancelled();
     }
 }
