@@ -6,12 +6,27 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Robot2017 extends Robot {
     public Robot2017(HardwareMap hwMap) {
         super(
-                new MotorGroup(
-                        1440,
-                        319,
-                        hwMap.get(DcMotor.class, "left_drive"),
-                        hwMap.get(DcMotor.class, "right_drive")
-                )
+            new MotorGroup(
+                    1440,
+                    319,
+                    hwMap.get(DcMotor.class, "left_drive"),
+                    hwMap.get(DcMotor.class, "right_drive")
+            ),
+            new MotorGroup[]{
+                    new MotorGroup(
+                            1440,
+                            319,
+                            hwMap.get(DcMotor.class, "right_drive")
+                    ),
+                    new MotorGroup(
+                            1440,
+                            319,
+                            hwMap.get(DcMotor.class, "left_drive")
+                    )
+            },
+            new MotorGroup[]{
+                    null
+            }
         );
 
         DcMotor leftDrive  = hwMap.get(DcMotor.class, "left_drive");
