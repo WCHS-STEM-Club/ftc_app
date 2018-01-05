@@ -32,6 +32,7 @@ package opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -57,6 +58,15 @@ public class Test_TeleOp extends OpMode
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
 
+    private DcMotor elbow = null;
+    private DcMotor wrist = null;
+
+    private Servo clawR = null;
+    private Servo clawL = null;
+    private double clawPosition = 0;
+
+    private Servo knock = null;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -71,13 +81,27 @@ public class Test_TeleOp extends OpMode
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+        wrist = hardwareMap.get(DcMotor.class, "wrist");
+
+        clawR = hardwareMap.get(Servo.class, "claw_r");
+        clawL = hardwareMap.get(Servo.class, "claw_l");
+
+        knock = hardwareMap.get(Servo.class, "knock");
+
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        elbow.setDirection(DcMotor.Direction.FORWARD);
+        wrist.setDirection(DcMotor.Direction.FORWARD);
+
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        elbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Ready");
@@ -136,6 +160,21 @@ public class Test_TeleOp extends OpMode
                 rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
+
+
+
+        double elbowPower = gamepad2.left_stick_y;
+        double wristPower = gamepad2.right_stick_y;
+
+        elbow.setPower(elbowPower);
+        wrist.setPower(wristPower);
+
+        if (gamepad2.a) {
+            clawPosition = 0.5;
+        }
+
+        clawL.setPosition(clawPosition);
+        clawR.setPosition(-clawPosition);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Running, for time: " + runtime.toString());
