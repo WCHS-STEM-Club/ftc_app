@@ -127,6 +127,40 @@ public class Test_TeleOp extends OpMode
      */
     @Override
     public void loop() {
+        driveLoop();
+
+        double elbowPower = gamepad2.left_stick_y;
+        double wristPower = gamepad2.right_stick_y;
+
+        elbow.setPower(elbowPower);
+        wrist.setPower(wristPower);
+
+        if (gamepad2.a) {
+            clawPosition = 0.5;
+        } else if (gamepad2.b) {
+            clawPosition = 0;
+        }
+
+        clawL.setPosition(clawPosition);
+        clawR.setPosition(-clawPosition);
+
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status", "Running, for time: " + runtime.toString());
+        telemetry.update();
+    }
+
+    /*
+     * Code to run ONCE after the driver hits STOP
+     */
+    @Override
+    public void stop() {
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        elbow.setPower(0);
+        wrist.setPower(0);
+    }
+
+    private void driveLoop() {
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
@@ -150,47 +184,8 @@ public class Test_TeleOp extends OpMode
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
 
-        if (gamepad1.right_bumper) {
-            // If it's set to unknown, we'd prefer brake
-            if (leftDrive.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE) {
-                leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            } else {
-                leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
-        }
-
-
-
-        double elbowPower = gamepad2.left_stick_y;
-        double wristPower = gamepad2.right_stick_y;
-
-        elbow.setPower(elbowPower);
-        wrist.setPower(wristPower);
-
-        if (gamepad2.a) {
-            clawPosition = 0.5;
-        }
-
-        clawL.setPosition(clawPosition);
-        clawR.setPosition(-clawPosition);
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Running, for time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-    }
-
+    
 }

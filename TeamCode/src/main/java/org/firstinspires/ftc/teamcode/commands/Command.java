@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public abstract class Command {
     private LinearOpMode opMode;
+    private CommandThread commandThread;
     public boolean success = false;
     public boolean isFinished = false;
 
@@ -23,7 +24,10 @@ public abstract class Command {
      */
     public boolean start() {
         if (runThread(this)) {
-            while (!isFinished) opMode.idle();
+            while (!isFinished && opMode.opModeIsActive()){
+                opMode.idle();
+            }
+            commandThread.cancel(true);
         }
         return success;
     }
@@ -39,7 +43,8 @@ public abstract class Command {
     private boolean runThread(Command command) {
         try {
             // This execute is not the same execute that is defined in this class!
-            new CommandThread().execute(this);
+            commandThread = new CommandThread();
+            commandThread.execute(this);
             return true;
         } catch (Exception e) { // Return false for any errors
             return false;

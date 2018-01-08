@@ -1,44 +1,46 @@
-//package org.firstinspires.ftc.teamcode.commands;
-//
-//import android.os.AsyncTask;
-//
-//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//import com.qualcomm.robotcore.hardware.DcMotor;
-//import com.qualcomm.robotcore.hardware.HardwareMap;
-//import com.qualcomm.robotcore.util.ElapsedTime;
-//
-//import org.firstinspires.ftc.robotcore.external.Telemetry;
-//import org.firstinspires.ftc.teamcode.Robot;
-//
-//public class DriveForDistance extends Command {
-//    private float distance;
-//    private float power;
-//    private Telemetry telemetry;
-//    private Robot robot;
-//
-//    // Distance is in decimeters
-//    public DriveForDistance(float distance, float power, Telemetry telemetry, Robot robot,
-//                            LinearOpMode opMode) {
-//        super(opMode);
-//        this.distance = distance;
-//        this.power = power;
-//        this.telemetry = telemetry;
-//        this.robot = robot;
-//    }
-//
-//    @Override
-//    boolean execute(AsyncTask commandThread) {
-//        robot.driveTrain.goForDistance(distance, power);
-//
-//        while (robot.driveTrain.isBusy() && !commandThread.isCancelled()) {
-//            Thread.yield();
-//        }
-//
-//        robot.driveTrain.brake();
-//
-//        // Disable run to position
-//        robot.driveTrain.useEncoders();
-//
-//        return true;
-//    }
-//}
+package org.firstinspires.ftc.teamcode.commands;
+
+import android.os.AsyncTask;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.Robot;
+
+/**
+ * Command to drive the robot forward for some distance
+ */
+public class DriveForDistance extends Command {
+    private float distance;
+    private float power;
+    private Robot robot;
+
+    /**
+     * Constructor
+     * @param distance The distance in decimeters (1/10th of a meter) for the robot to drive
+     * @param power The motors' power, scale from 0 to 1
+     * @param robot Provides access to the motors
+     * @param opMode The LinearOpMode in which the command is being run
+     */
+    public DriveForDistance(float distance, float power, Robot robot, LinearOpMode opMode) {
+        super(opMode);
+        this.distance = distance;
+        this.power = power;
+        this.robot = robot;
+    }
+
+    @Override
+    boolean execute(AsyncTask commandThread) {
+        robot.forwardMotors.goForDistance(distance, power);
+
+        while (robot.forwardMotors.isBusy() && !commandThread.isCancelled()) {
+            Thread.yield();
+        }
+
+        robot.forwardMotors.brake();
+
+        // Disable run to position
+        robot.forwardMotors.useEncoders();
+
+        return true;
+    }
+}

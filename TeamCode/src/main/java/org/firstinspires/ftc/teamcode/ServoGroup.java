@@ -21,6 +21,9 @@ public class ServoGroup {
     }
 
     public void setAngle(float angle) {
-        double position = angle / 360; // Convert 0 -> 0, 180 -> 0.5, 360 -> 1
+        double position = angle + midwayPoint; // Add the midway point, ex:
+        // midwayPoint: 90, angle: 0
+        // Should set the position to
+        position /= 360; // Convert 0 -> 0, 180 -> 0.5, 360 -> 1
     }
 }
