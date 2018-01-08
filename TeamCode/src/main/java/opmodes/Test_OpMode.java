@@ -31,39 +31,42 @@ package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.Command;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.DriveForTime;
 
-@Autonomous(name="Test OpMode", group="Linear Opmode")
+@Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
 
-    @Override
-    public void runOpMode() {
-        Robot robot = new Robot2017(hardwareMap);
+  // Declare OpMode members.
+  private ElapsedTime runtime = new ElapsedTime();
 
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+  @Override
+  public void runOpMode() {
+    Robot robot = new Robot2017(hardwareMap);
 
-        Command driveForTime = new DriveForTime(5, 1, robot, this);
-        Command driveForDistance = new DriveForDistance(10, 1, robot, this);
+    telemetry.addData("Status", "Initialized");
+    telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-        runtime.reset();
+    Command driveForTime = new DriveForTime(5, 1, robot, this);
+    Command driveForDistance = new DriveForDistance(10, 1, robot, this);
 
-        // run until the end of the match (driver presses STOP)
-        if (!opModeIsActive()) return;
-        driveForTime.start();
+    // Wait for the game to start (driver presses PLAY)
+    waitForStart();
+    runtime.reset();
 
-        if (!opModeIsActive()) return;
-        driveForDistance.start();
+    // run until the end of the match (driver presses STOP)
+    if (!opModeIsActive()) {
+      return;
     }
+    driveForTime.start();
+
+    if (!opModeIsActive()) {
+      return;
+    }
+    driveForDistance.start();
+  }
 }

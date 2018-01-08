@@ -31,24 +31,24 @@ package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.sensors.Sensor;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
-@Autonomous(name="Vuforia OpMode", group="Linear Opmode")
+@Autonomous(name = "Vuforia OpMode", group = "Linear Opmode")
 public class Vuforia_OpMode extends LinearOpMode {
-    @Override
-    public void runOpMode() {
-        Sensor vuMark = new VuMarkIdentify("RelicVuMark", hardwareMap, true);
 
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+  @Override
+  public void runOpMode() {
+    Sensor vuMark = new VuMarkIdentify("RelicVuMark", hardwareMap, true);
 
-        waitForStart();
+    telemetry.addData("Status", "Initialized");
+    telemetry.update();
 
-        while (opModeIsActive()) {
-            telemetry.addData("VuMark", vuMark.getSensorValue());
-            telemetry.update();
-        }
+    waitForStart();
+
+    while (opModeIsActive()) {
+      telemetry.addData("VuMark", vuMark.getSensorValue());
+      telemetry.update();
     }
+  }
 }
