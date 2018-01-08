@@ -4,6 +4,10 @@ import android.os.AsyncTask;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+/**
+ * Class that is extended to perform simple tasks using Sensor, MotorGroup, and ServoGroup. The
+ * basic tasks are used by OpModes to perform more complex tasks.
+ */
 public abstract class Command {
     private LinearOpMode opMode;
     private CommandThread commandThread;

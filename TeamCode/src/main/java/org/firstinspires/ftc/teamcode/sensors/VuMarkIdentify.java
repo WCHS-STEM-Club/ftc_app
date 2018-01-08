@@ -21,23 +21,22 @@ public class VuMarkIdentify extends Sensor {
     private VuforiaTrackables trackables;
     private VuforiaTrackable template;
 
-    public VuMarkIdentify(String assetName, HardwareMap hwMap) {
+    public VuMarkIdentify(String assetName, HardwareMap hwMap, boolean displayOnDs) {
         // Uncomment these lines and change the ID to put the camera view onto the RC
-//        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier(
-//                "cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-//        VuforiaLocalizer.Parameters parameters =
-//                new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = displayOnDs ?
+                new VuforiaLocalizer.Parameters(cameraMonitorViewId) :
+                new VuforiaLocalizer.Parameters();
 
-        // Camera won't display on the RC
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-        parameters.vuforiaLicenseKey = licenceKey;
+        parameters.vuforiaLicenseKey = this.licenceKey;
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK; // Or, FRONT/selfie cam
         VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-        trackables = vuforia.loadTrackablesFromAsset(assetName);
-//                     this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-
-        template = trackables.get(0);
+        this.trackables = vuforia.loadTrackablesFromAsset(assetName);
+        this.template = trackables.get(0);
+        this.template.setName("vuMarkTemplate");
+        this.trackables.activate();
     }
 
     /**
@@ -47,10 +46,6 @@ public class VuMarkIdentify extends Sensor {
      */
     @Override
     public Object getSensorValue() {
-        trackables.activate();
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(template);
-        trackables.deactivate();
-
-        return vuMark;
+        return RelicRecoveryVuMark.from(this.template);
     }
 }
