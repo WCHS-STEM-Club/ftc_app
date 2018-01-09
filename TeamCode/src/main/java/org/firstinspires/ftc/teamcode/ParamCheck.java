@@ -35,16 +35,6 @@ abstract class ParamCheck {
   }
 
   /**
-   * Checks a group of objects to see if any are null.
-   *
-   * @param objects The objects to check
-   * @return If any of the objects are null
-   */
-  static boolean areNull(Object... objects) {
-    return containsNull(objects);
-  }
-
-  /**
    * Check a single object to see if it is null.
    *
    * @param object The object to check
