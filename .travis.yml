@@ -21,27 +21,3 @@ before_script:
 
 script:
 - "./gradlew test"
-
-after_failure: |
-  if [ -n "$GITHUB_API_KEY" ]; then
-    cd "$TRAVIS_BUILD_DIR"/TeamCode/build/reports/tests/testDebugUnitTest
-    git init
-    git checkout -b gh-pages
-    git remote add origin git@github.com:medude/ftc_app.git
-    git pull origin gh-pages
-    git add .
-    git -c user.name='travis' -c user.email='travis' commit -m init
-    # Make sure to make the output quiet, or else the API token will leak!
-    # This works because the API key can replace your password.
-    git push -q https://medude:$GITHUB_API_KEY@github.com/medude/ftc_app gh-pages &2>/dev/null
-    cd "$TRAVIS_BUILD_DIR"
-    echo Done
-  fi
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  local_dir: ${TRAVIS_BUILD_DIR}/reports/tests/testDebugUnitTest
-  on:
-    branch: master
