@@ -33,6 +33,7 @@ after_failure: |
     # This works because the API key can replace your password.
     git push -f -q https://medude:$GITHUB_API_KEY@github.com/medude/ftc_app gh-pages &2>/dev/null
     cd "$TRAVIS_BUILD_DIR"
+    echo Done
   fi
 
 deploy:
