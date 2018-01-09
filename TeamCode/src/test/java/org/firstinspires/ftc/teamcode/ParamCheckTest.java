@@ -156,8 +156,82 @@ public class ParamCheckTest {
     ));
   }
 
+  /**
+   * Ensure that {@link ParamCheck#isNull(Object)} returns true when the object is null.
+   */
   @Test
-  public void fail() {
-    assertFalse("This should fail.", true);
+  public void isNull_true() {
+    assertTrue("Failed with null", ParamCheck.isNull(null));
+  }
+
+  /**
+   * Ensure that {@link ParamCheck#isNull(Object)} returns false when the object is not null.
+   */
+  @Test
+  public void isNull_false() {
+    Object object0 = "null";
+    Object object1 = "";
+    Object object2 = 0;
+
+    Object[] allObjects = {
+        object0,
+        object1,
+        object2
+    };
+
+    for (int i = 0; i < allObjects.length; i++) {
+      assertFalse("Failed with object #" + i, ParamCheck.isNull(allObjects[i]));
+    }
+  }
+
+  /**
+   * Ensure that {@link ParamCheck#isBetween(double, double, double)} returns true when the number
+   * is between the other two.
+   */
+  @Test
+  public void isBetween_true() {
+    double[][] tests = {
+        // num, min, max
+        {0, -1, 1},
+        {1.01f, 1, 1.02f},
+        {1.01, 0, 2},
+        {-1, -1.000001f, -0.9999999},
+        {1, 0, 2},
+        {0, 0, 0},
+        {0, 0, 1},
+        {0, -1, 0}
+    };
+
+    for (int i = 0; i < tests.length; i++) {
+      double[] test = tests[i];
+      double num = test[0];
+      double min = test[1];
+      double max = test[2];
+      assertTrue("Failed on test #" + i, ParamCheck.isBetween(num, max, min));
+    }
+  }
+
+  /**
+   * Ensure that {@link ParamCheck#isBetween(double, double, double)} returns false when the number
+   * is not between the other two.
+   */
+  @Test
+  public void isBetween_false() {
+    double[][] tests = {
+        // num, min, max
+        {-1, 0, 1},
+        {-1.0, 0, 1},
+        {1, 0, 0},
+        {1, -1, 0},
+        {0, 1, -1}
+    };
+
+    for (int i = 0; i < tests.length; i++) {
+      double[] test = tests[i];
+      double num = test[0];
+      double min = test[1];
+      double max = test[2];
+      assertFalse("Failed on test #" + i, ParamCheck.isBetween(num, max, min));
+    }
   }
 }
