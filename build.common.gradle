@@ -24,6 +24,10 @@ android {
     compileSdkVersion 23
     buildToolsVersion '25.0.3'
 
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
+    }
+
     signingConfigs {
         debug {
             keyAlias 'androiddebugkey'

@@ -42,6 +42,23 @@ For technical questions regarding the SDK, please visit the FTC Technology forum
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://ftcforum.usfirst.org/forumdisplay.php?156-FTC-Technology
 
 
+
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 3.6 (built on 17.12.18)
+
+Changes include:
+ * Blocks Changes
+     - Uses updated Google Blockly software to allow users to edit their op modes on Apple iOS devices (including iPad and iPhone).
+     - Improvement in Blocks tool to handle corrupt op mode files.
+     - Autonomous op modes should no longer get switched back to tele-op after re-opening them to be edited.
+     - The system can now detect type mismatches during runtime and alert the user with a message on the Driver Station.
+ * Updated javadoc documentation for setPower() method to reflect correct range of values (-1 to +1).
+ * Modified VuforiaLocalizerImpl to allow for user rendering of frames
+     - Added a user-overrideable onRenderFrame() method which gets called by the class's renderFrame() method.
+
 **************************************************************************************
 # Release Information
 **************************************************************************************
@@ -187,7 +204,7 @@ Please note, however, that version 3.00 is considered "alpha" code.  This code i
 Changes include:
  * Major rework of sensor-related infrastructure.  Includes rewriting sensor classes to implement synchronous I2C communication.
  * Fix to reset Autonomous timer back to 30 seconds.
- * Implementation of specific motor profiles for approved 12V motors (includes Tetrix, AndyMark, Matrix and REV models).
+ * Implementation of specific motor profiles for approved 12V servos (includes Tetrix, AndyMark, Matrix and REV models).
  * Modest improvements to enhance Wi-Fi P2P pairing.
  * Fixes telemetry log addition race.
  * Publishes all the sources (not just a select few).
