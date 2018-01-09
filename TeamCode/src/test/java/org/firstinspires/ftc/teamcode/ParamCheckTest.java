@@ -155,9 +155,4 @@ public class ParamCheckTest {
         array2
     ));
   }
-
-  @Test
-  public void fail() {
-    assertFalse("This should fail.", true);
-  }
 }
