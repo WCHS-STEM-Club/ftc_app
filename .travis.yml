@@ -24,9 +24,7 @@ script:
 
 after_failure: |
   if [ -n "$GITHUB_API_KEY" ]; then
-    cd "$TRAVIS_BUILD_DIR"/reports/tests/testDebugUnitTest
-    echo $PWD
-    ls
+    cd "$TRAVIS_BUILD_DIR"/TeamCode/build/reports/tests/testDebugUnitTest
     git init
     git checkout -b gh-pages
     git add .
