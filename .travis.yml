@@ -27,6 +27,7 @@ after_failure: |
     cd "$TRAVIS_BUILD_DIR"/TeamCode/build/reports/tests/testDebugUnitTest
     git init
     git checkout -b gh-pages
+    git remote add origin git@github.com:medude/ftc_app.git
     git pull origin gh-pages
     git add .
     git -c user.name='travis' -c user.email='travis' commit -m init
