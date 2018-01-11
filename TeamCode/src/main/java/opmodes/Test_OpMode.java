@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.Command;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.DriveForTime;
+import org.firstinspires.ftc.teamcode.sensors.Sensor;
 
 @Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
@@ -62,6 +63,13 @@ public class Test_OpMode extends LinearOpMode {
     if (!opModeIsActive()) {
       return;
     }
+    Sensor vuMark = robot.getSensor("vuMarkPictograph");
+    Sensor colorJewel = robot.getSensor("colorJewel");
+
+    sleep(1000); // Give it a second to find the target
+    telemetry.addData("Glyph location", vuMark.getSensorValue());
+    telemetry.update();
+
     driveForTime.start();
 
     if (!opModeIsActive()) {

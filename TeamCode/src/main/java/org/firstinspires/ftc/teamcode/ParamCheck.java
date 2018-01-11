@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import java.util.HashMap;
+
 /**
  * Class with all static methods to check values, especially parameters.
  */
@@ -35,6 +37,22 @@ abstract class ParamCheck {
   }
 
   /**
+   * Checks HashMaps for null values.
+   *
+   * @param hashMap The HashMap to check
+   * @return If the HashMap has any null elements
+   */
+  static <K, V> boolean containsNull(HashMap<K, V> hashMap) {
+    // Will return true as soon as a null object is seen, otherwise returns false
+    for (V value : hashMap.values()) {
+      if (value == null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Check a single object to see if it is null.
    *
    * @param object The object to check
@@ -54,5 +72,9 @@ abstract class ParamCheck {
    */
   static boolean isBetween(double number, double max, double min) {
     return number <= max && number >= min;
+  }
+
+  static boolean isPositive(double number) {
+    return number >= 0;
   }
 }

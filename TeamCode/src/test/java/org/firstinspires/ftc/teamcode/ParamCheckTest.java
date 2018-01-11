@@ -24,9 +24,11 @@ SOFTWARE.
 
 package org.firstinspires.ftc.teamcode;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import java.util.HashMap;
 import org.junit.Test;
 
 public class ParamCheckTest {
@@ -157,6 +159,73 @@ public class ParamCheckTest {
   }
 
   /**
+   * Ensure that {@link ParamCheck#containsNull(HashMap)} returns true when a value is null, false
+   * when a false is not.
+   */
+  @Test
+  public void containsNull_hashMap() {
+    Object[][][][] testCases = {
+        // {{key, value}...}, result
+        {
+            {
+                {"test", "null"},
+                {"test", ""},
+                {"test2", 0},
+                {"test3", false}
+            },
+            {{false}}
+        },
+        {
+            {
+                {"null", "valid"},
+                {"", "valid"},
+                {0, "valid"},
+                {false, "valid"},
+                {null, "valid"}
+            },
+            {{false}} // Detects in value, not key
+        },
+        {
+            {
+                {"normal", 0},
+                {true, "normal"},
+                {7.6f, true},
+                {0, 7.6f}
+            },
+            {{false}}
+        },
+        {
+            {
+                {0, 78.0f},
+                {null, null},
+                {"perfectly", "valid"}
+            },
+            {{true}}
+        },
+        {
+            {
+                {"valid", null}
+            },
+            {{true}}
+        }
+    };
+
+    for (int i = 0; i < testCases.length; i++) {
+      Object[][][] testCase = testCases[i];
+      boolean expectedResult = (boolean) testCase[1][0][0];
+      HashMap<Object, Object> hashMap = new HashMap<>();
+
+      for (Object[] inOut : testCase[0]) {
+        hashMap.put(inOut[0], inOut[1]);
+      }
+
+      assertEquals("Failed due to incorrectly recognising null, test # " + i, expectedResult,
+          ParamCheck.containsNull(hashMap));
+
+    }
+  }
+
+  /**
    * Ensure that {@link ParamCheck#isNull(Object)} returns true when the object is null.
    */
   @Test
@@ -232,6 +301,40 @@ public class ParamCheckTest {
       double min = test[1];
       double max = test[2];
       assertFalse("Failed on test #" + i, ParamCheck.isBetween(num, max, min));
+    }
+  }
+
+  /**
+   * Ensure that {@link ParamCheck#isPositive(double)} returns true when the number is positive.
+   */
+  @Test
+  public void isPositive_true() {
+    double[] tests = {
+        1,
+        0,
+        5042876,
+        12.9867
+    };
+
+    for (int i = 0; i < tests.length; i++) {
+      assertTrue("Failed on test #" + i, ParamCheck.isPositive(tests[i]));
+    }
+  }
+
+  /**
+   * Ensure that {@link ParamCheck#isPositive(double)} returns false when the number is negative.
+   */
+  @Test
+  public void isPositive_false() {
+    double[] tests = {
+        -0.000001,
+        -5,
+        -538,
+        -42709.9876
+    };
+
+    for (int i = 0; i < tests.length; i++) {
+      assertFalse("Failed on test #" + i, ParamCheck.isPositive(tests[i]));
     }
   }
 }

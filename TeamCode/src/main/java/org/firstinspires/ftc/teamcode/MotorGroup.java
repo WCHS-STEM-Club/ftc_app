@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * A class to make controlling many motors at the same time easy. The class has a list of motors,
@@ -34,6 +35,21 @@ public class MotorGroup {
    * @param motors The list of motors that make up the group
    */
   public MotorGroup(int xClicks, double mmPerXClicks, DcMotor... motors) {
+    if (xClicks == 0 || mmPerXClicks == 0) { // Prevent divide by zero error
+      throw new IllegalArgumentException("xClicks and mmPerXClicks cannot be zero.");
+    }
+    // TODO: Make the below if statements throw errors, or invert the value?
+    if (!ParamCheck.isPositive(xClicks)) {
+      xClicks *= -1; // Or, could throw an error. Probably better to just invert it.
+    }
+    if (!ParamCheck.isPositive(mmPerXClicks)) {
+      mmPerXClicks *= -1; // Or, could throw an error. Probably better to just invert it.
+    }
+
+    if (ParamCheck.containsNull(motors)) {
+      throw new IllegalArgumentException("There may be no null motors in a MotorGroup.");
+    }
+
     this.X_CLICKS = xClicks;
     this.MM_PER_X_CLICKS = mmPerXClicks;
     this.motors = motors;
@@ -50,11 +66,7 @@ public class MotorGroup {
    * MotorGroup#brake()} or {@link MotorGroup#coast()}.
    */
   public void setPower(float power) {
-    // TODO: Decide if instead of returning, this method should instead set the power to -1 or 1, whichever is closer to the original value of power.
-
-    if (!ParamCheck.isBetween(power, -1, 1)) {
-      return;
-    } // Ensure that power is good
+    power = Range.clip(power, -1, 1); // Power should be in this range
 
     for (DcMotor motor : this.motors) {
       motor.setPower(power);
@@ -125,7 +137,6 @@ public class MotorGroup {
     for (DcMotor motor : this.motors) {
       motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
     encodersReset = true;
   }
 
