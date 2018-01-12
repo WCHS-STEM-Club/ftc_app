@@ -6,19 +6,19 @@ import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
 
 public class MockDcMotor implements DcMotor {
 
-  private MotorConfigurationType motorConfigurationType = null;
-  private DcMotorController dcMotorController;
-  private int portNumber;
-  private ZeroPowerBehavior zeroPowerBehavior;
-  private int targetPosition;
-  private boolean busy;
-  private int currentPosition;
-  private RunMode runMode;
-  private Direction direction;
-  private double power;
-  private Manufacturer manufacturer;
-  private String name;
-  private int version;
+  public MotorConfigurationType motorConfigurationType = null;
+  public DcMotorController dcMotorController;
+  public int portNumber;
+  public ZeroPowerBehavior zeroPowerBehavior;
+  public int targetPosition;
+  public boolean busy;
+  public int currentPosition;
+  public RunMode runMode;
+  public Direction direction;
+  public double power;
+  public Manufacturer manufacturer;
+  public String name;
+  public int version;
 
   public MockDcMotor() {
     resetDeviceConfigurationForOpMode();

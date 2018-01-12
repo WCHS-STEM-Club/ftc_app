@@ -28,6 +28,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,21 +43,7 @@ public class MotorGroupTest {
    */
   @Before
   public void beforeEach() {
-    motorGroup = new MotorGroup(1440, 399, motor);
-  }
-
-  /**
-   * Ensure that when the encoders are reset, they go back to 0.
-   */
-  @Test
-  public void resetEncoders_0() {
-    motorGroup.goForDistance(500, 1); // Make the encoders not 0
-    motorGroup.setPower(0);
-    while (motorGroup.isBusy()) {
-    }
-    motorGroup.brake();
-    motorGroup.resetEncoders();
-    assertEquals("Failed to reset encoders properly", motor.getCurrentPosition(), 0);
+    motorGroup = new MotorGroup(1, 1, motor);
   }
 
   /**
@@ -147,6 +135,98 @@ public class MotorGroupTest {
       motorGroup.setPower(testCases[i][0]);
       assertEquals("Failed by not setting or clipping motor power, test case #" + i,
           testCases[i][1], (float) motor.getPower());
+    }
+  }
+
+  /**
+   * Ensure that the robot actually stops with brake
+   */
+  @Test
+  public void brake() {
+    motorGroup.brake();
+
+    // If the motor didn't actually brake
+    if (motor.power != 0 || motor.zeroPowerBehavior != ZeroPowerBehavior.BRAKE) {
+      fail("Did not brake");
+    }
+  }
+
+  /**
+   * Ensure that the motor coasts with coast
+   */
+  @Test
+  public void coast() {
+    motorGroup.coast();
+
+    // If the motor didn't coast
+    if (motor.power != 0 || motor.zeroPowerBehavior != ZeroPowerBehavior.FLOAT) {
+      fail("Did not coast");
+    }
+  }
+
+  /**
+   * Ensure that the motors switch to encoders mode
+   */
+  @Test
+  public void useEncoders() {
+    motorGroup.useEncoders();
+
+    // If the motor didn't switch to encoders
+    if (motor.runMode != RunMode.RUN_USING_ENCODER) {
+      fail("Did not switch to encoders mode");
+    }
+  }
+
+  /**
+   * Ensure that the robot does go the correct distance
+   */
+  @Test
+  public void goForDistance() {
+    motorGroup.goForDistance(1, 1);
+
+    if (motor.targetPosition != 100 || motor.runMode != RunMode.RUN_TO_POSITION
+        || motor.power != 1) {
+      fail("Did not go the right distance in right mode with right power");
+    }
+
+    motorGroup.setPower(0);
+  }
+
+  /**
+   * Ensure that goForDistance is clipping powers to keep the numbers valid.
+   */
+  @Test
+  public void goForDistance_clip() {
+    motorGroup.goForDistance(500, 9000.001f);
+
+    if (motor.power != 1) {
+      fail("Motor power must be between -1 and 1");
+    }
+  }
+
+  /**
+   * Ensure that when the encoders are reset, they go back to 0.
+   */
+  @Test
+  public void resetEncoders() {
+    motorGroup.goForDistance(500, 1); // Make the encoders not 0
+    motorGroup.setPower(0);
+    while (motorGroup.isBusy()) {
+    }
+    motorGroup.brake();
+    motorGroup.resetEncoders();
+    assertEquals("Failed to reset encoders properly", motor.getCurrentPosition(), 0);
+  }
+
+  /**
+   * Ensure that isBusy will figure out if the motors are busy
+   */
+  @Test
+  public void isBusy() {
+    motor.busy = true;
+
+    if (!motorGroup.isBusy()) {
+      fail("Did not detect busy motor");
     }
   }
 }
