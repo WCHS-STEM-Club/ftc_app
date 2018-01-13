@@ -42,6 +42,7 @@ public class ColorSensorTest {
   @Before
   public void beforeEach() {
     colorSensorHardware = new MockColorSensor();
+    colorSensor = new ColorSensor(colorSensorHardware, false);
   }
 
   /**
