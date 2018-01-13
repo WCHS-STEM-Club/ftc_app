@@ -17,6 +17,23 @@ public class ColorSensor extends Sensor {
   /**
    * Constructor
    *
+   * @param colorSensor The color sensor to use, alternatively get from HW map using {@link
+   * ColorSensor#ColorSensor(HardwareMap, String, boolean)}.
+   * @param useLight Whether or not to use a light when reading colors, ignored if there is no
+   * light
+   */
+  public ColorSensor(NormalizedColorSensor colorSensor, boolean useLight) {
+    this.colorSensor = colorSensor;
+
+    // If the sensor supports using a light and the user wants to, turn on the light
+    if (colorSensor instanceof SwitchableLight && useLight) {
+      ((SwitchableLight) colorSensor).enableLight(true);
+    }
+  }
+
+  /**
+   * Constructor
+   *
    * @param hwMap Hardware map
    * @param deviceName Name of the device in the config
    * @param useLight Whether or not to use a light when reading colors, ignored if there is no
