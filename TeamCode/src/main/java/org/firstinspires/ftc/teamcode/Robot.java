@@ -106,6 +106,7 @@ public abstract class Robot {
     setForwardMotors(forwardMotors);
     setTurnMotors(turnMotors);
     setStrafeMotors(strafeMotors);
+    this.otherMotors = otherMotors;
   }
 
   /**
