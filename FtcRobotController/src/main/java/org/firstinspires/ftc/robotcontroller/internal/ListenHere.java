@@ -72,11 +72,11 @@ public class ListenHere implements RobotStateMonitor
 
 
 
-    public @RawRes int soundConnect    = R.raw.some_body;
-    public @RawRes int soundDisconnect = R.raw.imlaugh;
-    public @RawRes int soundRunning    = R.raw.some_body;
-    public @RawRes int soundWarning    = R.raw.some_body;
-    public @RawRes int soundError      = R.raw.imlaugh;
+    public @RawRes int soundConnect    = R.raw.rick_no;
+    public @RawRes int soundDisconnect = R.raw.someone;
+    public @RawRes int soundRunning    = R.raw.someone;
+    public @RawRes int soundWarning    = R.raw.rick_no;
+    public @RawRes int soundError      = R.raw.yougotmail;
 
     //----------------------------------------------------------------------------------------------
     // Construction
