@@ -10,14 +10,19 @@ android:
   - build-tools-26.0.2
   - android-23
   - android-19
-  - sys-img-armeabi-v7a-android-19
-before_script:
-- echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
-- emulator -avd test -no-skin -no-audio -no-window &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
+
+before-script:
+- "./gradle assemble"
+
 script:
 - "./gradlew test"
 notifications:
   slack:
     secure: gC2nmjTmRBX7KOT9BB7o++M9pR8y6a1eIwlj3Bln8dOhhYuhl4CPd3UqiVNk83Lg5RwAQg0gNQS0gQYZMq1OXRr9LTy7cbi8AJRtYN8ExPIIoBfLTfgnANvjuBBtmfQ6op3UDl+byfvflYP7GBHKrCAS6q6y42PIzDEpS93aJxQ8ixeSjDznOT2c+1Oq/1c+2SHst67iCI94OWQHvRxOnKv848YSpz1k84Q5tC4K8jX0yrqaXhki0PZl0I2fvwHpMPXpFpx210VQEnw4g+GJTuyqbexEnQB4W4iw5zhC2UrcU4fr7Sah0bTQ24erLgK1EzsQumwZ2HhAHbcJEvsgOmPcIljOUCd9x9M6K0cngRjOWmeS7vR2qDcJV18PQNMz1VgF7cthEk1oBksz+FSVoVMCVb5yrSbb9bSDFoyuC84xv/PbatX7jxPnYADKtYvo9m/wc/HYPdYJ5z1F7NudCBbFIZZlmea/1anIknYNqa3sc+q0d4H270YNpZB1RZ9ID8YEka07bVitUgp5kYU57pEhGiaZicvHlupMEKuzA6g0LIwpHTKk0T1EMU4Esismx612of7lP365upwbjGw/WqB0ki0jKGJ8kYqqeLu7pCZQvoghGAK4yEH7QKcq7uTBvl6v2jwCi+9feca6wsG1Svtx4sFN13grtIrZ50F2b8Y=
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
