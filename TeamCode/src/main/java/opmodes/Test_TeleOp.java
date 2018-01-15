@@ -59,8 +59,6 @@ public class Test_TeleOp extends OpMode {
   private DcMotor rightDrive = null;
 
   private DcMotor lift = null;
-  private DcMotor wrist = null;
-
   private Servo clawR = null;
   private Servo clawL = null;
   private double clawPosition = 0;
@@ -94,13 +92,11 @@ public class Test_TeleOp extends OpMode {
     rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
     lift.setDirection(DcMotor.Direction.FORWARD);
-    wrist.setDirection(DcMotor.Direction.FORWARD);
 
     leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");
@@ -153,7 +149,6 @@ public class Test_TeleOp extends OpMode {
     leftDrive.setPower(0);
     rightDrive.setPower(0);
     lift.setPower(0);
-    wrist.setPower(0);
   }
 
   private void driveLoop() {
