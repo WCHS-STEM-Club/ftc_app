@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import android.os.AsyncTask;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import opmodes.LinearOpMode;
 
 /**
  * Class that is extended to perform simple tasks using Sensor, MotorGroup, and ServoGroup. The
@@ -24,7 +24,7 @@ public abstract class Command {
   /**
    * Read to determine when the command is finished.
    */
-  public boolean isFinished = false;
+  public volatile boolean isFinished = false;
 
   /**
    * Constructor
@@ -59,14 +59,14 @@ public abstract class Command {
    * @return The success of creating the thread
    */
   private boolean runThread(Command command) {
-    try {
-      // This execute is not the same execute that is defined in this class!
-      commandThread = new CommandThread();
-      commandThread.execute(this);
-      return true;
-    } catch (Exception e) { // Return false for any errors
-      return false;
-    }
+//    try {
+    // This execute is not the same execute that is defined in this class!
+    commandThread = new CommandThread();
+    commandThread.execute(this);
+    return true;
+//    } catch (Exception e) { // Return false for any errors
+//      return false;
+//    }
   }
 
   /**
@@ -75,12 +75,12 @@ public abstract class Command {
    *
    * @param commandThread To give the command access to isCancelled
    */
-  abstract boolean execute(AsyncTask commandThread);
+  public abstract boolean execute(AsyncTask commandThread);
 
   /**
    * Thread to execute command. Requires commands because it needs to be able to set success
    */
-  private static class CommandThread extends AsyncTask<Command, Integer, Boolean> {
+  protected static class CommandThread extends AsyncTask<Command, Integer, Boolean> {
 
     /**
      * Used to execute the command and update when the command is finished and the command's

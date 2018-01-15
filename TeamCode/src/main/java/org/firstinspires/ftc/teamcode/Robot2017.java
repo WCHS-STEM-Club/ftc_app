@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
+import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
  * The 2017-2018 season robot.
@@ -42,5 +44,7 @@ public class Robot2017 extends Robot {
     });
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
 
+    addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
+    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
   }
 }

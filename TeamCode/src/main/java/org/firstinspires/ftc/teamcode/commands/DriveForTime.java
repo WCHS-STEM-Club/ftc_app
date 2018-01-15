@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import android.os.AsyncTask;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import opmodes.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**
@@ -30,7 +30,7 @@ public class DriveForTime extends Command {
   }
 
   @Override
-  boolean execute(AsyncTask commandThread) {
+  public boolean execute(AsyncTask commandThread) {
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 

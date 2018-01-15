@@ -58,9 +58,7 @@ public class Test_TeleOp extends OpMode {
   private DcMotor leftDrive = null;
   private DcMotor rightDrive = null;
 
-  private DcMotor elbow = null;
-  private DcMotor wrist = null;
-
+  private DcMotor lift = null;
   private Servo clawR = null;
   private Servo clawL = null;
   private double clawPosition = 0;
@@ -81,8 +79,7 @@ public class Test_TeleOp extends OpMode {
     leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
     rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
-    elbow = hardwareMap.get(DcMotor.class, "elbow");
-    wrist = hardwareMap.get(DcMotor.class, "wrist");
+    lift = hardwareMap.get(DcMotor.class, "lift");
 
     clawR = hardwareMap.get(Servo.class, "claw_r");
     clawL = hardwareMap.get(Servo.class, "claw_l");
@@ -94,14 +91,12 @@ public class Test_TeleOp extends OpMode {
     leftDrive.setDirection(DcMotor.Direction.REVERSE);
     rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
-    elbow.setDirection(DcMotor.Direction.FORWARD);
-    wrist.setDirection(DcMotor.Direction.FORWARD);
+    lift.setDirection(DcMotor.Direction.FORWARD);
 
     leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-    elbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");
@@ -129,11 +124,8 @@ public class Test_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    double elbowPower = gamepad2.left_stick_y;
-    double wristPower = gamepad2.right_stick_y;
-
-    elbow.setPower(elbowPower);
-    wrist.setPower(wristPower);
+    double liftPower = gamepad2.left_stick_y;
+    lift.setPower(liftPower);
 
     if (gamepad2.a) {
       clawPosition = 0.5;
@@ -156,8 +148,7 @@ public class Test_TeleOp extends OpMode {
   public void stop() {
     leftDrive.setPower(0);
     rightDrive.setPower(0);
-    elbow.setPower(0);
-    wrist.setPower(0);
+    lift.setPower(0);
   }
 
   private void driveLoop() {
@@ -186,6 +177,4 @@ public class Test_TeleOp extends OpMode {
 
     telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
   }
-
-
 }

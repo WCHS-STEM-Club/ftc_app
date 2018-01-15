@@ -10,14 +10,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 /**
  * Sensor that detects and reads VuMarks.
  */
-public class VuMarkIdentify extends Sensor {
-   /*
-    * My legit working licence key
-    * It's an actual licence key
-    * So don't mess with it
-    * I'm talking to you, Danny
-    */
-    private final String licenceKey = "AVe/9AP/////AAAAmeNenbwd9E/Rq2fv3JjhC4khnm7De7Eq/w9wTxBd1Xu8w+g5hAnBXWyAhNpCY5my63ZPUGsdiGqhavffUHyISwN5Qo1KVp3AQ3ASwOmawvB7Bk2kLvlWrXf+zvC9imQHUB84p+jY+N2vM0Ktav/a93d9WCsAZPqiyEPOAHcylbSj93MtF3lwCLwX3beL5MpKirkqHaVZ640fq9jDgcxShcFjePxPfobVP9ZwLu5orXYTujxh149OdNj14FYuo2pf/jzym6+zRmat7SuVTlFVymPEtwhr9DH9Kr/gTSKKWAwxrmfeuUFmZOG7CK99+m8+4O9/NFWSLNfqyLHScaXrE9G/SRiCE89g9jXPhPuP8uJY";
+public class VuMarkIdentify implements Sensor {
+
+  /*
+   * My legit working licence key
+   * It's an actual licence key
+   * So don't mess with it
+   * I'm talking to you, Danny
+   */
+  private final String licenceKey = "AVe/9AP/////AAAAmeNenbwd9E/Rq2fv3JjhC4khnm7De7Eq/w9wTxBd1Xu8w+g5hAnBXWyAhNpCY5my63ZPUGsdiGqhavffUHyISwN5Qo1KVp3AQ3ASwOmawvB7Bk2kLvlWrXf+zvC9imQHUB84p+jY+N2vM0Ktav/a93d9WCsAZPqiyEPOAHcylbSj93MtF3lwCLwX3beL5MpKirkqHaVZ640fq9jDgcxShcFjePxPfobVP9ZwLu5orXYTujxh149OdNj14FYuo2pf/jzym6+zRmat7SuVTlFVymPEtwhr9DH9Kr/gTSKKWAwxrmfeuUFmZOG7CK99+m8+4O9/NFWSLNfqyLHScaXrE9G/SRiCE89g9jXPhPuP8uJY";
 
   private VuforiaTrackable template;
 
@@ -57,5 +58,10 @@ public class VuMarkIdentify extends Sensor {
   @Override
   public RelicRecoveryVuMark getSensorValue() {
     return RelicRecoveryVuMark.from(this.template);
+  }
+
+  @Override
+  public boolean calibrate() {
+    return true;
   }
 }

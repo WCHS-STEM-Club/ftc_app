@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import java.util.HashMap;
+import org.firstinspires.ftc.teamcode.sensors.Sensor;
+
 public abstract class Robot {
 
   /**
@@ -40,6 +43,50 @@ public abstract class Robot {
   public MotorGroup[] strafeMotors;
 
   /**
+   * All motors not related to driving the robot. Don't access this directly; use {@link
+   * Robot#addOtherMotor(String, MotorGroup)}, {@link Robot#getOtherMotor(String)}, and {@link
+   * Robot#otherMotorExists(String)}.
+   *
+   * <p>Recommended keys for motors:</p> <table> <thead> <tr> <td>Motor's job</td> <td>Motor
+   * key</td> </tr> </thead> <tbody> <tr> <td>Main lift motor</td> <td>lift</td> </tr> </tbody>
+   * </table>
+   */
+  private HashMap<String, MotorGroup> otherMotors = new HashMap<>();
+
+  /**
+   * All sensors on board the robot should be added here.
+   *
+   * <p>Recommended keys for sensors:</p>
+   * <table>
+   * <thead>
+   * <tr>
+   * <td>Sensor's type</td>
+   * <td>Sensor key</td>
+   * </tr>
+   * <tr>
+   * <td>Note: how to use this table to get a key</td>
+   * <td>Add &lt;job&gt; after the recommended name. Ex: Jewel color sensor becomes colorJewel</td>
+   * </tr>
+   * </thead>
+   * <tbody>
+   * <tr>
+   * <td>Gyro</td>
+   * <td>gyro</td>
+   * </tr>
+   * <tr>
+   * <td>VuMark Identifier</td>
+   * <td>vuMark</td>
+   * </tr>
+   * <tr>
+   * <td>Color</td>
+   * <td>color</td>
+   * </tr>
+   * </tbody>
+   * </table>
+   */
+  private HashMap<String, Sensor> sensors = new HashMap<>();
+
+  /**
    * Constructor
    *
    * @param forwardMotors A MotorGroup with motors that go forward when you want to go forward.
@@ -52,6 +99,14 @@ public abstract class Robot {
     setForwardMotors(forwardMotors);
     setTurnMotors(turnMotors);
     setStrafeMotors(strafeMotors);
+  }
+
+  public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors,
+      HashMap<String, MotorGroup> otherMotors) {
+    setForwardMotors(forwardMotors);
+    setTurnMotors(turnMotors);
+    setStrafeMotors(strafeMotors);
+    this.otherMotors = otherMotors;
   }
 
   /**
@@ -134,5 +189,93 @@ public abstract class Robot {
     this.strafeMotors = strafeMotors;
 
     canStrafe = true;
+  }
+
+  /**
+   * Adds an other motor to the robot.
+   *
+   * @param key The key to use for the motor. Check the Javadoc for {@link Robot#otherMotors} for
+   * recommended names.
+   * @param value The MotorGroup to assign to the key.
+   */
+  public void addOtherMotor(String key, MotorGroup value) {
+    if (ParamCheck.isNull(value)) {
+      throw new IllegalArgumentException("value is null, cannot be null.");
+    }
+
+    if (otherMotorExists(key)) {
+      throw new IllegalArgumentException(
+          "key " + key + "already exists!");
+    }
+
+    otherMotors.put(key, value);
+  }
+
+  /**
+   * Get the MotorGroup that corresponds to the key.
+   *
+   * @param key The key that corresponds to the MotorGroup
+   * @return The MotorGroup that corresponds to the key
+   */
+  public MotorGroup getOtherMotor(String key) {
+    if (!otherMotorExists(key)) {
+      throw new IllegalArgumentException("No such key as " + key);
+    }
+
+    return otherMotors.get(key);
+  }
+
+  /**
+   * Check if some other motor exists by checking if the key already exists.
+   *
+   * @param key The key to check
+   * @return True if the key exists, false if not
+   */
+  public boolean otherMotorExists(String key) {
+    return otherMotors.containsKey(key);
+  }
+
+  /**
+   * Adds a sensor to the robot.
+   *
+   * @param key The key to use for the sensor. Check the Javadoc for {@link Robot#sensors} for
+   * recommended names.
+   * @param value The sensor to assign to the key.
+   */
+  public void addSensor(String key, Sensor value) {
+    if (ParamCheck.isNull(value)) {
+      throw new IllegalArgumentException("value is null, cannot be null.");
+    }
+
+    if (sensorExists(key)) {
+      throw new IllegalArgumentException(
+          "key " + key + "already exists!");
+    }
+
+    sensors.put(key, value);
+  }
+
+  /**
+   * Get the sensor that corresponds to the key.
+   *
+   * @param key The key that corresponds to the sensor
+   * @return The sensor that corresponds to the key
+   */
+  public Sensor getSensor(String key) {
+    if (!sensorExists(key)) {
+      throw new IllegalArgumentException("No such key as " + key);
+    }
+
+    return sensors.get(key);
+  }
+
+  /**
+   * Check if some sensor exists by checking if the key already exists.
+   *
+   * @param key The key to check
+   * @return True if the key exists, false if not
+   */
+  public boolean sensorExists(String key) {
+    return sensors.containsKey(key);
   }
 }
