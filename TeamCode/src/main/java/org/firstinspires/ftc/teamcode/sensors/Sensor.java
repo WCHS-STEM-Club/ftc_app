@@ -8,14 +8,14 @@ package org.firstinspires.ftc.teamcode.sensors;
  * input to set itself up, it is recommended to create a constructor. There is no super method to
  * call.
  */
-public abstract class Sensor {
+public interface Sensor {
 
   /**
    * This method must be implemented to return the sensor's result. For example, a color sensor
    * should return a color, an ultrasonic sensor should return a distance, and a touch sensor should
    * return a boolean. When calling this method, remember to cast to the result type if needed.
    */
-  public abstract Object getSensorValue();
+  Object getSensorValue();
 
   /**
    * This method can be implemented and calibrates the sensor. For example, a light sensor may read
@@ -24,7 +24,5 @@ public abstract class Sensor {
    *
    * @return True if the sensor was successfully calibrated, false if it was not.
    */
-  public boolean calibrate() {
-    return true; // So that sensors that needn't calibration needn't @Override
-  }
+  boolean calibrate();
 }

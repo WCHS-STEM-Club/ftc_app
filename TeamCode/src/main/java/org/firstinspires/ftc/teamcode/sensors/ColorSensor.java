@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 /**
  * Sensor that detects color.
  */
-public class ColorSensor extends Sensor {
+public class ColorSensor implements Sensor {
 
   private NormalizedColorSensor colorSensor;
 

@@ -53,7 +53,6 @@ public class MockCommand extends Command {
 
   @Override
   public boolean execute(AsyncTask commandThread) {
-    System.out.println("Testing");
     ran = true;
     isFinished = true; // onPostExecute never run in tests
     return !fail;
