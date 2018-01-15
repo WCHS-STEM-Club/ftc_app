@@ -7,7 +7,10 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
     ParamCheckTest.class,
-    MotorGroupTest.class
+    MotorGroupTest.class,
+    ColorSensorTest.class,
+    RobotTest.class,
+    CommandTest.class
 })
 
 public class RunTests {

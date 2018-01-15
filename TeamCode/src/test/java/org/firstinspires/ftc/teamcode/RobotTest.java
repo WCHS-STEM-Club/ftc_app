@@ -62,6 +62,7 @@ public class RobotTest {
   @Test
   public void setTurnMotors() {
     MotorGroup[] turnMotors = {
+        new MotorGroup(1, 1, new MockDcMotor()),
         new MotorGroup(1, 1, new MockDcMotor())
     };
     robot.setTurnMotors(turnMotors);
@@ -76,6 +77,7 @@ public class RobotTest {
   @Test
   public void setStrafeMotors() {
     MotorGroup[] strafeMotors = {
+        new MotorGroup(1, 1, new MockDcMotor()),
         new MotorGroup(1, 1, new MockDcMotor())
     };
     robot.setStrafeMotors(strafeMotors);

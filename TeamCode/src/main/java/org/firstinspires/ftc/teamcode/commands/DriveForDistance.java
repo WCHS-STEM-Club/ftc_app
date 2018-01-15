@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import android.os.AsyncTask;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import opmodes.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**
@@ -29,7 +29,7 @@ public class DriveForDistance extends Command {
   }
 
   @Override
-  boolean execute(AsyncTask commandThread) {
+  public boolean execute(AsyncTask commandThread) {
     robot.forwardMotors.goForDistance(distance, power);
 
     while (robot.forwardMotors.isBusy() && !commandThread.isCancelled()) {
