@@ -21,16 +21,14 @@ abstract class ParamCheck {
   /**
    * Checks arrays for null elements.
    *
-   * @param arrays The arrays to check
+   * @param array The array to check
    * @return If the array has any null elements
    */
-  static boolean containsNull(Object[]... arrays) {
+  static boolean containsNull(Object[] array) {
     // Will return true as soon as a null object is seen, otherwise returns false
-    for (Object[] array : arrays) {
-      for (Object object : array) {
-        if (object == null) {
-          return true;
-        }
+    for (Object object : array) {
+      if (object == null) {
+        return true;
       }
     }
     return false;
