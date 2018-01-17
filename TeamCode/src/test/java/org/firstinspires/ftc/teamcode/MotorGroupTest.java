@@ -26,6 +26,7 @@ package org.firstinspires.ftc.teamcode;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -51,6 +52,13 @@ public class MotorGroupTest {
 
     try {
       new MotorGroup(1, 1.0, null);
+      fail("Did not throw IllegalArgumentException for null motor.");
+    } catch (IllegalArgumentException e) {
+      // Expecting exception, pass
+    }
+
+    try {
+      new MotorGroup(1, 1.0, mock(DcMotor.class), null);
       fail("Did not throw IllegalArgumentException for null motor.");
     } catch (IllegalArgumentException e) {
       // Expecting exception, pass
@@ -82,29 +90,37 @@ public class MotorGroupTest {
   @Test
   public void setPower_success() {
     DcMotor motor = mock(DcMotor.class);
-    ArgumentCaptor<Float> motorPowerArg = ArgumentCaptor.forClass(Float.class);
+    ArgumentCaptor<Double> motorPowerArg = ArgumentCaptor.forClass(Double.class);
 
     MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Full force
     motorGroup.setPower(1.0f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't set motor power to 1.0", 1.0f, motorPowerArg.getValue());
+    assertEquals("Didn't set motor power to 1.0", 1.0, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Fraction
     motorGroup.setPower(0.5f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't set motor power to 0.5", 0.5f, motorPowerArg.getValue());
+    assertEquals("Didn't set motor power to 0.5", 0.5, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Zero
     motorGroup.setPower(0.0f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't set motor power to 0.0", 0.0f, motorPowerArg.getValue());
+    assertEquals("Didn't set motor power to 0.0", 0.0, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Negative
     motorGroup.setPower(-0.5f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't set motor power to -0.5", -0.5f, motorPowerArg.getValue());
+    assertEquals("Didn't set motor power to -0.5", -0.5, motorPowerArg.getValue());
   }
 
   /**
@@ -113,29 +129,35 @@ public class MotorGroupTest {
   @Test
   public void setPower_clip() {
     DcMotor motor = mock(DcMotor.class);
-    ArgumentCaptor<Float> motorPowerArg = ArgumentCaptor.forClass(Float.class);
+    ArgumentCaptor<Double> motorPowerArg = ArgumentCaptor.forClass(Double.class);
 
     MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
 
     // Trim down
     motorGroup.setPower(100);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't trim motor power down", 1.0f, motorPowerArg.getValue());
+    assertEquals("Didn't trim motor power down", 1.0, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Trim down a float
     motorGroup.setPower(57.3f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't trim motor power float down", 1.0f, motorPowerArg.getValue());
+    assertEquals("Didn't trim motor power float down", 1.0, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Trim up
     motorGroup.setPower(-100);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't trim motor power up", -1.0f, motorPowerArg.getValue());
+    assertEquals("Didn't trim motor power up", -1.0, motorPowerArg.getValue());
 
+    motor = mock(DcMotor.class);
+    motorGroup = new MotorGroup(1, 1.0, motor);
     // Trim up float
     motorGroup.setPower(-57.3f);
     verify(motor).setPower(motorPowerArg.capture());
-    assertEquals("Didn't trim motor power float up", -1.0f, motorPowerArg.getValue());
+    assertEquals("Didn't trim motor power float up", -1.0, motorPowerArg.getValue());
   }
 
   /**
@@ -144,7 +166,7 @@ public class MotorGroupTest {
   @Test
   public void brake() {
     DcMotor motor = mock(DcMotor.class);
-    ArgumentCaptor<Float> motorPowArg = ArgumentCaptor.forClass(Float.class);
+    ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
     ArgumentCaptor<ZeroPowerBehavior> zeroPowArg = ArgumentCaptor.forClass(ZeroPowerBehavior.class);
 
     MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
@@ -152,8 +174,8 @@ public class MotorGroupTest {
 
     // Check if brake did anything
     motorGroup.brake();
-    verify(motor).setPower(motorPowArg.capture());
-    verify(motor).setZeroPowerBehavior(zeroPowArg.capture());
+    verify(motor, atLeastOnce()).setPower(motorPowArg.capture());
+    verify(motor, atLeastOnce()).setZeroPowerBehavior(zeroPowArg.capture());
 
     // If the motor didn't actually brake
     if (motorPowArg.getValue() != 0 || zeroPowArg.getValue() != ZeroPowerBehavior.BRAKE) {
@@ -167,7 +189,7 @@ public class MotorGroupTest {
   @Test
   public void coast() {
     DcMotor motor = mock(DcMotor.class);
-    ArgumentCaptor<Float> motorPowArg = ArgumentCaptor.forClass(Float.class);
+    ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
     ArgumentCaptor<ZeroPowerBehavior> zeroPowArg = ArgumentCaptor.forClass(ZeroPowerBehavior.class);
 
     MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
@@ -175,8 +197,8 @@ public class MotorGroupTest {
 
     // Check if coast did anything
     motorGroup.coast();
-    verify(motor).setPower(motorPowArg.capture());
-    verify(motor).setZeroPowerBehavior(zeroPowArg.capture());
+    verify(motor, atLeastOnce()).setPower(motorPowArg.capture());
+    verify(motor, atLeastOnce()).setZeroPowerBehavior(zeroPowArg.capture());
 
     // If the motor didn't actually coast
     if (motorPowArg.getValue() != 0 || zeroPowArg.getValue() != ZeroPowerBehavior.FLOAT) {
@@ -196,7 +218,7 @@ public class MotorGroupTest {
 
     // Check if useEncoders did anything
     motorGroup.useEncoders();
-    verify(motor).setMode(runModeArg.capture());
+    verify(motor, atLeastOnce()).setMode(runModeArg.capture());
 
     // If the motor didn't actually use encoders
     if (runModeArg.getValue() != RunMode.RUN_USING_ENCODER) {
@@ -212,20 +234,19 @@ public class MotorGroupTest {
     DcMotor motor = mock(DcMotor.class);
     ArgumentCaptor<Integer> targetPosArg = ArgumentCaptor.forClass(Integer.class);
     ArgumentCaptor<RunMode> runModeArg = ArgumentCaptor.forClass(RunMode.class);
-    ArgumentCaptor<Float> motorPowArg = ArgumentCaptor.forClass(Float.class);
+    ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
 
     MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
 
     // Check if goForDistance did anything
     motorGroup.goForDistance(1, 1);
-    verify(motor).setTargetPosition(targetPosArg.capture());
-    verify(motor).setMode(runModeArg.capture());
-    verify(motor).setPower(motorPowArg.capture());
+    verify(motor, atLeastOnce()).setTargetPosition(targetPosArg.capture());
+    verify(motor, atLeastOnce()).setMode(runModeArg.capture());
+    verify(motor, atLeastOnce()).setPower(motorPowArg.capture());
 
     // If the motor didn't actually go for the right distance
-    if (motorPowArg.getValue() != 100 || runModeArg.getValue() != RunMode.RUN_TO_POSITION
-        || motorPowArg.getValue() != 1) {
-      fail("Did not go for proper distance");
-    }
+    assertEquals("Did not go expected distance", (Integer) 100, targetPosArg.getValue());
+    assertEquals("Did not set correct run mode", RunMode.RUN_TO_POSITION, runModeArg.getValue());
+    assertEquals("Did not set correct power", 1.0, motorPowArg.getValue());
   }
 }
