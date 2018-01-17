@@ -24,9 +24,13 @@ SOFTWARE.
 
 package org.firstinspires.ftc.teamcode;
 
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.Sensor;
 import org.junit.Before;
@@ -49,7 +53,7 @@ public class RobotTest {
    */
   @Test
   public void setForwardMotors() {
-    MotorGroup forwardMotors = new MotorGroup(1, 1, new MockDcMotor());
+    MotorGroup forwardMotors = new MotorGroup(1, 1, mock(DcMotor.class));
     robot.setForwardMotors(forwardMotors);
     robot.ready = true; // Don't do this in Commands/OpModes!
 
@@ -62,8 +66,8 @@ public class RobotTest {
   @Test
   public void setTurnMotors() {
     MotorGroup[] turnMotors = {
-        new MotorGroup(1, 1, new MockDcMotor()),
-        new MotorGroup(1, 1, new MockDcMotor())
+        new MotorGroup(1, 1, mock(DcMotor.class)),
+        new MotorGroup(1, 1, mock(DcMotor.class))
     };
     robot.setTurnMotors(turnMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
@@ -77,8 +81,8 @@ public class RobotTest {
   @Test
   public void setStrafeMotors() {
     MotorGroup[] strafeMotors = {
-        new MotorGroup(1, 1, new MockDcMotor()),
-        new MotorGroup(1, 1, new MockDcMotor())
+        new MotorGroup(1, 1, mock(DcMotor.class)),
+        new MotorGroup(1, 1, mock(DcMotor.class))
     };
     robot.setStrafeMotors(strafeMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
@@ -92,7 +96,7 @@ public class RobotTest {
   @Test
   public void otherMotor() {
     String key = "key";
-    MotorGroup motor = new MotorGroup(1, 1, new MockDcMotor());
+    MotorGroup motor = new MotorGroup(1, 1, mock(DcMotor.class));
 
     robot.addOtherMotor(key, motor);
 
@@ -110,13 +114,12 @@ public class RobotTest {
   @Test
   public void sensor() {
     String key = "key";
-    Sensor sensor = new ColorSensor(new MockColorSensor(), false);
+    Sensor sensor = new ColorSensor(mock(NormalizedColorSensor.class), false);
 
     robot.addSensor(key, sensor);
 
-    if (!robot.sensorExists(key)) {
-      fail("The sensor failed to add or sensorExists failed to properly check.");
-    }
+    assertTrue("The sensor failed to add or sensorExists failed to properly check.",
+        robot.sensorExists(key));
 
     assertEquals("Sensor failed to store properly or retrieve properly.", sensor,
         robot.getSensor(key));
