@@ -25,44 +25,47 @@ SOFTWARE.
 package org.firstinspires.ftc.teamcode;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ColorSensorTest {
-
-  private MockColorSensor colorSensorHardware;
-  private ColorSensor colorSensor;
-
-  /**
-   * Run a setup before each test.
-   */
-  @Before
-  public void beforeEach() {
-    colorSensorHardware = new MockColorSensor();
-    colorSensor = new ColorSensor(colorSensorHardware, false);
-  }
 
   /**
    * Ensure that calibration is working properly
    */
   @Test
   public void calibrate() {
-    NormalizedRGBA color = colorSensorHardware.color;
-    color.red = 0.5f;
-    color.green = 0.5f;
-    color.blue = 0.5f;
+    // Setup
+    NormalizedColorSensor colHw = mock(NormalizedColorSensor.class);
 
-    colorSensor.calibrate();
+    // The color seen during calibration
+    NormalizedRGBA calibrationColor = new NormalizedRGBA();
+    calibrationColor.red = 0.5f;
+    calibrationColor.green = 0.5f;
+    calibrationColor.blue = 0.5f;
 
-    color.red = 0.25f;
-    color.green = 0.25f;
-    color.green = 0.25f;
-    color = colorSensor.getSensorValue();
+    // The color seen during the test
+    NormalizedRGBA expectedColor = new NormalizedRGBA();
+    expectedColor.red = 0.25f;
+    expectedColor.green = 0.25f;
+    expectedColor.blue = 0.25f;
 
-    if (color.red != 0.5f || color.green != 0.5f && color.blue != 0.5f) {
+    // Set up the mock color sensor
+    when(colHw.getNormalizedColors()).thenReturn(calibrationColor).thenReturn(expectedColor);
+
+    // The class to test
+    ColorSensor colorSensor = new ColorSensor(colHw, false);
+
+    // Test
+    colorSensor.calibrate(); // Reads calibrationColor
+
+    NormalizedRGBA resultingColor = colorSensor.getSensorValue(); // Reads expectedColor
+    if (resultingColor.red != 0.5f || resultingColor.green != 0.5f && resultingColor.blue != 0.5f) {
       fail("Did not calibrate properly");
     }
   }

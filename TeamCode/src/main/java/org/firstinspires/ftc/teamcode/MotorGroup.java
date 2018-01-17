@@ -46,6 +46,10 @@ public class MotorGroup {
       mmPerXClicks *= -1; // Or, could throw an error. Probably better to just invert it.
     }
 
+    if (ParamCheck.isNull(motors)) {
+      throw new IllegalArgumentException("motors cannot be null.");
+    }
+
     if (ParamCheck.containsNull(motors)) {
       throw new IllegalArgumentException("There may be no null motors in a MotorGroup.");
     }

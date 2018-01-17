@@ -63,7 +63,7 @@ public class ParamCheckTest {
   }
 
   /**
-   * Ensure that {@link ParamCheck#containsNull(Object[]...)} returns true when the array contains
+   * Ensure that {@link ParamCheck#containsNull(Object[])} returns true when the array contains
    * a null.
    */
   @Test
@@ -109,18 +109,10 @@ public class ParamCheckTest {
     for (int i = 0; i < allArrays.length; i++) {
       assertTrue("Failed with array #" + i, ParamCheck.containsNull(allArrays[i]));
     }
-
-    assertTrue("Failed with many arrays", ParamCheck.containsNull(
-        array0,
-        array1,
-        array2,
-        array3,
-        array4
-    ));
   }
 
   /**
-   * Ensure that {@link ParamCheck#containsNull(Object[]...)} returns false when the array contains
+   * Ensure that {@link ParamCheck#containsNull(Object[])} returns false when the array contains
    * no null.
    */
   @Test
@@ -150,12 +142,6 @@ public class ParamCheckTest {
     for (int i = 0; i < allArrays.length; i++) {
       assertFalse("Failed with array #" + i, ParamCheck.containsNull(allArrays[i]));
     }
-
-    assertFalse("Failed with many arrays", ParamCheck.containsNull(
-        array0,
-        array1,
-        array2
-    ));
   }
 
   /**

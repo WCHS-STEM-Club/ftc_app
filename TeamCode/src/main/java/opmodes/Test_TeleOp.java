@@ -134,7 +134,7 @@ public class Test_TeleOp extends OpMode {
     }
 
     clawL.setPosition(clawPosition);
-    clawR.setPosition(-clawPosition);
+    clawR.setPosition(180 - clawPosition);
 
     // Show the elapsed game time and wheel power.
     telemetry.addData("Status", "Running, for time: " + runtime.toString());
