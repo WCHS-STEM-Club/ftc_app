@@ -33,8 +33,17 @@ public class GyroTurn extends Command {
 
   @Override
   public boolean execute(AsyncTask commandThread) {
-    robot.turnMotors[0].setPower(1);
-    robot.turnMotors[1].setPower(-1);
+    if (angle >= 0) { // Can be simplified, but premature optimisation is the root of all evil
+      robot.turnMotors[0].setPower(power);
+      robot.turnMotors[1].setPower(-power);
+    } else {
+      robot.turnMotors[0].setPower(-power);
+      robot.turnMotors[1].setPower(power);
+    }
+
+    if (power > 0.08) {
+
+    }
 
     return true;
   }
