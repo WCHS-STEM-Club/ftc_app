@@ -28,7 +28,7 @@ public class PID_OpMode extends LinearOpMode {
 
     while (opModeIsActive()) {
       if (gamepad1.a) {
-        gainP = (gamepad1.left_stick_y * 0.5) + 0.5; // Max of 1, min of 0
+        gainP = (gamepad1.left_stick_y * 0.1) + 0.1; // Max of 0.2, min of 0
       }
       if (gamepad1.b) {
         gainI = (gamepad1.left_stick_y * 2.5) + 2.5; // Max of 5, min of 0
@@ -38,7 +38,9 @@ public class PID_OpMode extends LinearOpMode {
       }
 
       float power = (float) pid.calcPid(testMotor.getAverageClicks(), 0, gainP, gainI, gainD);
-      testMotor.setPower(power);
+      if (gamepad1.y) {
+        testMotor.setPower(power);
+      }
 
       telemetry.addData("Gain P", gainP);
       telemetry.addData("Gain I", gainI);
