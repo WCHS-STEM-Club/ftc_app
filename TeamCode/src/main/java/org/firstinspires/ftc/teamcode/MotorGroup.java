@@ -134,6 +134,25 @@ public class MotorGroup {
     setPower(power);
   }
 
+  public void setClicks(int clicks, float power) {
+    for (DcMotor motor : this.motors) {
+      motor.setTargetPosition(clicks);
+      motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    setPower(power);
+  }
+
+  public int getAverageClicks() {
+    float total = 0;
+
+    for (DcMotor motor : motors) {
+      total += motor.getCurrentPosition();
+    }
+
+    return ((int) total / motors.length); // Average
+  }
+
   /**
    * Reset the encoders to 0 clicks.
    */

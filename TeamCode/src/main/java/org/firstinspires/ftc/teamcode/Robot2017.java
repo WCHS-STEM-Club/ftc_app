@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
-import org.firstinspires.ftc.teamcode.sensors.MRGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -45,9 +43,11 @@ public class Robot2017 extends Robot {
     });
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
 
+    addOtherMotor("test", new MotorGroup(1, 1, leftDrive));
+
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
-    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
-    addSensor("gyro", new MRGyro(hwMap, "gyro"));
+//    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
+//    addSensor("gyro", new MRGyro(hwMap, "gyro"));
   }
 }

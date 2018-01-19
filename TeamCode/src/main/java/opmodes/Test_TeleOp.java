@@ -63,6 +63,7 @@ public class Test_TeleOp extends OpMode {
   private Servo clawL = null;
   private double clawPosition = 0;
 
+  private double knockPosition = 0;
   private Servo knock = null;
 
   /*
@@ -134,7 +135,15 @@ public class Test_TeleOp extends OpMode {
     }
 
     clawL.setPosition(clawPosition);
-    clawR.setPosition(180 - clawPosition);
+    clawR.setPosition(1 - clawPosition);
+
+    if (gamepad2.x) {
+      knockPosition = 1;
+    } else if (gamepad2.y) {
+      knockPosition = 0;
+    }
+
+    knock.setPosition(knockPosition);
 
     // Show the elapsed game time and wheel power.
     telemetry.addData("Status", "Running, for time: " + runtime.toString());
