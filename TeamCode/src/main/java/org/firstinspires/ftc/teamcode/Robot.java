@@ -29,8 +29,7 @@ public abstract class Robot {
    * The motors that are used to turn the robot. On a right turn, element 0 motors will move forward
    * while element 1 motors will move backwards, and vice versa for left turns. This must be not
    * null, 2 elements long, and contain no null elements. Be sure to check {@link Robot#ready}
-   * before accessing. Do not write to this variable! Instead, use
-   * {@link Robot#setTurnMotors(MotorGroup[])}.
+   * before accessing. Do not write to this variable! Instead, use}.
    */
   public MotorGroup turnMotors;
   /**
@@ -112,7 +111,7 @@ public abstract class Robot {
   /**
    * Default constructor. If used, the robot will not be ready by default. You must add forward,
    * turn, and optionally strafe motors using {@link Robot#setForwardMotors(MotorGroup)},
-   * {@link Robot#setTurnMotors(MotorGroup[])}, and {@link Robot#setStrafeMotors(MotorGroup[])},
+   * , and {@link Robot#setStrafeMotors(MotorGroup[])},
    * respectively.
    */
   public Robot() {
@@ -149,6 +148,7 @@ public abstract class Robot {
       throw new IllegalArgumentException("turnMotors is null, cannot be null.");
     }
 
+    //oops lol im not familiar with paramchecking hhahdkdskdbsdjkn
     /*if (!ParamCheck.arrayOfLength(turnMotors, 2)) {
       throw new IllegalArgumentException(
           "turnMotors doesn't have a length of 2, must have a length of 2.");
