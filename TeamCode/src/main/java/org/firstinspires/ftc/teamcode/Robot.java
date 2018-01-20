@@ -87,6 +87,31 @@ public abstract class Robot {
   private HashMap<String, Sensor> sensors = new HashMap<>();
 
   /**
+   * All servos on the robot should be added here.
+   *
+   * <p>Recommended keys for servos:</p>
+   * <table>
+   * <thead>
+   * <tr>
+   * <td>Servo's role</td>
+   * <td>Servo key</td>
+   * </tr>
+   * </thead>
+   * <tbody>
+   * <tr>
+   * <td>Claw</td>
+   * <td>claw</td>
+   * </tr>
+   * <tr>
+   * <td>Knocker</td>
+   * <td>knock</td>
+   * </tr>
+   * </tbody>
+   * </table>
+   */
+  private HashMap<String, ServoGroup> servos = new HashMap<>();
+
+  /**
    * Constructor
    *
    * @param forwardMotors A MotorGroup with motors that go forward when you want to go forward.
@@ -284,7 +309,48 @@ public abstract class Robot {
     return sensors.containsKey(key);
   }
 
-    public void addServos(){
-      servos =
+  /**
+   * Adds a servo to the robot.
+   *
+   * @param key The key to use for the servo. Check the Javadoc for {@link Robot#servos} for
+   * recommended names.
+   * @param value The servo to assign to the key.
+   */
+  public void addServo(String key, ServoGroup value) {
+    if (ParamCheck.isNull(value)) {
+      throw new IllegalArgumentException("value is null, cannot be null.");
     }
+
+    if (servoExists(key)) {
+      throw new IllegalArgumentException(
+          "key " + key + "already exists!");
+    }
+
+    servos.put(key, value);
+  }
+
+  /**
+   * Get the servo that corresponds to the key.
+   *
+   * @param key The key that corresponds to the servo
+   * @return The servo that corresponds to the key
+   */
+  public ServoGroup getServo(String key) {
+    if (!servoExists(key)) {
+      throw new IllegalArgumentException("No such key as " + key);
+    }
+
+    return servos.get(key);
+  }
+
+  /**
+   * Check if some servo exists by checking if the key already exists.
+   *
+   * @param key The key to check
+   * @return True if the key exists, false if not
+   */
+  public boolean servoExists(String key) {
+    return servos.containsKey(key);
+  }
+
 }

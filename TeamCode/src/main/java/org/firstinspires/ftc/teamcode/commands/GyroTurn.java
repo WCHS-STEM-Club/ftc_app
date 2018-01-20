@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -16,9 +17,9 @@ public class GyroTurn extends Command {
 
   private Telemetry telemetry;
 
-  private double kp = 0.005;
-  private double ki = 0;
-  private double kd = 0;
+  private final double kp = 0.01;
+  private final double ki = 0;
+  private final double kd = 0.3;
 
   /**
    * Constructor
@@ -44,8 +45,13 @@ public class GyroTurn extends Command {
     float range = 10;
     float max = angle + (range / 2);
     float min = angle - (range / 2);
-    while (!(((Orientation) gyro.getSensorValue()).secondAngle > min
-        && ((Orientation) gyro.getSensorValue()).secondAngle < max)) {
+
+    ElapsedTime runtime = new ElapsedTime();
+    runtime.reset();
+
+//    while (!(((Orientation) gyro.getSensorValue()).secondAngle > min
+//        && ((Orientation) gyro.getSensorValue()).secondAngle < max)) {
+    while (runtime.milliseconds() != -13) {
       double error = pid
           .calcPid((double) ((Orientation) gyro.getSensorValue()).secondAngle,
               (double) angle, kp, ki, kd);
@@ -62,8 +68,6 @@ public class GyroTurn extends Command {
       robot.getTurnMotor(0).setPower((float) error);
       robot.getTurnMotor(1).setPower((float) -error);
     }
-    telemetry.addData("Status", "terminated");
-    telemetry.update();
 
     robot.getTurnMotor(0).brake();
     robot.getTurnMotor(1).brake();

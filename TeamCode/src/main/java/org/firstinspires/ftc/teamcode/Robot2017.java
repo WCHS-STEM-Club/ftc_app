@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.sensors.MRGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
@@ -54,13 +53,14 @@ public class Robot2017 extends Robot {
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
+    addSensor("gyro", new MRGyro(hwMap, "gyro"));
 //    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
 //    addSensor("gyro", new MRGyro(hwMap, "gyro"));
 
     //Servos
+    addServo("claw", new ServoGroup(clawL, clawR));
+    addServo("knock", new ServoGroup(knock));
 
-    addServos((new ServoGroup(clawL, clawR)), (new ServoGroup(knock)));
 
-    addSensor("gyro", new MRGyro(hwMap, "gyro"));
   }
 }
