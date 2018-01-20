@@ -37,9 +37,6 @@ public class PIDTurn extends Command{
         //im pretty damn sure you can do it with math
         for() {
 
-
-            robot.turnMotors[0].goForDistance();
-
         }
         return true;
     }
