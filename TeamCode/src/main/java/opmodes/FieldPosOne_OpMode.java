@@ -15,7 +15,6 @@ public class FieldPosOne_OpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Robot robot = new Robot2017(hardwareMap);
         //initial glyph holding
-        robot.servos.
 
         //jewel knock mockup
 
