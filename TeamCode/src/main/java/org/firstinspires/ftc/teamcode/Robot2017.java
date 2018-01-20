@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -18,6 +20,10 @@ public class Robot2017 extends Robot {
     // Get the motors from the hardware map: based on the robot configuration
     DcMotor leftDrive = hwMap.get(DcMotor.class, "left_drive");
     DcMotor rightDrive = hwMap.get(DcMotor.class, "right_drive");
+
+    Servo knock = hwMap.get(Servo.class, "knock");
+    Servo clawR = hwMap.get(Servo.class, "claw_r");
+    Servo clawL = hwMap.get(Servo.class, "claw_l");
 
     // Set motor direction: this is based on how the robot was built
     leftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -49,5 +55,10 @@ public class Robot2017 extends Robot {
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
 //    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
 //    addSensor("gyro", new MRGyro(hwMap, "gyro"));
+
+    //Servos
+
+    addServos((new ServoGroup(clawL, clawR)), (new ServoGroup(knock)));
+
   }
 }
