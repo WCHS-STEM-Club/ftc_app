@@ -63,7 +63,7 @@ public class Test_TeleOp extends OpMode {
   private Servo clawL = null;
   private double clawPosition = 0;
 
-  private double knockPosition = 0;
+  private double knockPosition = 0.2;
   private Servo knock = null;
 
   /*
@@ -125,11 +125,11 @@ public class Test_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    double liftPower = gamepad2.left_stick_y;
+    double liftPower = -gamepad2.left_stick_y;
     lift.setPower(liftPower);
 
     if (gamepad2.a) {
-      clawPosition = 0.5;
+      clawPosition = 0.6;
     } else if (gamepad2.b) {
       clawPosition = 0;
     }
@@ -138,9 +138,9 @@ public class Test_TeleOp extends OpMode {
     clawR.setPosition(1 - clawPosition);
 
     if (gamepad2.x) {
-      knockPosition = 1;
+      knockPosition = 0.8;
     } else if (gamepad2.y) {
-      knockPosition = 0;
+      knockPosition = 0.2;
     }
 
     knock.setPosition(knockPosition);
@@ -170,7 +170,7 @@ public class Test_TeleOp extends OpMode {
 
     // POV Mode uses left stick to go forward, and right stick to turn.
     // - This uses basic math to combine motions and is easier to drive straight.
-    double drive = -gamepad1.left_stick_y;
+    double drive = -gamepad1.left_stick_y; //negative because of the way our motors are mounted lol
     double turn = gamepad1.right_stick_x;
     leftPower = Range.clip(drive + turn, -1.0, 1.0);
     rightPower = Range.clip(drive - turn, -1.0, 1.0);

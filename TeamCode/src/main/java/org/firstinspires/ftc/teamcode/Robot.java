@@ -32,7 +32,7 @@ public abstract class Robot {
    * before accessing. Do not write to this variable! Instead, use
    * {@link Robot#setTurnMotors(MotorGroup[])}.
    */
-  public MotorGroup[] turnMotors;
+  private MotorGroup[] turnMotors;
   /**
    * The motors that are used to strafe the robot. On a right strafe, element 0 motors will move
    * forward while element 1 motors will move backwards, and vice versa for left strafes. This may
@@ -163,6 +163,11 @@ public abstract class Robot {
     if (!ParamCheck.isNull(this.forwardMotors)) {
       ready = true;
     }
+  }
+
+  // TODO: Parameter checking, unit testing
+  public MotorGroup getTurnMotor(int index) {
+    return turnMotors[index];
   }
 
   /**
