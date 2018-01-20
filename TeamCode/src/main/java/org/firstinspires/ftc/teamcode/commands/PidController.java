@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 /**
  * Calculate components of PID
  */
-public class PIDCalc {
+public class PidController {
 
   private static final double TAU = Math.PI * 2;
 
@@ -17,7 +17,7 @@ public class PIDCalc {
   /**
    * Calculate the proportional
    *
-   * @param error The error calculated by {@link PIDCalc#calcError(double, double)}.
+   * @param error The error calculated by {@link PidController#calcError(double, double)}.
    * @param gain The gain
    * @return The proportional correction
    */
@@ -28,7 +28,7 @@ public class PIDCalc {
   /**
    * Calculate the integral
    *
-   * @param error The error calculated by {@link PIDCalc#calcError(double, double)}.
+   * @param error The error calculated by {@link PidController#calcError(double, double)}.
    * @param gain The gain
    * @return The integral correction
    */
@@ -42,7 +42,7 @@ public class PIDCalc {
   /**
    * Calculate the derivative
    *
-   * @param error The error calculated by {@link PIDCalc#calcError(double, double)}.
+   * @param error The error calculated by {@link PidController#calcError(double, double)}.
    * @param gain The gain
    * @return The derivative correction
    */

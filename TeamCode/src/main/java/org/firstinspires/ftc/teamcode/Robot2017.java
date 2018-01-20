@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.sensors.MRGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -60,5 +61,6 @@ public class Robot2017 extends Robot {
 
     addServos((new ServoGroup(clawL, clawR)), (new ServoGroup(knock)));
 
+    addSensor("gyro", new MRGyro(hwMap, "gyro"));
   }
 }

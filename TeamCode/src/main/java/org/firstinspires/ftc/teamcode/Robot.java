@@ -32,7 +32,7 @@ public abstract class Robot {
    * before accessing. Do not write to this variable! Instead, use
    * {@link Robot#setTurnMotors(MotorGroup[])}.
    */
-  public MotorGroup[] turnMotors = new MotorGroup[2];
+  private MotorGroup[] turnMotors;
   /**
    * The motors that are used to strafe the robot. On a right strafe, element 0 motors will move
    * forward while element 1 motors will move backwards, and vice versa for left strafes. This may
@@ -51,9 +51,6 @@ public abstract class Robot {
    * key</td> </tr> </thead> <tbody> <tr> <td>Main lift motor</td> <td>lift</td> </tr> </tbody>
    * </table>
    */
-
-  public ServoGroup[] servos;
-
   private HashMap<String, MotorGroup> otherMotors = new HashMap<>();
 
   /**
@@ -168,6 +165,11 @@ public abstract class Robot {
     }
   }
 
+  // TODO: Parameter checking, unit testing
+  public MotorGroup getTurnMotor(int index) {
+    return turnMotors[index];
+  }
+
   /**
    * Set the strafe motors for the robot. Passing null will disable strafe.
    *
@@ -280,9 +282,5 @@ public abstract class Robot {
    */
   public boolean sensorExists(String key) {
     return sensors.containsKey(key);
-  }
-
-  public void addServos(ServoGroup... allServos){
-    servos = allServos;
   }
 }

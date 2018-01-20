@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import android.os.AsyncTask;
-import opmodes.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**
@@ -18,21 +16,19 @@ public class DriveForDistance extends Command {
    *
    * @param distance The distance in decimeters (1/10th of a meter) for the robot to drive
    * @param power The motors' power, scale from 0 to 1
-   * @param robot Provides access to the motors
-   * @param opMode The LinearOpMode in which the command is being run
+   * @param robot Provides access to the motor
    */
-  public DriveForDistance(float distance, float power, Robot robot, LinearOpMode opMode) {
-    super(opMode);
+  public DriveForDistance(float distance, float power, Robot robot) {
     this.distance = distance;
     this.power = power;
     this.robot = robot;
   }
 
   @Override
-  public boolean execute(AsyncTask commandThread) {
+  boolean execute() {
     robot.forwardMotors.goForDistance(distance, power);
 
-    while (robot.forwardMotors.isBusy() && !commandThread.isCancelled()) {
+    while (robot.forwardMotors.isBusy()) {
       Thread.yield();
     }
 

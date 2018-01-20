@@ -51,8 +51,8 @@ public class Test_OpMode extends LinearOpMode {
     telemetry.addData("Status", "Initialized");
     telemetry.update();
 
-    Command driveForTime = new DriveForTime(5, 1, robot, this);
-    Command driveForDistance = new DriveForDistance(10, 1, robot, this);
+    Command driveForTime = new DriveForTime(5, 1, robot);
+    Command driveForDistance = new DriveForDistance(10, 1, robot);
 
     // Wait for the game to start (driver presses PLAY)
     waitForStart();
