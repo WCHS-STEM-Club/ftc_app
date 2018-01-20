@@ -16,9 +16,9 @@ public class GyroTurn extends Command {
 
   private Telemetry telemetry;
 
-  private double kp = 0.0027939;
-  private double ki = 0.0046565;
-  private double kd = 0.0046565;
+  private double kp = 0.005;
+  private double ki = 0;
+  private double kd = 0;
 
   /**
    * Constructor
@@ -59,8 +59,8 @@ public class GyroTurn extends Command {
       telemetry.addData("Error", error);
       telemetry.update();
 
-      robot.getTurnMotor(0).setPower((float) (0.001 * error));
-      robot.getTurnMotor(1).setPower((float) (-0.001 * error));
+      robot.getTurnMotor(0).setPower((float) error);
+      robot.getTurnMotor(1).setPower((float) -error);
     }
     telemetry.addData("Status", "terminated");
     telemetry.update();
