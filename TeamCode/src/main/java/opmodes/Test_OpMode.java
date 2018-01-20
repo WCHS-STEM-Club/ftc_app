@@ -34,6 +34,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
+import org.firstinspires.ftc.teamcode.commands.Grab;
+import org.firstinspires.ftc.teamcode.commands.GyroTurn;
+import org.firstinspires.ftc.teamcode.commands.Release;
 
 @Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
@@ -54,6 +57,18 @@ public class Test_OpMode extends LinearOpMode {
 
     // run until the end of the match (driver presses STOP)
     if (!opModeIsActive()) {
+
+      Grab test = new Grab(robot);
+      test.start();
+
+      Release testrelease = new Release(robot);
+      testrelease.start();
+
+      GyroTurn testturn = new GyroTurn(90, robot, telemetry);
+      testturn.start();
+
+      DriveForDistance testdrive = new DriveForDistance(30, 1, telemetry, robot);
+
 
       return;
     }

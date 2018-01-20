@@ -11,7 +11,7 @@ import opmodes.LinearOpMode;
 //in theory you could register "grip" as an input and adjust there but who really needs that
 public class Grab extends Command{
     Robot robot;
-    Grab(Robot robot, LinearOpMode opMode){
+    public Grab(Robot robot){
     }
 
     boolean execute() {

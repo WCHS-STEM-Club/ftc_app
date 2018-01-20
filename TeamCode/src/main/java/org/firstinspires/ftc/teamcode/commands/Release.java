@@ -11,7 +11,7 @@ import opmodes.LinearOpMode;
 //in theory
 public class Release extends Command{
     Robot robot;
-    Release(LinearOpMode opMode, Robot robot){
+    public Release(Robot robot){
         this.robot = robot;
     }
 

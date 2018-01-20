@@ -17,14 +17,17 @@ public class MoveKnocker extends Command {
     Robot robot;
     double degree;
 
-    MoveKnocker(Robot robot, LinearOpMode  opMode, double degree){
-        super(opMode);
+    MoveKnocker(Robot robot, double degree){
+
         this.robot = robot;
         this.degree = degree;
 
     }
-    public boolean execute(AsyncTask commandThread) {
-        robot.servos[1].setAngle(degree); //assuming that the knocker is the 2nd element because lol what are hashmaps
-        return false;
+
+    @Override
+    boolean execute() {
+        robot.getServo("knock").setAngle(degree); //assuming that the knocker is the 2nd element because lol what are hashmaps
+
+        return true;
     }
 }
