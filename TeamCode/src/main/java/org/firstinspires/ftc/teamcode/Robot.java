@@ -283,4 +283,8 @@ public abstract class Robot {
   public boolean sensorExists(String key) {
     return sensors.containsKey(key);
   }
+
+    public void addServos(){
+      servos =
+    }
 }
