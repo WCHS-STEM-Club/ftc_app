@@ -163,6 +163,11 @@ public class MotorGroup {
     encodersReset = true;
   }
 
+
+  public DcMotor getMotor(int x){
+    //hi im rachel i dont do parameter checking and all of my code breaks
+    return motors[x];
+  }
   /**
    * Return if the motors are running.
    *

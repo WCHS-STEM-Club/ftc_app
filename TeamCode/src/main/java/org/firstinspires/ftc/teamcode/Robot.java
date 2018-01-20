@@ -32,7 +32,7 @@ public abstract class Robot {
    * before accessing. Do not write to this variable! Instead, use
    * {@link Robot#setTurnMotors(MotorGroup[])}.
    */
-  public MotorGroup[] turnMotors;
+  public MotorGroup turnMotors;
   /**
    * The motors that are used to strafe the robot. On a right strafe, element 0 motors will move
    * forward while element 1 motors will move backwards, and vice versa for left strafes. This may
@@ -95,13 +95,13 @@ public abstract class Robot {
    * @param strafeMotors A list of MotorGroups. On a strafe right, element 0 goes forward and 1 goes
    * backward.
    */
-  public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors) {
+  public Robot(MotorGroup forwardMotors, MotorGroup turnMotors, MotorGroup[] strafeMotors) {
     setForwardMotors(forwardMotors);
     setTurnMotors(turnMotors);
     setStrafeMotors(strafeMotors);
   }
 
-  public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors,
+  public Robot(MotorGroup forwardMotors, MotorGroup turnMotors, MotorGroup[] strafeMotors,
       HashMap<String, MotorGroup> otherMotors) {
     setForwardMotors(forwardMotors);
     setTurnMotors(turnMotors);
@@ -144,19 +144,19 @@ public abstract class Robot {
    * @param turnMotors A list of MotorGroups. On a right turn, element 0 goes forward and 1 goes
    * backward.
    */
-  public void setTurnMotors(MotorGroup[] turnMotors) {
+  public void setTurnMotors(MotorGroup turnMotors) {
     if (ParamCheck.isNull(turnMotors)) {
       throw new IllegalArgumentException("turnMotors is null, cannot be null.");
     }
 
-    if (!ParamCheck.arrayOfLength(turnMotors, 2)) {
+    /*if (!ParamCheck.arrayOfLength(turnMotors, 2)) {
       throw new IllegalArgumentException(
           "turnMotors doesn't have a length of 2, must have a length of 2.");
     }
 
     if (ParamCheck.containsNull(turnMotors)) {
       throw new IllegalArgumentException("turnMotors has null elements, cannot be null.");
-    }
+    }*/
 
     this.turnMotors = turnMotors;
 
