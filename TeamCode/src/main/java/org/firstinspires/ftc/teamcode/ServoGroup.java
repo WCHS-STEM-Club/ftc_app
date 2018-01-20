@@ -70,6 +70,7 @@ public class ServoGroup {
         return servos[servoIndex];
     }
 
+
     //degrees should only be between 0 and 180 because like,,, no continous rotation as a motor has
     private double toServoUnits(double degrees) {
         return (degrees / 180 * 2) - 1;
