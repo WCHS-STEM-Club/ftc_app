@@ -10,11 +10,11 @@ public class MoveKnocker extends Command {
   MoveKnocker(Robot robot, double degree) {
     this.robot = robot;
     this.degree = degree;
+    }
 
-  }
-
-  public boolean execute() {
-    robot.getServo("knock").setAngle(degree);
-    return true;
-  }
+    @Override
+    public boolean execute() {
+        robot.getServo("knock").setAngle(degree);
+        return true;
+    }
 }

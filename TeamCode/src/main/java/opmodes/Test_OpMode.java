@@ -34,6 +34,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
+import org.firstinspires.ftc.teamcode.commands.Grab;
+import org.firstinspires.ftc.teamcode.commands.GyroTurn;
+import org.firstinspires.ftc.teamcode.commands.Release;
 
 @Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
@@ -42,7 +45,7 @@ public class Test_OpMode extends LinearOpMode {
   private ElapsedTime runtime = new ElapsedTime();
 
   @Override
-  public void runOpMode() {
+  public void runOpMode() throws InterruptedException {
     Robot robot = new Robot2017(hardwareMap);
 
     telemetry.addData("Status", "Initialized");
@@ -53,6 +56,38 @@ public class Test_OpMode extends LinearOpMode {
     runtime.reset();
 
     // run until the end of the match (driver presses STOP)
+    if (!opModeIsActive()) {
+
+      robot.getServo("claw").setDefaultPos();
+      wait(1000);
+
+      telemetry.addData("status", "should have set to default pos");
+      telemetry.update();
+
+      Grab test = new Grab(robot);
+      test.start();
+      wait(1000);
+
+      telemetry.addData("status", "a grab should have happened");
+      telemetry.update();
+
+      Release testrelease = new Release(robot);
+      testrelease.start();
+      wait(1000);
+
+      telemetry.addData("status", "a release should have happened");
+      telemetry.update();
+
+      GyroTurn testturn = new GyroTurn(90, robot, telemetry);
+      testturn.start();
+
+      DriveForDistance testdrive = new DriveForDistance(30, 1, telemetry, robot);
+
+
+      return;
+    }
+
     new DriveForDistance(10, 0.5f, telemetry, robot).start();
+
   }
 }
