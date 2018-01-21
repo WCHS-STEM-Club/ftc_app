@@ -21,6 +21,6 @@ public abstract class Gyro implements Sensor {
    */
   @Override
   public Orientation getSensorValue() {
-    return gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYX, AngleUnit.DEGREES);
+    return gyro.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYX, AngleUnit.DEGREES);
   }
 }

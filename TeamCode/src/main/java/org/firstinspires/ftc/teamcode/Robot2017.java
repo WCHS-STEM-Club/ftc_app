@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.sensors.MRGyro;
@@ -49,18 +51,20 @@ public class Robot2017 extends Robot {
     });
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
 
-    addOtherMotor("test", new MotorGroup(1, 1, leftDrive));
+    DcMotor lift = hwMap.get(DcMotor.class, "lift");
+
+    lift.setDirection(Direction.FORWARD);
+
+    lift.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+
+    addOtherMotor("lift", new MotorGroup(1, 1, lift));
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
     addSensor("gyro", new MRGyro(hwMap, "gyro"));
-//    addSensor("colorJewel", new ColorSensor(hwMap, "colorJewel", false));
-//    addSensor("gyro", new MRGyro(hwMap, "gyro"));
 
-    //Servos
+    // Servos
     addServo("claw", new ServoGroup(clawL, clawR));
     addServo("knock", new ServoGroup(knock));
-
-
   }
 }

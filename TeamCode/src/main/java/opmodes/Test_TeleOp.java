@@ -31,10 +31,12 @@ package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.MotorGroup;
+import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Robot2017;
+import org.firstinspires.ftc.teamcode.ServoGroup;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode". An OpMode is a 'program'
@@ -55,16 +57,23 @@ public class Test_TeleOp extends OpMode {
 
   // The robot is set up such that there are two drive motors in the back
   private ElapsedTime runtime = new ElapsedTime();
-  private DcMotor leftDrive = null;
-  private DcMotor rightDrive = null;
+  private Robot robot;
 
-  private DcMotor lift = null;
-  private Servo clawR = null;
-  private Servo clawL = null;
+  private MotorGroup lift;
+  private ServoGroup claw;
+  private ServoGroup knock;
+
+//  private DcMotor leftDrive = null;
+//
+//  private DcMotor rightDrive = null;
+//  private DcMotor lift = null;
+//  private Servo clawR = null;
+//  private Servo clawL = null;
+
   private double clawPosition = 0;
+  private double knockPosition = 32;
 
-  private double knockPosition = 0.2;
-  private Servo knock = null;
+//  private Servo knock = null;
 
   /*
    * Code to run ONCE when the driver hits INIT
@@ -73,31 +82,31 @@ public class Test_TeleOp extends OpMode {
   public void init() {
     telemetry.addData("Status", "Initializing...");
 
-    // Initialize the hardware variables. Note that the strings used here as parameters
-    // to 'get' must correspond to the names assigned during the robot configuration
-    // step (using the FTC Robot Controller app on the phone).
+//    leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+//    rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+//
+//    lift = hardwareMap.get(DcMotor.class, "lift");
+//
+//    clawR = hardwareMap.get(Servo.class, "claw_r");
+//    clawL = hardwareMap.get(Servo.class, "claw_l");
+//
+//    knock = hardwareMap.get(Servo.class, "knock");
+//
+//    leftDrive.setDirection(DcMotor.Direction.REVERSE);
+//    rightDrive.setDirection(DcMotor.Direction.FORWARD);
+//
+//    lift.setDirection(DcMotor.Direction.FORWARD);
+//
+//    leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//    lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-    leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-    rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+    robot = new Robot2017(hardwareMap);
 
-    lift = hardwareMap.get(DcMotor.class, "lift");
-
-    clawR = hardwareMap.get(Servo.class, "claw_r");
-    clawL = hardwareMap.get(Servo.class, "claw_l");
-
-    knock = hardwareMap.get(Servo.class, "knock");
-
-    // Most robots need the motor on one side to be reversed to drive forward
-    // Reverse the motor that runs backwards when connected directly to the battery
-    leftDrive.setDirection(DcMotor.Direction.REVERSE);
-    rightDrive.setDirection(DcMotor.Direction.FORWARD);
-
-    lift.setDirection(DcMotor.Direction.FORWARD);
-
-    leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-    lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    lift = robot.getOtherMotor("lift");
+    claw = robot.getServo("claw");
+    knock = robot.getServo("knock");
 
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");
@@ -125,25 +134,24 @@ public class Test_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    double liftPower = -gamepad2.left_stick_y;
+    float liftPower = -gamepad2.left_stick_y;
     lift.setPower(liftPower);
 
     if (gamepad2.a) {
-      clawPosition = 0.6;
+      clawPosition = 100;
     } else if (gamepad2.b) {
       clawPosition = 0;
     }
 
-    clawL.setPosition(clawPosition);
-    clawR.setPosition(1 - clawPosition);
+    claw.setAngle(clawPosition);
 
     if (gamepad2.x) {
-      knockPosition = 0.8;
+      knockPosition = 120;
     } else if (gamepad2.y) {
-      knockPosition = 0.2;
+      knockPosition = 32;
     }
 
-    knock.setPosition(knockPosition);
+    knock.setAngle(knockPosition);
 
     // Show the elapsed game time and wheel power.
     telemetry.addData("Status", "Running, for time: " + runtime.toString());
@@ -155,25 +163,24 @@ public class Test_TeleOp extends OpMode {
    */
   @Override
   public void stop() {
-    leftDrive.setPower(0);
-    rightDrive.setPower(0);
+    robot.forwardMotors.setPower(0);
     lift.setPower(0);
   }
 
   private void driveLoop() {
     // Setup a variable for each drive wheel to save power level for telemetry
-    double leftPower;
-    double rightPower;
+    float leftPower;
+    float rightPower;
 
     // Choose to drive using either Tank Mode, or POV Mode
     // Comment out the method that's not used.  The default below is POV.
 
     // POV Mode uses left stick to go forward, and right stick to turn.
     // - This uses basic math to combine motions and is easier to drive straight.
-    double drive = -gamepad1.left_stick_y; //negative because of the way our motors are mounted lol
-    double turn = gamepad1.right_stick_x;
-    leftPower = Range.clip(drive + turn, -1.0, 1.0);
-    rightPower = Range.clip(drive - turn, -1.0, 1.0);
+    float drive = -gamepad1.left_stick_y; //negative because of the way our motors are mounted lol
+    float turn = gamepad1.right_stick_x;
+    leftPower = (float) Range.clip(drive + turn, -1.0, 1.0);
+    rightPower = (float) Range.clip(drive - turn, -1.0, 1.0);
 
     // Tank Mode uses one stick to control each wheel.
     // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -181,8 +188,8 @@ public class Test_TeleOp extends OpMode {
     // rightPower = -gamepad1.right_stick_y ;
 
     // Send calculated power to wheels
-    leftDrive.setPower(leftPower);
-    rightDrive.setPower(rightPower);
+    robot.getTurnMotor(0).setPower(rightPower);
+    robot.getTurnMotor(1).setPower(leftPower);
 
     telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
   }

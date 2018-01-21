@@ -2,9 +2,8 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.sensors.Sensor;
+import org.firstinspires.ftc.teamcode.sensors.Gyro;
 
 /**
  * Command to drive the robot forward for some distance.
@@ -12,7 +11,7 @@ import org.firstinspires.ftc.teamcode.sensors.Sensor;
 public class GyroTurn extends Command {
 
   private float angle;
-  private Sensor gyro;
+  private Gyro gyro;
   private Robot robot;
 
   private Telemetry telemetry;
@@ -30,7 +29,7 @@ public class GyroTurn extends Command {
   public GyroTurn(float angle, Robot robot, Telemetry telemetry) {
     this.angle = angle;
     this.robot = robot;
-    this.gyro = robot.getSensor("gyro");
+    this.gyro = (Gyro) robot.getSensor("gyro");
     this.telemetry = telemetry;
   }
 
@@ -53,14 +52,13 @@ public class GyroTurn extends Command {
 //        && ((Orientation) gyro.getSensorValue()).secondAngle < max)) {
     while (runtime.milliseconds() != -13) {
       double error = pid
-          .calcPid((double) ((Orientation) gyro.getSensorValue()).secondAngle,
+          .calcPid((double) gyro.getSensorValue().secondAngle,
               (double) angle, kp, ki, kd);
 
-      telemetry.addData("Gyro", ((Orientation) gyro.getSensorValue()).secondAngle);
+      telemetry.addData("Gyro", gyro.getSensorValue().secondAngle);
       telemetry.addData("Min", min);
       telemetry.addData("Max", max);
-      telemetry
-          .addData("Current value", (double) ((Orientation) gyro.getSensorValue()).secondAngle);
+      telemetry.addData("Current value", (double) gyro.getSensorValue().secondAngle);
       telemetry.addData("Target", angle);
       telemetry.addData("Error", error);
       telemetry.update();

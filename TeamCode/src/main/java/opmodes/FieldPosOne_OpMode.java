@@ -1,7 +1,6 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 
@@ -15,7 +14,7 @@ public class FieldPosOne_OpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Robot robot = new Robot2017(hardwareMap);
         //initial glyph holding
-        robot.servos.
+//        robot.servos.
 
         //jewel knock mockup
 

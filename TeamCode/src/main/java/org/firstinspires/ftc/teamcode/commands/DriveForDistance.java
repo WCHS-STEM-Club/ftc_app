@@ -15,9 +15,9 @@ public class DriveForDistance extends Command {
   private Gyro gyro;
   private Telemetry telemetry;
 
-  private final double kp = 0.001;
+  private final double kp = 0;
   private final double ki = 0;
-  private final double kd = 0.03;
+  private final double kd = 0;
 
   /**
    * Constructor
@@ -51,6 +51,7 @@ public class DriveForDistance extends Command {
       telemetry.addData("Power", power);
       telemetry.addData("Error", error);
       telemetry.addData("Gyro", (double) gyro.getSensorValue().secondAngle);
+      telemetry.update();
 
       Thread.yield();
     }
