@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.sensors.Gyro;
 
 /**
- * Command to drive the robot forward for some amount of time
+ * Command to drive the robot forward for some amount of time. Before use, the gyro should have been
+ * calibrated. Calibration does not have to be immediately before use.
  */
 public class DriveForTime extends Command {
 
   private float seconds;
   private float power;
   private Robot robot;
+  private Gyro gyro;
 
   /**
    * Constructor
@@ -23,27 +27,44 @@ public class DriveForTime extends Command {
     this.seconds = seconds;
     this.power = power;
     this.robot = robot;
+    this.gyro = (Gyro) robot.getSensor("gyro");
   }
 
   @Override
   boolean execute() {
+    // This is like calibration in that it will be used to reset the gyro to 0
+    double gyroStart = gyro.getSensorValue().secondAngle;
+
+    double kp = 0;
+    double ki = 0;
+    double kd = 0;
+
+    PidController pid = new PidController();
+
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 
     robot.forwardMotors.setPower(power);
 
-    // Run while we still have time to wait and the command was not cancelled
-    // Any commands that have loops should have isCancelled as a condition in the loop
+    // Run while we still have time to wait
     while (runtime.milliseconds() / 1000 < this.seconds) {
+      double gyroResult = gyro.getSensorValue().secondAngle - gyroStart;
+      double correction = pid.calcPid(gyroResult, 0, kp, ki, kd);
+
+      float leftPower = (float) Range.clip(power + correction, -1.0, 1.0);
+      float rightPower = (float) Range.clip(power - correction, -1.0, 1.0);
+
+      robot.getTurnMotor(0).setPower(leftPower);
+      robot.getTurnMotor(1).setPower(rightPower);
+
       // Loops within commands should use yield so that the command doesn't take all the
-      // processing power doing nothing
+      // processing power
       Thread.yield();
     }
 
     robot.forwardMotors.brake();
 
-    // Return false if the thread was cancelled, true if it was not.
-    // This is because cancellation could cause the thread to end early.
+    // Return false if the command was unsuccessful, true if it was not.
     return true;
   }
 }

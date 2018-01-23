@@ -22,7 +22,8 @@ public class DriveForDistance extends Command {
   /**
    * Constructor
    *
-   * @param distance The distance in decimeters (1/10th of a meter) for the robot to drive
+   * @param distance The distance in decimeters (1/10th of a meter/good unit) for the robot to
+   * drive
    * @param power The motors' power, scale from 0 to 1
    * @param robot Provides access to the motor
    */
@@ -40,20 +41,26 @@ public class DriveForDistance extends Command {
 
     PidController pid = new PidController();
 
-    robot.forwardMotors.goForDistance(distance, power);
+    robot.getTurnMotor(1).goForDistance(distance, power);
+    robot.getTurnMotor(0).goForDistance(distance, power);
 
     while (robot.forwardMotors.isBusy()) {
-      double error = pid.calcPid((double) gyro.getSensorValue().secondAngle, 0, kp, ki, kd);
+      double gyroResult = gyro.getSensorValue().secondAngle;
+      double error = pid.calcPid(gyroResult, 0, kp, ki, kd);
 
-      robot.getTurnMotor(0).setPower((float) (power - error));
-      robot.getTurnMotor(1).setPower((float) (power + error));
+//      robot.getTurnMotor(0).disableEncoders();
+//      robot.getTurnMotor(1).disableEncoders();
+
+//      robot.getTurnMotor(0).setPower((float) (power - error));
+//      robot.getTurnMotor(1).setPower((float) (power + error));
+
+      robot.getTurnMotor(0).setPower(0.5f);
+      robot.getTurnMotor(1).setPower(0.5f);
 
       telemetry.addData("Power", power);
       telemetry.addData("Error", error);
-      telemetry.addData("Gyro", (double) gyro.getSensorValue().secondAngle);
+      telemetry.addData("Gyro", gyroResult);
       telemetry.update();
-
-      Thread.yield();
     }
 
     robot.forwardMotors.brake();

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -58,7 +59,7 @@ public class MotorGroup {
     this.MM_PER_X_CLICKS = mmPerXClicks;
     this.motors = motors;
 
-    resetEncoders();
+    disableEncoders(); // Solve a bug that was being caused by having no RunMode
   }
 
   /**
@@ -112,6 +113,15 @@ public class MotorGroup {
   }
 
   /**
+   * Disable encoders mode.
+   */
+  public void disableEncoders() {
+    for (DcMotor motor : motors) {
+      motor.setMode(RunMode.RUN_WITHOUT_ENCODER);
+    }
+  }
+
+  /**
    * Move the motors for some distance
    *
    * @param distance Distance in decimeters
@@ -158,7 +168,9 @@ public class MotorGroup {
    */
   public void resetEncoders() {
     for (DcMotor motor : this.motors) {
-      motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      while (motor.getCurrentPosition() != 0) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      }
     }
     encodersReset = true;
   }

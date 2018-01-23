@@ -41,12 +41,12 @@ public class Robot2017 extends Robot {
         new MotorGroup(
             1440,
             319,
-            rightDrive
+            leftDrive
         ),
         new MotorGroup(
             1440,
             319,
-            leftDrive
+            rightDrive
         )
     });
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
