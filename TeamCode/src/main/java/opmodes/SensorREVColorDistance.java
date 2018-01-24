@@ -109,6 +109,12 @@ public class SensorREVColorDistance extends LinearOpMode {
       telemetry.addData("Green Color2", sensorColor2.green());
       telemetry.addData("Blue  Color2", sensorColor2.blue());
 
+      relativeLayout.post(new Runnable() {
+        public void run() {
+          relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
+        }
+      });
+
       telemetry.update();
     }
 

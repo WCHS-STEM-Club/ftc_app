@@ -12,6 +12,7 @@ import opmodes.LinearOpMode;
 public class Grab extends Command{
     Robot robot;
     public Grab(Robot robot){
+        this.robot = robot;
     }
 
     boolean execute() {

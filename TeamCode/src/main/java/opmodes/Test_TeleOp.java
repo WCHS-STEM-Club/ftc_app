@@ -80,7 +80,7 @@ public class Test_TeleOp extends OpMode {
    */
   @Override
   public void init() {
-    telemetry.addData("Status", "Initializing...");
+    telemetry.addData("Status", "Initializing... this is the new one right?");
 
 //    leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
 //    rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
@@ -108,8 +108,11 @@ public class Test_TeleOp extends OpMode {
     claw = robot.getServo("claw");
     knock = robot.getServo("knock");
 
+    claw.converge();
+
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");
+
   }
 
   /*
