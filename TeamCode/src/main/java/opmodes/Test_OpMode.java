@@ -57,6 +57,7 @@ public class Test_OpMode extends LinearOpMode {
     runtime.reset();
 
     // run until the end of the match (driver presses STOP)
+    if (!opModeIsActive()) {
 
       robot.getServo("claw").setDefaultPos();
       wait(1000);
@@ -64,19 +65,22 @@ public class Test_OpMode extends LinearOpMode {
       telemetry.addData("status", "should have set to default pos");
       telemetry.update();
 
-      new Grab(robot).start();
+      Grab test = new Grab(robot);
+      test.start();
       wait(1000);
 
       telemetry.addData("status", "a grab should have happened");
       telemetry.update();
 
-     new Release(robot).start();
+      Release testrelease = new Release(robot);
+      testrelease.start();
       wait(1000);
 
       telemetry.addData("status", "a release should have happened");
       telemetry.update();
 
-      new GyroTurn(90, robot, telemetry).start();
+      GyroTurn testturn = new GyroTurn(90, robot, telemetry);
+      testturn.start();
 
       DriveForDistance testdrive = new DriveForDistance(30, 1, telemetry, robot);
 
@@ -84,7 +88,7 @@ public class Test_OpMode extends LinearOpMode {
       wait(1000);
 
 
-    //new DriveForDistance(10, 0.5f, telemetry, robot).start();
+    new DriveForDistance(10, 0.5f, telemetry, robot).start();
 
   }
 }

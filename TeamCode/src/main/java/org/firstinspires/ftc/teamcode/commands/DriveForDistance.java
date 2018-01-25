@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.sensors.Gyro;
+import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 
 /**
  * Command to drive the robot forward for some distance.
@@ -12,7 +12,7 @@ public class DriveForDistance extends Command {
   private float distance;
   private float power;
   private Robot robot;
-  private Gyro gyro;
+  private MrGyro gyro;
   private Telemetry telemetry;
 
   private final double kp = 0;
@@ -31,7 +31,7 @@ public class DriveForDistance extends Command {
     this.distance = distance;
     this.power = power;
     this.robot = robot;
-    this.gyro = (Gyro) robot.getSensor("gyro");
+    this.gyro = (MrGyro) robot.getSensor("gyro");
     this.telemetry = telemetry;
   }
 
@@ -45,7 +45,7 @@ public class DriveForDistance extends Command {
     robot.getTurnMotor(0).goForDistance(distance, power);
 
     while (robot.forwardMotors.isBusy()) {
-      double gyroResult = gyro.getSensorValue().secondAngle;
+      int gyroResult = gyro.getSensorValue();
       double error = pid.calcPid(gyroResult, 0, kp, ki, kd);
 
 //      robot.getTurnMotor(0).disableEncoders();
@@ -59,7 +59,7 @@ public class DriveForDistance extends Command {
 
       telemetry.addData("Power", power);
       telemetry.addData("Error", error);
-      telemetry.addData("Gyro", gyroResult);
+      telemetry.addData("MrGyro", gyroResult);
       telemetry.update();
     }
 

@@ -70,7 +70,7 @@ public abstract class Robot {
    * </thead>
    * <tbody>
    * <tr>
-   * <td>Gyro</td>
+   * <td>MrGyro</td>
    * <td>gyro</td>
    * </tr>
    * <tr>

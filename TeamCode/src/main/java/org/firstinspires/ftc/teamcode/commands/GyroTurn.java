@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.sensors.Gyro;
+import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 
 /**
  * Command to drive the robot forward for some distance.
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.sensors.Gyro;
 public class GyroTurn extends Command {
 
   private float angle;
-  private Gyro gyro;
+  private MrGyro gyro;
   private Robot robot;
 
   private Telemetry telemetry;
@@ -29,7 +29,7 @@ public class GyroTurn extends Command {
   public GyroTurn(float angle, Robot robot, Telemetry telemetry) {
     this.angle = angle;
     this.robot = robot;
-    this.gyro = (Gyro) robot.getSensor("gyro");
+    this.gyro = (MrGyro) robot.getSensor("gyro");
     this.telemetry = telemetry;
   }
 
@@ -41,24 +41,22 @@ public class GyroTurn extends Command {
 
     robot.forwardMotors.useEncoders();
 
-    float range = 10;
+    float range = 1;
     float max = angle + (range / 2);
     float min = angle - (range / 2);
 
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 
-//    while (!(((Orientation) gyro.getSensorValue()).secondAngle > min
-//        && ((Orientation) gyro.getSensorValue()).secondAngle < max)) {
-    while (runtime.milliseconds() != -13) {
+    while (!(gyro.getSensorValue() > min && gyro.getSensorValue() < max)) {
       double error = pid
-          .calcPid((double) gyro.getSensorValue().secondAngle,
+          .calcPid((double) gyro.getSensorValue(),
               (double) angle, kp, ki, kd);
 
-      telemetry.addData("Gyro", gyro.getSensorValue().secondAngle);
+      telemetry.addData("MrGyro", gyro.getSensorValue());
       telemetry.addData("Min", min);
       telemetry.addData("Max", max);
-      telemetry.addData("Current value", (double) gyro.getSensorValue().secondAngle);
+      telemetry.addData("Current value", (double) gyro.getSensorValue());
       telemetry.addData("Target", angle);
       telemetry.addData("Error", error);
       telemetry.update();

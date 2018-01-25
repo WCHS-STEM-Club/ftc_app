@@ -65,14 +65,17 @@ public class RobotTest {
    */
   @Test
   public void setTurnMotors() {
+    MotorGroup left = new MotorGroup(2, 1, mock(DcMotor.class));
+    MotorGroup right = new MotorGroup(1, 1, mock(DcMotor.class));
+
     MotorGroup[] turnMotors = {
-        new MotorGroup(1, 1, mock(DcMotor.class)),
-        new MotorGroup(1, 1, mock(DcMotor.class))
+        left, right
     };
     robot.setTurnMotors(turnMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
 
-    assertEquals("Did not set the turn motors", turnMotors, robot.turnMotors);
+    assertEquals("Did not set the left turn motors", left, robot.getTurnMotor(0));
+    assertEquals("Did not set the right turn motors", right, robot.getTurnMotor(1));
   }
 
   /**

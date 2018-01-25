@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.MRGyro;
+import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
