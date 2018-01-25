@@ -108,11 +108,12 @@ public class Test_TeleOp extends OpMode {
     claw = robot.getServo("claw");
     knock = robot.getServo("knock");
 
+    lift.useEncoders();
+
     claw.converge();
 
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");
-
   }
 
   /*
@@ -128,6 +129,7 @@ public class Test_TeleOp extends OpMode {
   @Override
   public void start() {
     runtime.reset();
+    lift.resetEncoders();
   }
 
   /*
@@ -137,8 +139,23 @@ public class Test_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    float liftPower = -gamepad2.left_stick_y;
+    float liftPower = gamepad2.left_stick_y;
+    float liftDist = lift.getAverageDistance();
+    float liftClicks = lift.getAverageClicks();
+
+    telemetry.addData("Lift dist", liftDist);
+    telemetry.addData("Lift clicks", liftClicks);
+    telemetry.addData("Lift power", liftPower);
+
+    // 3dm max, 0dm min
+    if (liftDist >= 3 && liftPower > 0) {
+      liftPower = 0;
+    } else if (liftDist <= 0 && liftPower < 0) {
+      liftPower = 0;
+    }
     lift.setPower(liftPower);
+
+    telemetry.addData("Actual power", liftPower);
 
     if (gamepad2.a) {
       clawPosition = 100;
@@ -180,7 +197,7 @@ public class Test_TeleOp extends OpMode {
 
     // POV Mode uses left stick to go forward, and right stick to turn.
     // - This uses basic math to combine motions and is easier to drive straight.
-    float drive = -gamepad1.left_stick_y; //negative because of the way our motors are mounted lol
+    float drive = gamepad1.left_stick_y;
     float turn = gamepad1.right_stick_x;
     leftPower = (float) Range.clip(drive + turn, -1.0, 1.0);
     rightPower = (float) Range.clip(drive - turn, -1.0, 1.0);
