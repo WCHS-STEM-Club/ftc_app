@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.MrGyro;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.sensors.Gyro;
 
 /**
  * Command to drive the robot forward for some amount of time. Before use, the gyro should have been
@@ -14,7 +13,7 @@ public class DriveForTime extends Command {
   private float seconds;
   private float power;
   private Robot robot;
-  private Gyro gyro;
+  private MrGyro gyro;
 
   /**
    * Constructor
@@ -27,17 +26,17 @@ public class DriveForTime extends Command {
     this.seconds = seconds;
     this.power = power;
     this.robot = robot;
-    this.gyro = (Gyro) robot.getSensor("gyro");
+    this.gyro = (MrGyro) robot.getSensor("gyro");
   }
 
   @Override
   boolean execute() {
     // This is like calibration in that it will be used to reset the gyro to 0
-    double gyroStart = gyro.getSensorValue().secondAngle;
+    int gyroStart = gyro.getSensorValue();
 
-    double kp = 0;
+    double kp = 0.01;
     double ki = 0;
-    double kd = 0;
+    double kd = 0.3;
 
     PidController pid = new PidController();
 
@@ -48,18 +47,27 @@ public class DriveForTime extends Command {
 
     // Run while we still have time to wait
     while (runtime.milliseconds() / 1000 < this.seconds) {
-      double gyroResult = gyro.getSensorValue().secondAngle - gyroStart;
+      double gyroResult = (double) gyro.getSensorValue() - gyroStart;
+      while (gyroResult > 180) {
+        gyroResult -= 360;
+      }
+      while (gyroResult <= -180) {
+        gyroResult += 360;
+      }
+
       double correction = pid.calcPid(gyroResult, 0, kp, ki, kd);
 
-      float leftPower = (float) Range.clip(power + correction, -1.0, 1.0);
-      float rightPower = (float) Range.clip(power - correction, -1.0, 1.0);
+      float leftPower = (float) (power + correction);
+      float rightPower = (float) (power - correction);
+
+      float max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+      if (max > 1) {
+        leftPower /= max;
+        rightPower /= max;
+      }
 
       robot.getTurnMotor(0).setPower(leftPower);
       robot.getTurnMotor(1).setPower(rightPower);
-
-      // Loops within commands should use yield so that the command doesn't take all the
-      // processing power
-      Thread.yield();
     }
 
     robot.forwardMotors.brake();

@@ -41,7 +41,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 /*
- * This is an example LinearOpMode that shows how to use the Modern Robotics Gyro.
+ * This is an example LinearOpMode that shows how to use the Modern Robotics MrGyro.
  *
  * The op mode assumes that the gyro sensor is attached to a Device Interface Module
  * I2C channel and is configured with a name of "gyro".
@@ -49,7 +49,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
 */
-@TeleOp(name = "Sensor: MR Gyro", group = "Sensor")
+@TeleOp(name = "Sensor: MR MrGyro", group = "Sensor")
 public class SensorMRGyro extends LinearOpMode {
 
   /**
@@ -82,7 +82,7 @@ public class SensorMRGyro extends LinearOpMode {
 
     // Start calibrating the gyro. This takes a few seconds and is worth performing
     // during the initialization phase at the start of each opMode.
-    telemetry.log().add("Gyro Calibrating. Do Not Move!");
+    telemetry.log().add("MrGyro Calibrating. Do Not Move!");
     modernRoboticsI2cGyro.calibrate();
 
     // Wait until the gyro calibration is complete
@@ -94,7 +94,7 @@ public class SensorMRGyro extends LinearOpMode {
     }
 
     telemetry.log().clear();
-    telemetry.log().add("Gyro Calibrated. Press Start.");
+    telemetry.log().add("MrGyro Calibrated. Press Start.");
     telemetry.clear();
     telemetry.update();
 

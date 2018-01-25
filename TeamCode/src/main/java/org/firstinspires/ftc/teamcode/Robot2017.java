@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.sensors.MRGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -61,7 +60,7 @@ public class Robot2017 extends Robot {
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
-    addSensor("gyro", new MRGyro(hwMap, "gyro"));
+    addSensor("gyro", new MrGyro(hwMap, "gyro"));
 
     // Servos
     addServo("claw", new ServoGroup(clawL, clawR));
