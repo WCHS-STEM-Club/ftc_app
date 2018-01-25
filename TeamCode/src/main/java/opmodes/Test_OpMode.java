@@ -57,7 +57,8 @@ public class Test_OpMode extends LinearOpMode {
     runtime.reset();
 
     // run until the end of the match (driver presses STOP)
-    if (!opModeIsActive()) {
+    if (opModeIsActive()) {
+      wait(1000);
 
       robot.getServo("claw").setDefaultPos();
       wait(1000);
@@ -88,7 +89,8 @@ public class Test_OpMode extends LinearOpMode {
       wait(1000);
 
 
-    new DriveForDistance(10, 0.5f, telemetry, robot).start();
+      new DriveForDistance(10, 0.5f, telemetry, robot).start();
 
+    }
   }
 }
