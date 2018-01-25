@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
-import org.firstinspires.ftc.teamcode.sensors.MRGyro;
+import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -53,14 +54,16 @@ public class Robot2017 extends Robot {
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
 
     DcMotor lift = hwMap.get(DcMotor.class, "lift");
+
     lift.setDirection(Direction.FORWARD);
+
     lift.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
 
-    addOtherMotor("lift", new MotorGroup(1440, 27 * 2 * Math.PI, lift));
+    addOtherMotor("lift", new MotorGroup(1, 1, lift));
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
-    addSensor("gyro", new MRGyro(hwMap, "gyro"));
+    addSensor("gyro", new MrGyro(hwMap, "gyro"));
     addSensor("color", new ColorSensor(hwMap, "color_sensor", true));
 
     // Servos

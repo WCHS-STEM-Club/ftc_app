@@ -30,65 +30,54 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
-import org.firstinspires.ftc.teamcode.commands.Grab;
-import org.firstinspires.ftc.teamcode.commands.GyroTurn;
-import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 
-@Autonomous(name = "Test OpMode", group = "Linear Opmode")
-public class Test_OpMode extends LinearOpMode {
+/*
+ * This is an example LinearOpMode that shows how to use
+ * the REV Robotics Color-Distance Sensor.
+ *
+ * It assumes the sensor is configured with the name "sensor_color_distance".
+ *
+ * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
+ */
+@Autonomous(name = "Color Knocking Test", group = "Sensor")
+public class Test_colors extends LinearOpMode {
 
-  // Declare OpMode members.
-  private ElapsedTime runtime = new ElapsedTime();
 
   @Override
   public void runOpMode() throws InterruptedException {
+
     Robot robot = new Robot2017(hardwareMap);
 
-    telemetry.addData("Status", "Initialized");
+    while(opModeIsActive()) {
+      telemetry.addData("Status", "yes");
+      telemetry.update();
+
+      String colors = "";
+
+      sleep(1000);
+      ColorSensor test = (ColorSensor) robot.getSensor("color");
+
+      if( test.getSensorValue().blue > test.getSensorValue().red )
+        colors ="blue";
+      else{
+        colors = "red";
+      }
+
+      telemetry.addData("red", test.getSensorValue().blue);
+      telemetry.addData("green", test.getSensorValue().green);
+      telemetry.addData("blue", test.getSensorValue().blue);
+      telemetry.addData("color sensed", colors);
+      sleep(1000);
+    }
+
+    telemetry.addData("sattus", "done");
     telemetry.update();
 
-    // Wait for the game to start (driver presses PLAY)
-    waitForStart();
-    runtime.reset();
-
-    // run until the end of the match (driver presses STOP)
-    if (opModeIsActive()) {
-      wait(1000);
-
-      robot.getServo("claw").setDefaultPos();
-      wait(1000);
-
-      telemetry.addData("status", "should have set to default pos");
-      telemetry.update();
-
-      Grab test = new Grab(robot);
-      test.start();
-      wait(1000);
-
-      telemetry.addData("status", "a grab should have happened");
-      telemetry.update();
-
-      Release testrelease = new Release(robot);
-      testrelease.start();
-      wait(1000);
-
-      telemetry.addData("status", "a release should have happened");
-      telemetry.update();
-
-      GyroTurn testturn = new GyroTurn(90, robot, telemetry);
-      testturn.start();
-
-      DriveForDistance testdrive = new DriveForDistance(30, 1, telemetry, robot);
-
-      wait(1000);
-
-
-      new DriveForDistance(10, 0.5f, telemetry, robot).start();
-
-    }
   }
 }
