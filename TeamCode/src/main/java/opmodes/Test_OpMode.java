@@ -56,6 +56,7 @@ public class Test_OpMode extends LinearOpMode {
 
     if (opModeIsActive()) {
       sleep(1000);
+      robot.getServo("claw").converge();
       robot.getServo("claw").setDefaultPos();
       telemetry.addData("status", "should set to default pos");
       telemetry.update();
@@ -79,7 +80,7 @@ public class Test_OpMode extends LinearOpMode {
       telemetry.update();
       sleep(1000);
 
-      new DriveForDistEst(3, 6.223f, 1, robot).start();
+      new DriveForDistEst(3f, 6.223f, 1, robot).start();
 
     }
   }
