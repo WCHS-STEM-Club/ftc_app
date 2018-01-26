@@ -196,7 +196,7 @@ public class FtcRobotControllerActivity extends Activity
 
   protected void passReceivedUsbAttachmentsToEventLoop() {
     if (this.eventLoop != null) {
-      for (;;) {
+      while(true) {
         UsbDevice usbDevice = receivedUsbAttachmentNotifications.poll();
         if (usbDevice == null)
           break;
