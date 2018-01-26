@@ -71,6 +71,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:title="@string/program_and_manage_menu_item"/>
 
   <item
+    android:id="@+id/change_alliance"
+    android:orderInCategory="601"
+    android:showAsAction="never"
+    android:title="Alliance Changer"/>
+
+  <item
       android:id="@+id/action_inspection_mode"
       android:orderInCategory="600"
       android:showAsAction="never"

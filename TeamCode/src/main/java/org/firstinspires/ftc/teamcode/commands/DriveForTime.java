@@ -32,7 +32,7 @@ public class DriveForTime extends Command {
   @Override
   boolean execute() {
     // This is like calibration in that it will be used to reset the gyro to 0
-    int gyroStart = gyro.getSensorValue();
+    int gyroStart = (int) gyro.getSensorValue();
 
     double kp = 0.01;
     double ki = 0;

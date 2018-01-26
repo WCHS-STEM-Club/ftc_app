@@ -48,7 +48,9 @@ public class GyroTurn extends Command {
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 
-    while (!(gyro.getSensorValue() > min && gyro.getSensorValue() < max)) {
+    int gyroValue = (int) gyro.getSensorValue();
+
+    while (!(gyroValue > min && gyroValue < max)) {
       double error = pid
           .calcPid((double) gyro.getSensorValue(),
               (double) angle, kp, ki, kd);
@@ -63,6 +65,8 @@ public class GyroTurn extends Command {
 
       robot.getTurnMotor(0).setPower((float) error);
       robot.getTurnMotor(1).setPower((float) -error);
+
+      gyroValue = (int) gyro.getSensorValue();
     }
 
     robot.getTurnMotor(0).brake();

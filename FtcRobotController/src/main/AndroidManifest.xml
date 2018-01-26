@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.qualcomm.ftcrobotcontroller"
-          android:versionCode="26"
-          android:versionName="3.6">
+  package="com.qualcomm.ftcrobotcontroller"
+  android:versionCode="26"
+  android:versionName="3.6">
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -39,6 +38,17 @@
     <service
       android:name="com.qualcomm.ftccommon.FtcRobotControllerService"
       android:enabled="true" />
+
+    <activity
+      android:name="org.firstinspires.ftc.robotcontroller.internal.ChooseAllianceActivity"
+      android:configChanges="orientation|screenSize"
+      android:label="Choose Alliance Activity"
+      android:launchMode="singleTask"/>
+
+    <!-- The robot controller service in which most of the robot functionality is managed -->
+    <service
+      android:name="com.qualcomm.ftccommon.FtcRobotControllerService"
+      android:enabled="true"/>
 
   </application>
 
