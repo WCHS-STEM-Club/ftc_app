@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.sensors;
 
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 /**
  * A class that is extended and used for generic sensors. It has two methods,
  * {@link Sensor#getSensorValue()} and {@link Sensor#calibrate()}. The first must be implemented. It
@@ -8,12 +11,13 @@ package org.firstinspires.ftc.teamcode.sensors;
  * input to set itself up, it is recommended to create a constructor. There is no super method to
  * call.
  */
-public interface Sensor {
+public interface Sensor{
 
   /**
    * This method must be implemented to return the sensor's result. For example, a color sensor
    * should return a color, an ultrasonic sensor should return a distance, and a touch sensor should
    * return a boolean. When calling this method, remember to cast to the result type if needed.
+   *
    */
   Object getSensorValue();
 

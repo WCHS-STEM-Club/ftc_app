@@ -34,8 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
-
+import com.qualcomm.robotcore.hardware.ColorSensor;
 /*
  * This is an example LinearOpMode that shows how to use
  * the REV Robotics Color-Distance Sensor.
@@ -53,28 +52,30 @@ public class Test_Color extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
 
     Robot robot = new Robot2017(hardwareMap);
-    ColorSensor test = (ColorSensor) robot.getSensor("color");
+    ColorSensor test;
 
     while(opModeIsActive()) {
       telemetry.addData("Status", "yes");
       telemetry.update();
 
+      test = hardwareMap.get(ColorSensor.class, "color_sensor");
+
       String currentcolor = "";
 
-      if( test.getSensorValue().blue > test.getSensorValue().red )
+      if( test.blue() > test.red() )
         currentcolor ="blue";
       else{
         currentcolor = "red";
       }
 
-      telemetry.addData("red", test.getSensorValue().blue);
-      telemetry.addData("green", test.getSensorValue().green);
-      telemetry.addData("blue", test.getSensorValue().blue);
+      telemetry.addData("red", test.red());
+      telemetry.addData("green", test.green());
+      telemetry.addData("blue", test.blue());
       telemetry.addData("color sensed", currentcolor);
 
     }
 
-    telemetry.addData("sattus", "done");
+    telemetry.addData("status", "done");
     telemetry.update();
 
   }

@@ -7,7 +7,7 @@ public class MoveKnocker extends Command {
   private Robot robot;
   private double degree;
 
-  MoveKnocker(Robot robot, double degree) {
+  public MoveKnocker(Robot robot, double degree) {
     this.robot = robot;
     this.degree = degree;
   }
