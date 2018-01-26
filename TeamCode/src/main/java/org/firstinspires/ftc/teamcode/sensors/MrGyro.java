@@ -36,7 +36,7 @@ public class MrGyro implements Sensor {
   public Number getSensorValue() {
     switch (returnType) {
       case HEADING:
-        return (float) gyro.getHeading();
+        return gyro.getHeading();
       case ANGULAR_VELOCITY:
         return gyro.getAngularVelocity(AngleUnit.DEGREES).zRotationRate;
     }

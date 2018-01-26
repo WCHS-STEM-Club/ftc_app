@@ -47,7 +47,7 @@ public class DriveForTime extends Command {
 
     // Run while we still have time to wait
     while (runtime.milliseconds() / 1000 < this.seconds) {
-      double gyroResult = (double) gyro.getSensorValue() - gyroStart;
+      int gyroResult = (int) gyro.getSensorValue() - gyroStart;
       while (gyroResult > 180) {
         gyroResult -= 360;
       }

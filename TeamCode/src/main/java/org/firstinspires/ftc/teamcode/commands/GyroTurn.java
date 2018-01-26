@@ -51,9 +51,7 @@ public class GyroTurn extends Command {
     int gyroValue = (int) gyro.getSensorValue();
 
     while (!(gyroValue > min && gyroValue < max)) {
-      double error = pid
-          .calcPid((double) gyro.getSensorValue(),
-              (double) angle, kp, ki, kd);
+      double error = pid.calcPid((int) gyro.getSensorValue(), angle, kp, ki, kd);
 
       telemetry.addData("MrGyro", gyro.getSensorValue());
       telemetry.addData("Min", min);
