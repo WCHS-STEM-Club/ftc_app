@@ -91,7 +91,6 @@ import com.qualcomm.robotcore.wifi.NetworkConnectionFactory;
 import com.qualcomm.robotcore.wifi.NetworkType;
 import com.qualcomm.robotcore.wifi.WifiDirectAssistant;
 
-import org.firstinspires.ftc.ftccommon.external.SoundPlayingRobotMonitor;
 import org.firstinspires.ftc.ftccommon.internal.FtcRobotControllerWatchdogService;
 import org.firstinspires.ftc.ftccommon.internal.ProgramAndManageActivity;
 import org.firstinspires.ftc.robotcore.internal.hardware.DragonboardLynxDragonboardIsPresentPin;
@@ -317,7 +316,7 @@ public class FtcRobotControllerActivity extends Activity
 
   protected UpdateUI.Callback createUICallback(UpdateUI updateUI) {
     UpdateUI.Callback result = updateUI.new Callback();
-    result.setStateMonitor(new SoundPlayingRobotMonitor());
+    result.setStateMonitor(new ListenHere());
     return result;
   }
 
@@ -481,7 +480,7 @@ public class FtcRobotControllerActivity extends Activity
     }
     else if (id == R.id.action_restart_robot) {
       dimmer.handleDimTimer();
-      AppUtil.getInstance().showToast(UILocation.BOTH, context, context.getString(R.string.toastRestartingRobot));
+      AppUtil.getInstance().showToast(UILocation.BOTH, context, "Hello My Name Is Rachel and I am A Single Unit Of Gracious Proffesionalism");
       requestRobotRestart();
       return true;
     }
