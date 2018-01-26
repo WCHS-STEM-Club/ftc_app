@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
+import org.firstinspires.ftc.teamcode.commands.DriveForDistEst;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.Grab;
 import org.firstinspires.ftc.teamcode.commands.GyroTurn;
@@ -56,28 +57,29 @@ public class Test_OpMode extends LinearOpMode {
     if (opModeIsActive()) {
       sleep(1000);
       robot.getServo("claw").setDefaultPos();
+      telemetry.addData("status", "should set to default pos");
+      telemetry.update();
       sleep(1000);
 
-      telemetry.addData("status", "should have set to default pos");
-      telemetry.update();
 
       new Grab(robot).start();
+      telemetry.addData("status", "a grab should happen");
+      telemetry.update();
       sleep(1000);
 
-      telemetry.addData("status", "a grab should have happened");
-      telemetry.update();
 
       new Release(robot).start();
+      telemetry.addData("status", "a release should happene");
+      telemetry.update();
       sleep(1000);
 
-      telemetry.addData("status", "a release should have happened");
-      telemetry.update();
 
       new GyroTurn(90, robot, telemetry).start();
-
+      telemetry.addData("status", "turning");
+      telemetry.update();
       sleep(1000);
 
-      new DriveForDistance(10, 0.5f, telemetry, robot).start();
+      new DriveForDistEst(3, 6.223f, 1, robot).start();
 
     }
   }
