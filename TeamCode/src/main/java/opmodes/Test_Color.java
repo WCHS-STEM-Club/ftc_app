@@ -46,34 +46,32 @@ import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 @Autonomous(name = "Color Knocking Test", group = "Sensor")
-public class Test_colors extends LinearOpMode {
+public class Test_Color extends LinearOpMode {
 
 
   @Override
   public void runOpMode() throws InterruptedException {
 
     Robot robot = new Robot2017(hardwareMap);
+    ColorSensor test = (ColorSensor) robot.getSensor("color");
 
     while(opModeIsActive()) {
       telemetry.addData("Status", "yes");
       telemetry.update();
 
-      String colors = "";
-
-      sleep(1000);
-      ColorSensor test = (ColorSensor) robot.getSensor("color");
+      String currentcolor = "";
 
       if( test.getSensorValue().blue > test.getSensorValue().red )
-        colors ="blue";
+        currentcolor ="blue";
       else{
-        colors = "red";
+        currentcolor = "red";
       }
 
       telemetry.addData("red", test.getSensorValue().blue);
       telemetry.addData("green", test.getSensorValue().green);
       telemetry.addData("blue", test.getSensorValue().blue);
-      telemetry.addData("color sensed", colors);
-      sleep(1000);
+      telemetry.addData("color sensed", currentcolor);
+
     }
 
     telemetry.addData("sattus", "done");

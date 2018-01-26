@@ -41,7 +41,6 @@ import org.firstinspires.ftc.teamcode.commands.Release;
 @Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {
 
-  // Declare OpMode members.
   private ElapsedTime runtime = new ElapsedTime();
 
   @Override
@@ -51,41 +50,32 @@ public class Test_OpMode extends LinearOpMode {
     telemetry.addData("Status", "Initialized");
     telemetry.update();
 
-    // Wait for the game to start (driver presses PLAY)
-    waitForStart();
+  waitForStart();
     runtime.reset();
 
-    // run until the end of the match (driver presses STOP)
     if (opModeIsActive()) {
-      wait(1000);
-
+      sleep(1000);
       robot.getServo("claw").setDefaultPos();
-      wait(1000);
+      sleep(1000);
 
       telemetry.addData("status", "should have set to default pos");
       telemetry.update();
 
-      Grab test = new Grab(robot);
-      test.start();
-      wait(1000);
+      new Grab(robot).start();
+      sleep(1000);
 
       telemetry.addData("status", "a grab should have happened");
       telemetry.update();
 
-      Release testrelease = new Release(robot);
-      testrelease.start();
-      wait(1000);
+      new Release(robot).start();
+      sleep(1000);
 
       telemetry.addData("status", "a release should have happened");
       telemetry.update();
 
-      GyroTurn testturn = new GyroTurn(90, robot, telemetry);
-      testturn.start();
+      new GyroTurn(90, robot, telemetry).start();
 
-      DriveForDistance testdrive = new DriveForDistance(30, 1, telemetry, robot);
-
-      wait(1000);
-
+      sleep(1000);
 
       new DriveForDistance(10, 0.5f, telemetry, robot).start();
 

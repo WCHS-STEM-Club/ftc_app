@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Sensor: REVColorDistance", group = "Sensor")
+@Autonomous(name = "Sensor: two color sensors", group = "Sensor")
 public class SensorREVColorDistance extends LinearOpMode {
 
   /**
@@ -71,8 +71,8 @@ public class SensorREVColorDistance extends LinearOpMode {
   public void runOpMode() {
 
     // get a reference to the color sensor.
-    sensorColor = hardwareMap.get(ColorSensor.class, "color");
-    sensorColor2 = hardwareMap.get(ColorSensor.class, "color2");
+    sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
+    sensorColor2 = hardwareMap.get(ColorSensor.class, "color_sensor_2");
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
     float hsvValues[] = {0F, 0F, 0F};
