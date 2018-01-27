@@ -21,7 +21,7 @@ public class VuMarkIdentify implements Sensor {
   private final String licenceKey = "AVe/9AP/////AAAAmeNenbwd9E/Rq2fv3JjhC4khnm7De7Eq/w9wTxBd1Xu8w+g5hAnBXWyAhNpCY5my63ZPUGsdiGqhavffUHyISwN5Qo1KVp3AQ3ASwOmawvB7Bk2kLvlWrXf+zvC9imQHUB84p+jY+N2vM0Ktav/a93d9WCsAZPqiyEPOAHcylbSj93MtF3lwCLwX3beL5MpKirkqHaVZ640fq9jDgcxShcFjePxPfobVP9ZwLu5orXYTujxh149OdNj14FYuo2pf/jzym6+zRmat7SuVTlFVymPEtwhr9DH9Kr/gTSKKWAwxrmfeuUFmZOG7CK99+m8+4O9/NFWSLNfqyLHScaXrE9G/SRiCE89g9jXPhPuP8uJY";
 
   private VuforiaTrackable template;
-
+  private VuforiaLocalizer.CameraDirection direction = VuforiaLocalizer.CameraDirection.BACK;//back by default
   /**
    * Constructor
    *
@@ -40,7 +40,7 @@ public class VuMarkIdentify implements Sensor {
         new VuforiaLocalizer.Parameters();
 
     parameters.vuforiaLicenseKey = this.licenceKey;
-    parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK; // Or, FRONT/selfie cam
+    parameters.cameraDirection = direction; // Or, FRONT/selfie cam
     VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
     VuforiaTrackables trackables = vuforia.loadTrackablesFromAsset(assetName);
@@ -63,5 +63,9 @@ public class VuMarkIdentify implements Sensor {
   @Override
   public boolean calibrate() {
     return true;
+  }
+
+  public void changeDirection(VuforiaLocalizer.CameraDirection newDirection){
+    direction = newDirection;
   }
 }

@@ -4,10 +4,11 @@ public class AllianceGetter {
 
   public enum Alliance {
     RED,
-    BLUE
+    BLUE,
+    UNKNOWN
   }
 
-  private static Alliance alliance;
+  private static Alliance alliance=Alliance.UNKNOWN;
 
   public static void setAlliance(Alliance newAlliance) {
     alliance = newAlliance;

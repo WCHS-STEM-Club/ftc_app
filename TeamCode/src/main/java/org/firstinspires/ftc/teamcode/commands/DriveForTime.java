@@ -24,7 +24,7 @@ public class DriveForTime extends Command {
    */
   public DriveForTime(float seconds, float power, Robot robot) {
     this.seconds = seconds;
-    this.power = power;
+    this.power = -1*power;
     this.robot = robot;
     this.gyro = (MrGyro) robot.getSensor("gyro");
   }

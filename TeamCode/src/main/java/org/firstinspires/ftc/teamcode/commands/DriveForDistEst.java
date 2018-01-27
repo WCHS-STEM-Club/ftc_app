@@ -23,7 +23,7 @@ public class DriveForDistEst extends Command {
   public DriveForDistEst(float distance, float speed, float power, Robot robot) {
     float speedAtPower = speed * power; // Assume that power is linear here
     this.seconds = distance / speedAtPower; // Time from distance and speed
-    this.power = power;
+    this.power = -1 * power;
     this.robot = robot;
   }
 

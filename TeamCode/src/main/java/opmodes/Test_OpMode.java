@@ -55,32 +55,36 @@ public class Test_OpMode extends LinearOpMode {
     runtime.reset();
 
     if (opModeIsActive()) {
-      sleep(1000);
-      robot.getServo("claw").converge();
-      robot.getServo("claw").setDefaultPos();
-      telemetry.addData("status", "should set to default pos");
+//      sleep(1000);
+//      robot.getServo("claw").converge();
+//      robot.getServo("claw").setDefaultPos();
+//      telemetry.addData("status", "should set to default pos");
+//      telemetry.update();
+//      sleep(1000);
+//
+//
+//      new Grab(robot).start();
+//      telemetry.addData("status", "a grab should happen");
+//      telemetry.update();
+//      sleep(1000);
+//
+//
+//      new Release(robot).start();
+//      telemetry.addData("status", "a release should happene");
+//      telemetry.update();
+//      sleep(1000);
+//
+//
+//      new GyroTurn(90, robot, telemetry).start();
+//      telemetry.addData("status", "turning");
+//      telemetry.update();
+//      sleep(1000);
+
+      new DriveForDistEst((float) 10, 6.223f, 1, robot).start();
+
+      telemetry.addData("should have gone", "about a meter");
       telemetry.update();
-      sleep(1000);
 
-
-      new Grab(robot).start();
-      telemetry.addData("status", "a grab should happen");
-      telemetry.update();
-      sleep(1000);
-
-
-      new Release(robot).start();
-      telemetry.addData("status", "a release should happene");
-      telemetry.update();
-      sleep(1000);
-
-
-      new GyroTurn(90, robot, telemetry).start();
-      telemetry.addData("status", "turning");
-      telemetry.update();
-      sleep(1000);
-
-      new DriveForDistEst(3f, 6.223f, 1, robot).start();
 
     }
   }
