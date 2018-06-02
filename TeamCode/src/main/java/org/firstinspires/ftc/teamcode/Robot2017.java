@@ -48,7 +48,7 @@ public class Robot2017 extends Robot {
 
     lift.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
 
-    addOtherMotor("lift", new MotorGroup(1, 1, lift));
+    addOtherMotor("lift", new MotorGroup(lift));
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));

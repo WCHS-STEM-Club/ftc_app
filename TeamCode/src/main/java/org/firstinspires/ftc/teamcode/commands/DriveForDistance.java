@@ -67,9 +67,10 @@ public class DriveForDistance extends Command {
    * @param opMode The LinearOpMode in which the command is being run
    */
   public DriveForDistance(double distance, double power, Robot robot, LinearOpMode opMode) {
-    this.distance = (int) Units.decimeter.to(distance, Units.tetrixEncoder);
+    this.distance = distance;
     this.power = power;
     this.robot = robot;
+    this.unit = Units.decimeter;
   }
 
   @Override
@@ -78,8 +79,8 @@ public class DriveForDistance extends Command {
 
     PidController pid = new PidController();
 
-    robot.getTurnMotor(1).goForDistance(distance, power);
-    robot.getTurnMotor(0).goForDistance(distance, power);
+    robot.getTurnMotor(1).goForDistance(distance, this.unit, power);
+    robot.getTurnMotor(0).goForDistance(distance, this.unit, power);
 
     while (robot.forwardMotors.isBusy()) {
       int gyroResult = (int) gyro.getSensorValue();

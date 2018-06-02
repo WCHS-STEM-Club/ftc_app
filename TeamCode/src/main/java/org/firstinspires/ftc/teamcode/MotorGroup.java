@@ -153,12 +153,12 @@ public class MotorGroup {
   /**
    * Set the motors to some distance
    *
-   * @param distance Distance in decimeters
+   * @param distance Distance in unit
+   * @param unit Unit for distance
    * @param power Power from 1 to 0
    */
-  public void setDistance(float distance, float power) {
-    float mmDist = distance * 100; // Decimeters to millimeters
-    int clicks = (int) (mmDist * (float) (X_CLICKS / MM_PER_X_CLICKS)); // Distance -> clicks
+  public void setDistance(double distance, Unit unit, double power) {
+    int clicks = (int) unit.to(distance, encoderUnit);
 
     for (DcMotor motor : this.motors) {
       motor.setTargetPosition(clicks);
@@ -169,7 +169,7 @@ public class MotorGroup {
     setPower(power);
   }
 
-  public void setClicks(int clicks, float power) {
+  public void setClicks(int clicks, double power) {
     for (DcMotor motor : this.motors) {
       motor.setTargetPosition(clicks);
       motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -179,19 +179,18 @@ public class MotorGroup {
   }
 
   public int getAverageClicks() {
-    float total = 0;
+    int total = 0;
 
     for (DcMotor motor : motors) {
       total += motor.getCurrentPosition();
     }
 
-    return ((int) total / motors.length); // Average
+    return total / motors.length; // Average
   }
 
-  public float getAverageDistance() {
+  public double getAverageDistance(Unit resultUnit) {
     int clicks = getAverageClicks();
-    float mm = ((float) MM_PER_X_CLICKS / (float) X_CLICKS) * (float) clicks; // Clicks -> mm
-    return (1.0f / 100.0f) * mm; // mm -> dm
+    return encoderUnit.to(clicks, resultUnit);
   }
 
   /**

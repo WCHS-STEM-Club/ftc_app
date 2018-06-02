@@ -38,7 +38,7 @@ public class Vuforia_OpMode extends LinearOpMode {
 
   @Override
   public void runOpMode() {
-    Sensor vuMark = new VuMarkIdentify("RelicVuMark", hardwareMap, true);
+    VuMarkIdentify vuMark = new VuMarkIdentify("RelicVuMark", hardwareMap, true);
 
     telemetry.addData("Status", "Initialized");
     telemetry.update();
@@ -46,7 +46,7 @@ public class Vuforia_OpMode extends LinearOpMode {
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("VuMark", vuMark.getSensorValue());
+      telemetry.addData("VuMark", vuMark.readVuMark());
       telemetry.update();
     }
   }

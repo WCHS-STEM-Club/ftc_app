@@ -8,7 +8,7 @@ public class ServoGroup {
   private double mMidwayPoint;
   private Servo[] mServos;
 
-  public ServoGroup(double midwayPoint, Servo... servos) {
+  public ServoGroup(Servo... servos) {
     if (ParamCheck.isNull(servos)) {
       throw new IllegalArgumentException("Cannot have null servos");
     }
@@ -57,7 +57,7 @@ public class ServoGroup {
 
 
   public String[] getDirection() {
-    String[] directionList = new String[servos.length];
+    String[] directionList = new String[mServos.length];
     for (int x = 0; x < mServos.length; x++) {
       directionList[x] = mServos[x].getDirection().name();
     }
