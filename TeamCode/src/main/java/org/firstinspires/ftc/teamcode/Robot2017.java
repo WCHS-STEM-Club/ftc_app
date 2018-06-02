@@ -35,23 +35,10 @@ public class Robot2017 extends Robot {
     leftDrive.setDirection(DcMotor.Direction.FORWARD);
     rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-    setForwardMotors(new MotorGroup(
-        1440,
-        319,
-        leftDrive,
-        rightDrive
-    ));
-    setTurnMotors(new MotorGroup[]{
-        new MotorGroup(
-            1440,
-            319,
-            leftDrive
-        ),
-        new MotorGroup(
-            1440,
-            319,
-            rightDrive
-        )
+    setForwardMotors(new MotorGroup(leftDrive, rightDrive));
+    setTurnMotors(new MotorGroup[] {
+        new MotorGroup(rightDrive),
+        new MotorGroup(leftDrive)
     });
     setStrafeMotors(null); // This line is optional: it disables strafe, disabled is default
 

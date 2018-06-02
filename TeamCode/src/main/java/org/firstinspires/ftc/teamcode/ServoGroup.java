@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.Servo.Direction;
 
 public class ServoGroup {
 
-  private double midwayPoint;
-  private Servo[] servos;
+  private double mMidwayPoint;
+  private Servo[] mServos;
 
-  public ServoGroup(Servo... servos) {
+  public ServoGroup(double midwayPoint, Servo... servos) {
     if (ParamCheck.isNull(servos)) {
       throw new IllegalArgumentException("Cannot have null servos");
     }
@@ -17,19 +17,20 @@ public class ServoGroup {
       throw new IllegalArgumentException("There can be no null objects in servos");
     }
 
-    this.midwayPoint = Servo.MAX_POSITION + Servo.MIN_POSITION / 2;
-    this.servos = servos;
+    this.mMidwayPoint = Servo.MAX_POSITION + Servo.MIN_POSITION / 2;
+    this.mServos = servos;
   }
 
   /**
    * Halt all servos in the group.
    */
   public void stop() {
-    for (Servo servo : this.servos) {
+    for (Servo servo : this.mServos) {
       servo.setPosition(servo.getPosition()); // Set it to where it is so it has nowhere to go
     }
   }
 
+  // TODO: Servo units are weird and don't exist within Units, so add to Units ASAP after figuring out how they work
   public void setAngle(double degrees) {
     // Force degrees between 0 and 360
     while (degrees >= 360) {
@@ -39,7 +40,7 @@ public class ServoGroup {
       degrees += 360;
     }
 
-    for (Servo servo : this.servos) {
+    for (Servo servo : this.mServos) {
       servo.setPosition(toServoUnits(degrees));
     }
   }
@@ -49,7 +50,7 @@ public class ServoGroup {
       throw new IllegalArgumentException("Cannot have null newDirection");
     }
 
-    for (Servo servo : this.servos) {
+    for (Servo servo : this.mServos) {
       servo.setDirection(newDirection);
     }
   }
@@ -57,15 +58,15 @@ public class ServoGroup {
 
   public String[] getDirection() {
     String[] directionList = new String[servos.length];
-    for (int x = 0; x < servos.length; x++) {
-      directionList[x] = servos[x].getDirection().name();
+    for (int x = 0; x < mServos.length; x++) {
+      directionList[x] = mServos[x].getDirection().name();
     }
     return directionList;
   }
 
   public void setDefaultPos() {
-    for (Servo servo : this.servos) {
-      servo.setPosition(midwayPoint); // midway point being default position
+    for (Servo servo : this.mServos) {
+      servo.setPosition(mMidwayPoint); // midway point being default position
     }
   }
 
@@ -76,7 +77,7 @@ public class ServoGroup {
    * @param newMax Maximum value in degrees
    */
   public void scaleServos(double newMin, double newMax) {
-    for (Servo servo : this.servos) {
+    for (Servo servo : this.mServos) {
       servo.scaleRange(newMin, newMax);
     }
   }
@@ -84,16 +85,16 @@ public class ServoGroup {
   // since this really only matters in the case of servos oriented in a specific way, we're just
   // going to do a lot of assumption here
   public void converge() {
-    servos[0].setDirection(Servo.Direction.FORWARD);
-    servos[1].setDirection(Servo.Direction.REVERSE);
+    mServos[0].setDirection(Servo.Direction.FORWARD);
+    mServos[1].setDirection(Servo.Direction.REVERSE);
   }
 
   public Servo getServo(int servoIndex) {
-    if (servoIndex >= servos.length) {
+    if (servoIndex >= mServos.length) {
       throw new IllegalArgumentException("Cannot have out of bounds servoIndex");
     }
 
-    return servos[servoIndex];
+    return mServos[servoIndex];
   }
 
 

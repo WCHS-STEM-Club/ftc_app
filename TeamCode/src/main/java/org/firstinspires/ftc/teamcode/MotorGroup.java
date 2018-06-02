@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.nathanvarner.units.Unit;
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.util.Range;
@@ -20,33 +22,16 @@ public class MotorGroup {
   private boolean encodersReset = false;
 
   /**
-   * Some number of encoder clicks.
+   * The unit that encoder clicks are in.
    */
-  public final int X_CLICKS;
-  /**
-   * Some distance that the motors move every X_CLICKS encoder clicks.
-   */
-  public final double MM_PER_X_CLICKS;
+  public final Unit encoderUnit;
 
   /**
-   * Constructor
+   * Constructor that assumes Tetrix encoders
    *
-   * @param xClicks Some number of encoder clicks
-   * @param mmPerXClicks Some distance that the motors move every X_CLICKS encoder clicks
    * @param motors The list of motors that make up the group
    */
-  public MotorGroup(int xClicks, double mmPerXClicks, DcMotor... motors) {
-    if (xClicks == 0 || mmPerXClicks == 0) { // Prevent divide by zero error
-      throw new IllegalArgumentException("xClicks and mmPerXClicks cannot be zero.");
-    }
-    // TODO: Make the below if statements throw errors, or invert the value?
-    if (!ParamCheck.isPositive(xClicks)) {
-      xClicks *= -1; // Or, could throw an error. Probably better to just invert it.
-    }
-    if (!ParamCheck.isPositive(mmPerXClicks)) {
-      mmPerXClicks *= -1; // Or, could throw an error. Probably better to just invert it.
-    }
-
+  public MotorGroup(DcMotor... motors) {
     if (ParamCheck.isNull(motors)) {
       throw new IllegalArgumentException("motors cannot be null.");
     }
@@ -55,8 +40,28 @@ public class MotorGroup {
       throw new IllegalArgumentException("There may be no null motors in a MotorGroup.");
     }
 
-    this.X_CLICKS = xClicks;
-    this.MM_PER_X_CLICKS = mmPerXClicks;
+    this.encoderUnit = Units.tetrixEncoder;
+    this.motors = motors;
+
+    resetEncoders();
+  }
+
+  /**
+   * Full constructor
+   *
+   * @param encoderUnit The units that the encoders are in
+   * @param motors The list of motors that make up the group
+   */
+  public MotorGroup(Unit encoderUnit, DcMotor... motors) {
+    if (ParamCheck.isNull(motors)) {
+      throw new IllegalArgumentException("motors cannot be null.");
+    }
+
+    if (ParamCheck.containsNull(motors)) {
+      throw new IllegalArgumentException("There may be no null motors in a MotorGroup.");
+    }
+
+    this.encoderUnit = encoderUnit;
     this.motors = motors;
 
     disableEncoders(); // Solve a bug that was being caused by having no RunMode
@@ -70,7 +75,7 @@ public class MotorGroup {
    * motors will turn off. To turn the motors off, don't use this method, use either {@link
    * MotorGroup#brake()} or {@link MotorGroup#coast()}.
    */
-  public void setPower(float power) {
+  public void setPower(double power) {
     power = Range.clip(power, -1, 1); // Power should be in this range
 
     for (DcMotor motor : this.motors) {
@@ -124,11 +129,16 @@ public class MotorGroup {
   /**
    * Move the motors for some distance
    *
-   * @param distance Distance in decimeters
+   * @param distance Distance in units
+   * @param unit The units that distance is in
+   * @param power Power between -1 and 1, -1 is reverse max, 1 is forward max
    */
-  public void goForDistance(float distance, float power) {
-    float mmDist = distance * 100; // Decimeters to millimeters
-    int clicks = (int) (mmDist * (float) (X_CLICKS / MM_PER_X_CLICKS)); // Distance -> clicks
+  public void goForDistance(double distance, Unit unit, double power) {
+    if (!encodersReset) {
+      resetEncoders();
+    }
+
+    int clicks = (int) unit.to(distance, encoderUnit);
 
     for (DcMotor motor : this.motors) {
       int target = motor.getCurrentPosition() + clicks;

@@ -55,8 +55,7 @@ public class VuMarkIdentify implements Sensor {
    *
    * @return RelicRecoveryVuMark, an enum that could be LEFT, RIGHT, CENTER, or UNKNOWN
    */
-  @Override
-  public RelicRecoveryVuMark getSensorValue() {
+  public RelicRecoveryVuMark readVuMark() {
     return RelicRecoveryVuMark.from(this.template);
   }
 

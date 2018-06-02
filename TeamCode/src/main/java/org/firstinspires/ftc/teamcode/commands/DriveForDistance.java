@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import android.os.AsyncTask;
+import com.nathanvarner.units.Unit;
+import com.nathanvarner.units.Units;
+import opmodes.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
@@ -9,9 +13,10 @@ import org.firstinspires.ftc.teamcode.sensors.MrGyro;
  */
 public class DriveForDistance extends Command {
 
-  private float distance;
-  private float power;
+  private double distance;
+  private double power;
   private Robot robot;
+  private Unit unit;
   private MrGyro gyro;
   private Telemetry telemetry;
 
@@ -20,19 +25,51 @@ public class DriveForDistance extends Command {
   private final double kd = 0;
 
   /**
-   * Constructor
+   * Full constructor
    *
-   * @param distance The distance in decimeters (1/10th of a meter/good unit) for the robot to
-   * drive
+   * @param distance The distance in units for the robot to drive
+   * @param unit The unit that distance is in
+   * @param encoderUnit The unit that the encoder uses, like {@link Units#tetrixEncoder}
    * @param power The motors' power, scale from 0 to 1
-   * @param robot Provides access to the motor
+   * @param robot Provides access to the motors
    */
-  public DriveForDistance(float distance, float power, Telemetry telemetry, Robot robot) {
+  public DriveForDistance(double distance, Unit unit, Unit encoderUnit, double power, Telemetry telemetry, Robot robot) {
     this.distance = distance;
     this.power = power;
     this.robot = robot;
+    this.unit = unit;
     this.gyro = (MrGyro) robot.getSensor("gyro");
     this.telemetry = telemetry;
+  }
+
+  /**
+   * By default uses {@link Units#tetrixEncoder} as the encoder units
+   *
+   * @param distance The distance in for the robot to drive
+   * @param unit The unit that distance is in
+   * @param power The motors' power, scale from 0 to 1
+   * @param robot Provides access to the motors
+   * @param opMode The LinearOpMode in which the command is being run
+   */
+  public DriveForDistance(double distance, Unit unit, double power, Robot robot, LinearOpMode opMode) {
+    this.distance = distance;
+    this.power = power;
+    this.robot = robot;
+    this.unit = unit;
+  }
+
+  /**
+   * By default uses {@link Units#tetrixEncoder} as the encoder units and {@link Units#decimeter} as the input units
+   *
+   * @param distance The distance in for the robot to drive in decimeters
+   * @param power The motors' power, scale from 0 to 1
+   * @param robot Provides access to the motors
+   * @param opMode The LinearOpMode in which the command is being run
+   */
+  public DriveForDistance(double distance, double power, Robot robot, LinearOpMode opMode) {
+    this.distance = (int) Units.decimeter.to(distance, Units.tetrixEncoder);
+    this.power = power;
+    this.robot = robot;
   }
 
   @Override

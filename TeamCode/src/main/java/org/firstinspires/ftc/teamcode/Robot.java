@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import java.util.HashMap;
 import org.firstinspires.ftc.teamcode.sensors.Sensor;
 
+/**
+ * Abstract class that yearly robots extend. Has the basic functionality that a robot needs.
+ */
 public abstract class Robot {
 
   /**
-   * If the robot's variables have been initialised. Be sure to check this variable before trying to
+   * True if the robot's variables have been initialised. Be sure to check this variable before trying to
    * access {@link Robot#forwardMotors}, {@link Robot#turnMotors}, or {@link Robot#strafeMotors}.
    */
   public boolean ready = false;
@@ -25,6 +28,7 @@ public abstract class Robot {
    * {@link Robot#setForwardMotors(MotorGroup)}.
    */
   public MotorGroup forwardMotors;
+
   /**
    * The motors that are used to turn the robot. On a right turn, element 0 motors will move forward
    * while element 1 motors will move backwards, and vice versa for left turns. This must be not
@@ -33,6 +37,7 @@ public abstract class Robot {
    * {@link Robot#setTurnMotors(MotorGroup[])}.
    */
   private MotorGroup[] turnMotors;
+
   /**
    * The motors that are used to strafe the robot. On a right strafe, element 0 motors will move
    * forward while element 1 motors will move backwards, and vice versa for left strafes. This may
@@ -112,13 +117,13 @@ public abstract class Robot {
   private HashMap<String, ServoGroup> servos = new HashMap<>();
 
   /**
-   * Constructor
+   * Main constructor without other motors.
    *
    * @param forwardMotors A MotorGroup with motors that go forward when you want to go forward.
    * @param turnMotors A list of MotorGroups. On a right turn, element 0 goes forward and 1 goes
-   * backward.
+   *                   backward.
    * @param strafeMotors A list of MotorGroups. On a strafe right, element 0 goes forward and 1 goes
-   * backward.
+   *                     backward.
    */
   public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors) {
     setForwardMotors(forwardMotors);
@@ -126,6 +131,17 @@ public abstract class Robot {
     setStrafeMotors(strafeMotors);
   }
 
+    /**
+     * Constructor with other motors.
+     *
+     * @param forwardMotors A MotorGroup with motors that go forward when you want to go forward.
+     * @param turnMotors A list of MotorGroups. On a right turn, element 0 goes forward and 1 goes
+     *                   backward.
+     * @param strafeMotors A list of MotorGroups. On a strafe right, element 0 goes forward and 1
+     *                     goes backward.
+     * @param otherMotors A HashMap of MotorGroups. Any can be accessed at any time and are not used
+     *                    for movement.
+     */
   public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors,
       HashMap<String, MotorGroup> otherMotors) {
     setForwardMotors(forwardMotors);
@@ -136,9 +152,10 @@ public abstract class Robot {
 
   /**
    * Default constructor. If used, the robot will not be ready by default. You must add forward,
-   * turn, and optionally strafe motors using {@link Robot#setForwardMotors(MotorGroup)},
-   * {@link Robot#setTurnMotors(MotorGroup[])}, and {@link Robot#setStrafeMotors(MotorGroup[])},
-   * respectively.
+   * turn, and optionally strafe motors or other motors using
+   * {@link Robot#setForwardMotors(MotorGroup)}, {@link Robot#setTurnMotors(MotorGroup[])},
+   * {@link Robot#setStrafeMotors(MotorGroup[])}, and
+   * {@link Robot#addOtherMotor(String, MotorGroup)} respectively.
    */
   public Robot() {
     // Not ready, so motors must be added some other way

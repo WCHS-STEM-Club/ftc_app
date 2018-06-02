@@ -14,13 +14,13 @@
 apply from: '../build.common.gradle'
 
 android {
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     testOptions {
         unitTests.returnDefaultValues = true // Stop errors from being thrown when we use Android
     }
     compileSdkVersion 23
 }
 dependencies {
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
 }

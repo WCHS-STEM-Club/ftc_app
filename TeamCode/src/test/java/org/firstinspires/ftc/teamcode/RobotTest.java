@@ -94,6 +94,41 @@ public class RobotTest {
   }
 
   /**
+   * Ensure that when passed null, strafe motors disable
+   */
+  @Test
+  public void setStrafeMotors_null() {
+    robot.setStrafeMotors(null);
+    robot.ready = true;
+
+    assertEquals("Setting strafeMotors to null doesn't disable strafe", false, robot.canStrafe);
+  }
+
+  @Test
+  public void setStrafeMotors_notLongEnough() {
+    try {
+      robot.setStrafeMotors(new MotorGroup[]{mock(MotorGroup.class)});
+      fail("Exception expected");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    } catch (Exception e) {
+      fail("Wrong exception");
+    }
+  }
+
+  @Test
+  public void setStrafeMotors_nullListItem() {
+    try {
+      robot.setStrafeMotors(new MotorGroup[]{null, null});
+      fail("Robot should have thrown an IllegalArgumentException with a null list item");
+    } catch (IllegalArgumentException e) {
+      // Expecting this exception, pass
+    } catch (Exception e) {
+      fail("Wrong exception");
+    }
+  }
+
+  /**
    * Ensure that add/getOtherMotor and otherMotorExists work as expected
    */
   @Test
@@ -111,11 +146,52 @@ public class RobotTest {
         robot.getOtherMotor(key));
   }
 
+  @Test
+  public void addOtherMotor_null() {
+    try {
+      robot.addOtherMotor("test", null);
+      fail("Exception expected");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception");
+    }
+  }
+
+  @Test
+  public void addOtherMotor_duplicate() {
+    robot.addOtherMotor("test", mock(MotorGroup.class));
+
+    try {
+      robot.addOtherMotor("test", mock(MotorGroup.class));
+      fail("Excaption expected");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception");
+    }
+  }
+
+  @Test
+  public void getOtherMotor_nonexistent() {
+    try {
+      robot.getOtherMotor("fake");
+      fail("Should have thrown exception");
+    } catch (IllegalArgumentException e) {
+      // Expected, pass
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception");
+    }
+  }
+
   /**
    * Ensure that add/getSensor and sensorExists work as expected
    */
   @Test
-  public void sensor() {
+  public void addSensor_sensorExist() {
     String key = "key";
     Sensor sensor = new ColorSensor(mock(NormalizedColorSensor.class), false);
 
@@ -126,5 +202,52 @@ public class RobotTest {
 
     assertEquals("Sensor failed to store properly or retrieve properly.", sensor,
         robot.getSensor(key));
+  }
+
+  @Test
+  public void addSensor_duplicateKey() {
+    robot.addSensor("test", mock(Sensor.class));
+
+    try {
+      robot.addSensor("test", mock(Sensor.class));
+      fail("Should have thrown exception");
+    } catch (IllegalArgumentException e) {
+      // Expected, pass
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception thrown");
+    }
+  }
+
+  /**
+   * Should throw exception if a null value is passed
+   */
+  @Test
+  public void addSensor_nullValue() {
+    try {
+      robot.addSensor("test", null);
+      fail("Should have thrown exception");
+    } catch (IllegalArgumentException e) {
+      // Expected, pass
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception thrown");
+    }
+  }
+
+  /**
+   * Should throw exception if a nonexistent sensor is requested
+   */
+  @Test
+  public void getSensor_nonexistent() {
+    try {
+      robot.getSensor("fake");
+      fail("Should have thrown exception");
+    } catch (IllegalArgumentException e) {
+      // This is the expected exception
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Wrong exception thrown");
+    }
   }
 }

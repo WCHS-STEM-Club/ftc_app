@@ -38,6 +38,10 @@ import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.Grab;
 import org.firstinspires.ftc.teamcode.commands.GyroTurn;
 import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.commands.DriveForTime;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
+import org.firstinspires.ftc.teamcode.sensors.Sensor;
+import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 @Autonomous(name = "Test OpMode", group = "Linear Opmode")
 public class Test_OpMode extends LinearOpMode {

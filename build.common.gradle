@@ -94,7 +94,7 @@ android {
     }
 
     sourceSets {
-        unitTest {
+        test {
             java.srcDir('test')
         }
     }

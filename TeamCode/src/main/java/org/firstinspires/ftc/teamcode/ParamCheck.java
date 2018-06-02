@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Class with all static methods to check values, especially parameters.
  */
-abstract class ParamCheck {
+public class ParamCheck {
 
   /**
    * Checks an array and sees it it is of some length.
