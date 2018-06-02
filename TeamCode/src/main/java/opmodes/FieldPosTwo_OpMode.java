@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.commands.Grab;
 import org.firstinspires.ftc.teamcode.commands.GyroTurn;
 import org.firstinspires.ftc.teamcode.commands.MoveKnocker;
 import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
  * Created by rachel on 1/20/2018.
@@ -92,17 +93,18 @@ public class FieldPosTwo_OpMode extends LinearOpMode {
       sleep(1000);
 
       //vu
+      VuMarkIdentify vuMarkIdentify = (VuMarkIdentify) robot.getSensor("vuMarkPictograph");
 
-      telemetry.addData("mark: ", robot.getSensor("vuMarkPictograph").getSensorValue());
+      telemetry.addData("mark: ", vuMarkIdentify.readVuMark());
       telemetry.update();
 
       float cryptoboxdist = .0f;
 
-      if(robot.getSensor("vuMarkPictograph").getSensorValue() == RelicRecoveryVuMark.LEFT){
+      if(vuMarkIdentify.readVuMark() == RelicRecoveryVuMark.LEFT){
               cryptoboxdist += (float) 4;
-      }else if(robot.getSensor("vuMarkPictograph").getSensorValue() == RelicRecoveryVuMark.CENTER){
+      }else if(vuMarkIdentify.readVuMark() == RelicRecoveryVuMark.CENTER){
             cryptoboxdist += (float)  6;
-      }else if(robot.getSensor("vuMarkPictograph").getSensorValue() == RelicRecoveryVuMark.RIGHT){
+      }else if(vuMarkIdentify.readVuMark() == RelicRecoveryVuMark.RIGHT){
         cryptoboxdist += (float) 8;
       }else{
         cryptoboxdist += (float) 4; //default pos is left

@@ -55,8 +55,7 @@ public class ColorSensor implements Sensor {
    * @return {@link NormalizedRGBA}, contains R(ed) G(reen) B(lue) and A(lpha)/transparency, A
    * should be irrelevant.
    */
-  @Override
-  public NormalizedRGBA getSensorValue() {
+  public NormalizedRGBA readColor() {
     NormalizedRGBA color = this.colorSensor.getNormalizedColors();
     color.red /= this.maxR;
     color.green /= this.maxG;

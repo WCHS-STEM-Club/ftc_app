@@ -32,7 +32,7 @@ public class DriveForTime extends Command {
   @Override
   boolean execute() {
     // This is like calibration in that it will be used to reset the gyro to 0
-    int gyroStart = (int) gyro.getSensorValue();
+    int gyroStart = (int) gyro.read();
 
     double kp = 0.01;
     double ki = 0;
@@ -47,7 +47,7 @@ public class DriveForTime extends Command {
 
     // Run while we still have time to wait
     while (runtime.milliseconds() / 1000 < this.seconds) {
-      int gyroResult = (int) gyro.getSensorValue() - gyroStart;
+      int gyroResult = (int) gyro.read() - gyroStart;
       while (gyroResult > 180) {
         gyroResult -= 360;
       }

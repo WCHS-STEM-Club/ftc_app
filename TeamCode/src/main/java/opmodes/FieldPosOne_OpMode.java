@@ -1,5 +1,6 @@
 package opmodes;
 
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.robotcontroller.external.AllianceGetter;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.commands.Grab;
 import org.firstinspires.ftc.teamcode.commands.GyroTurn;
 import org.firstinspires.ftc.teamcode.commands.MoveKnocker;
 import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
  * Created by rachel on 1/20/2018.
@@ -69,8 +71,8 @@ public class FieldPosOne_OpMode extends LinearOpMode {
 
 
       //vu
-
-      telemetry.addData("mark: ", robot.getSensor("vuMarkPictograph").getSensorValue());
+      VuMarkIdentify vuMarkIdentify = (VuMarkIdentify) robot.getSensor("vuMarkPictograph");
+      telemetry.addData("mark: ", vuMarkIdentify.readVuMark());
       telemetry.update();
       sleep(4000);
 
@@ -80,7 +82,7 @@ public class FieldPosOne_OpMode extends LinearOpMode {
       sleep(1000);
 
       //turn
-      new GyroTurn(-90f, robot, telemetry).start();
+      new GyroTurn(-90, Units.degree, 1, robot, telemetry).start();
       telemetry.addData("currently: ", "should have turned left 90");
       telemetry.update();
       sleep(1000);

@@ -30,6 +30,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
@@ -44,21 +45,14 @@ public class MotorGroupTest {
   @Test
   public void MotorGroup_error() {
     try {
-      new MotorGroup(0, 0.0, mock(DcMotor.class));
-      fail("Failed to throw IllegalArgumentException when one should be thrown.");
-    } catch (IllegalArgumentException e) {
-      // We're expecting this exception, this is a pass
-    }
-
-    try {
-      new MotorGroup(1, 1.0, null);
+      new MotorGroup((DcMotor[]) null);
       fail("Did not throw IllegalArgumentException for null motor.");
     } catch (IllegalArgumentException e) {
       // Expecting exception, pass
     }
 
     try {
-      new MotorGroup(1, 1.0, mock(DcMotor.class), null);
+      new MotorGroup(mock(DcMotor.class), null);
       fail("Did not throw IllegalArgumentException for null motor.");
     } catch (IllegalArgumentException e) {
       // Expecting exception, pass
@@ -72,15 +66,9 @@ public class MotorGroupTest {
   public void MotorGroup_construction() {
     DcMotor motor = mock(DcMotor.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
-    if (!(motorGroup.X_CLICKS == 1) || !(motorGroup.MM_PER_X_CLICKS == 1.0)) {
-      fail("MotorGroup didn't save X_CLICKS or MM_X_CLICKS in the constructor.");
-    }
-
-    motorGroup = new MotorGroup(-1, -1.0, motor);
-    if (!(motorGroup.X_CLICKS == 1) || !(motorGroup.MM_PER_X_CLICKS == 1.0)) {
-      fail("MotorGroup didn't save X_CLICKS or MM_X_CLICKS in the constructor or didn't change "
-          + "negative to positive.");
+    MotorGroup motorGroup = new MotorGroup(Units.decimeter, motor);
+    if (!(motorGroup.encoderUnit == Units.decimeter)) {
+      fail("MotorGroup didn't save encoder units");
     }
   }
 
@@ -92,31 +80,31 @@ public class MotorGroupTest {
     DcMotor motor = mock(DcMotor.class);
     ArgumentCaptor<Double> motorPowerArg = ArgumentCaptor.forClass(Double.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
+    MotorGroup motorGroup = new MotorGroup(motor);
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Full force
     motorGroup.setPower(1.0f);
     verify(motor).setPower(motorPowerArg.capture());
     assertEquals("Didn't set motor power to 1.0", 1.0, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Fraction
     motorGroup.setPower(0.5f);
     verify(motor).setPower(motorPowerArg.capture());
     assertEquals("Didn't set motor power to 0.5", 0.5, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Zero
     motorGroup.setPower(0.0f);
     verify(motor).setPower(motorPowerArg.capture());
     assertEquals("Didn't set motor power to 0.0", 0.0, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Negative
     motorGroup.setPower(-0.5f);
     verify(motor).setPower(motorPowerArg.capture());
@@ -131,7 +119,7 @@ public class MotorGroupTest {
     DcMotor motor = mock(DcMotor.class);
     ArgumentCaptor<Double> motorPowerArg = ArgumentCaptor.forClass(Double.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
+    MotorGroup motorGroup = new MotorGroup(motor);
 
     // Trim down
     motorGroup.setPower(100);
@@ -139,21 +127,21 @@ public class MotorGroupTest {
     assertEquals("Didn't trim motor power down", 1.0, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Trim down a float
     motorGroup.setPower(57.3f);
     verify(motor).setPower(motorPowerArg.capture());
     assertEquals("Didn't trim motor power float down", 1.0, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Trim up
     motorGroup.setPower(-100);
     verify(motor).setPower(motorPowerArg.capture());
     assertEquals("Didn't trim motor power up", -1.0, motorPowerArg.getValue());
 
     motor = mock(DcMotor.class);
-    motorGroup = new MotorGroup(1, 1.0, motor);
+    motorGroup = new MotorGroup(motor);
     // Trim up float
     motorGroup.setPower(-57.3f);
     verify(motor).setPower(motorPowerArg.capture());
@@ -169,7 +157,7 @@ public class MotorGroupTest {
     ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
     ArgumentCaptor<ZeroPowerBehavior> zeroPowArg = ArgumentCaptor.forClass(ZeroPowerBehavior.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
+    MotorGroup motorGroup = new MotorGroup(motor);
     motorGroup.setPower(1); // Make sure that brake changes the power
 
     // Check if brake did anything
@@ -192,7 +180,7 @@ public class MotorGroupTest {
     ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
     ArgumentCaptor<ZeroPowerBehavior> zeroPowArg = ArgumentCaptor.forClass(ZeroPowerBehavior.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
+    MotorGroup motorGroup = new MotorGroup(motor);
     motorGroup.setPower(1); // Make sure that coast changes the power
 
     // Check if coast did anything
@@ -214,7 +202,7 @@ public class MotorGroupTest {
     DcMotor motor = mock(DcMotor.class);
     ArgumentCaptor<RunMode> runModeArg = ArgumentCaptor.forClass(RunMode.class);
 
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
+    MotorGroup motorGroup = new MotorGroup(motor);
 
     // Check if useEncoders did anything
     motorGroup.useEncoders();
@@ -224,29 +212,5 @@ public class MotorGroupTest {
     if (runModeArg.getValue() != RunMode.RUN_USING_ENCODER) {
       fail("Did not use encoders mode");
     }
-  }
-
-  /**
-   * Ensure that the robot does go the correct distance
-   */
-  @Test
-  public void goForDistance() {
-    DcMotor motor = mock(DcMotor.class);
-    ArgumentCaptor<Integer> targetPosArg = ArgumentCaptor.forClass(Integer.class);
-    ArgumentCaptor<RunMode> runModeArg = ArgumentCaptor.forClass(RunMode.class);
-    ArgumentCaptor<Double> motorPowArg = ArgumentCaptor.forClass(Double.class);
-
-    MotorGroup motorGroup = new MotorGroup(1, 1.0, motor);
-
-    // Check if goForDistance did anything
-    motorGroup.goForDistance(1, 1);
-    verify(motor, atLeastOnce()).setTargetPosition(targetPosArg.capture());
-    verify(motor, atLeastOnce()).setMode(runModeArg.capture());
-    verify(motor, atLeastOnce()).setPower(motorPowArg.capture());
-
-    // If the motor didn't actually go for the right distance
-    assertEquals("Did not go expected distance", (Integer) 100, targetPosArg.getValue());
-    assertEquals("Did not set correct run mode", RunMode.RUN_TO_POSITION, runModeArg.getValue());
-    assertEquals("Did not set correct power", 1.0, motorPowArg.getValue());
   }
 }

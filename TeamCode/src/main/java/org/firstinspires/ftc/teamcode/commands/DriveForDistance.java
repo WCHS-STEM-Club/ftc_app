@@ -83,7 +83,7 @@ public class DriveForDistance extends Command {
     robot.getTurnMotor(0).goForDistance(distance, this.unit, power);
 
     while (robot.forwardMotors.isBusy()) {
-      int gyroResult = (int) gyro.getSensorValue();
+      int gyroResult = (int) gyro.read();
       double error = pid.calcPid(gyroResult, 0, kp, ki, kd);
 
 //      robot.getTurnMotor(0).disableEncoders();

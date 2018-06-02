@@ -29,6 +29,7 @@
 
 package opmodes;
 
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -118,8 +119,8 @@ public class Competition_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    float liftPower = gamepad2.left_stick_y;
-    float liftDist = lift.getAverageDistance();
+    double liftPower = gamepad2.left_stick_y;
+    double liftDist = lift.getAverageDistance(Units.decimeter);
 
     // 3dm max, 0dm min
     if (liftDist >= 3 && liftPower > 0) {
@@ -162,7 +163,7 @@ public class Competition_TeleOp extends OpMode {
   }
 
   private void driveLoop() {
-    float gyroResult = (float) gyro.getSensorValue();
+    double gyroResult = (double) gyro.read();
 
     float drive = gamepad1.left_stick_y;
     float turn = gamepad1.right_stick_x;

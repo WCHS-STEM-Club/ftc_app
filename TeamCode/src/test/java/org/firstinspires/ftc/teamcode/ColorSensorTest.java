@@ -64,7 +64,7 @@ public class ColorSensorTest {
     // Test
     colorSensor.calibrate(); // Reads calibrationColor
 
-    NormalizedRGBA resultingColor = colorSensor.getSensorValue(); // Reads expectedColor
+    NormalizedRGBA resultingColor = colorSensor.readColor(); // Reads expectedColor
     if (resultingColor.red != 0.5f || resultingColor.green != 0.5f && resultingColor.blue != 0.5f) {
       fail("Did not calibrate properly");
     }

@@ -32,8 +32,7 @@ public class MrGyro implements Sensor {
    *
    * @return Return value
    */
-  @Override
-  public Number getSensorValue() {
+  public Number read() { // TODO: Put constructor params into this function or, better, make two functions
     switch (returnType) {
       case HEADING:
         return gyro.getHeading();

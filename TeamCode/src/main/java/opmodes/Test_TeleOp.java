@@ -29,6 +29,7 @@
 
 package opmodes;
 
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -139,9 +140,9 @@ public class Test_TeleOp extends OpMode {
   public void loop() {
     driveLoop();
 
-    float liftPower = gamepad2.left_stick_y;
-    float liftDist = lift.getAverageDistance();
-    float liftClicks = lift.getAverageClicks();
+    double liftPower = gamepad2.left_stick_y;
+    double liftDist = lift.getAverageDistance(Units.decimeter);
+    double liftClicks = lift.getAverageClicks();
 
     telemetry.addData("Lift dist", liftDist);
     telemetry.addData("Lift clicks", liftClicks);

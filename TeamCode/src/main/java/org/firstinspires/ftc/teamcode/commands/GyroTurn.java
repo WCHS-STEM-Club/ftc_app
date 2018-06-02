@@ -32,9 +32,9 @@ public class GyroTurn extends Command {
    * @param angleUnit The units that the angle is in
    * @param power The motors' power, scale from 0 to 1
    * @param robot Provides access to the motors and sensors
-   * @param opMode The LinearOpMode in which the command is being run
+   * @param telemetry The telemetry used to send back data
    */
-  public GyroTurn(double angle, Unit angleUnit, double power, Robot robot, LinearOpMode opMode) {
+  public GyroTurn(double angle, Unit angleUnit, double power, Robot robot, Telemetry telemetry) {
     this.angle = angle;
     this.angleUnit = angleUnit;
     this.power = power;
@@ -58,23 +58,23 @@ public class GyroTurn extends Command {
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 
-    int gyroValue = (int) gyro.getSensorValue();
+    int gyroValue = (int) gyro.read();
 
     while (!(gyroValue > min && gyroValue < max)) {
-      double error = pid.calcPid((int) gyro.getSensorValue(), angle, kp, ki, kd);
+      double error = pid.calcPid((int) gyro.read(), angle, kp, ki, kd);
 
-      telemetry.addData("MrGyro", gyro.getSensorValue());
+      telemetry.addData("MrGyro", gyro.read());
       telemetry.addData("Min", min);
       telemetry.addData("Max", max);
-      telemetry.addData("Current value", (double) gyro.getSensorValue());
+      telemetry.addData("Current value", gyro.read());
       telemetry.addData("Target", angle);
       telemetry.addData("Error", error);
       telemetry.update();
 
-      robot.getTurnMotor(0).setPower((float) error);
-      robot.getTurnMotor(1).setPower((float) -error);
+      robot.getTurnMotor(0).setPower(error);
+      robot.getTurnMotor(1).setPower(-error);
 
-      gyroValue = (int) gyro.getSensorValue();
+      gyroValue = (int) gyro.read();
     }
 
     robot.getTurnMotor(0).brake();

@@ -60,7 +60,7 @@ public class What_TeleOp extends OpMode {
   public void init() {
     telemetry.addData("Status", "Initializing...");
 
-    motor = new MotorGroup(1, 1, hardwareMap.get(DcMotor.class, "right_drive"));
+    motor = new MotorGroup(hardwareMap.get(DcMotor.class, "right_drive"));
     motor.useEncoders();
     // Tell the driver that initialization is complete.
     telemetry.addData("Status", "Ready");

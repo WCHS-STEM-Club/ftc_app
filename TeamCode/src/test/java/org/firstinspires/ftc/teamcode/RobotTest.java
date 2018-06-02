@@ -53,7 +53,7 @@ public class RobotTest {
    */
   @Test
   public void setForwardMotors() {
-    MotorGroup forwardMotors = new MotorGroup(1, 1, mock(DcMotor.class));
+    MotorGroup forwardMotors = new MotorGroup(mock(DcMotor.class));
     robot.setForwardMotors(forwardMotors);
     robot.ready = true; // Don't do this in Commands/OpModes!
 
@@ -65,8 +65,8 @@ public class RobotTest {
    */
   @Test
   public void setTurnMotors() {
-    MotorGroup left = new MotorGroup(2, 1, mock(DcMotor.class));
-    MotorGroup right = new MotorGroup(1, 1, mock(DcMotor.class));
+    MotorGroup left = new MotorGroup(mock(DcMotor.class));
+    MotorGroup right = new MotorGroup(mock(DcMotor.class));
 
     MotorGroup[] turnMotors = {
         left, right
@@ -84,8 +84,8 @@ public class RobotTest {
   @Test
   public void setStrafeMotors() {
     MotorGroup[] strafeMotors = {
-        new MotorGroup(1, 1, mock(DcMotor.class)),
-        new MotorGroup(1, 1, mock(DcMotor.class))
+        new MotorGroup(mock(DcMotor.class)),
+        new MotorGroup(mock(DcMotor.class))
     };
     robot.setStrafeMotors(strafeMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
@@ -134,7 +134,7 @@ public class RobotTest {
   @Test
   public void otherMotor() {
     String key = "key";
-    MotorGroup motor = new MotorGroup(1, 1, mock(DcMotor.class));
+    MotorGroup motor = new MotorGroup(mock(DcMotor.class));
 
     robot.addOtherMotor(key, motor);
 
