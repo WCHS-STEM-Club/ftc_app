@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import android.os.AsyncTask;
+import com.nathanvarner.pid.PID;
 import com.nathanvarner.units.Unit;
 import opmodes.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -47,7 +48,7 @@ public class GyroTurn extends Command {
   boolean execute() {
     gyro.calibrate();
 
-    PidController pid = new PidController();
+    PID pid = new PID(kp, ki, kd, angle);
 
     robot.forwardMotors.useEncoders();
 
@@ -61,7 +62,8 @@ public class GyroTurn extends Command {
     int gyroValue = (int) gyro.read();
 
     while (!(gyroValue > min && gyroValue < max)) {
-      double error = pid.calcPid((int) gyro.read(), angle, kp, ki, kd);
+      // TODO: Find out if gyro.read() really returns an integer
+      double error = pid.pid((int)gyro.read());
 
       telemetry.addData("MrGyro", gyro.read());
       telemetry.addData("Min", min);

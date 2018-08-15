@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.nathanvarner.pid.PID;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
@@ -38,7 +39,7 @@ public class DriveForTime extends Command {
     double ki = 0;
     double kd = 0.3;
 
-    PidController pid = new PidController();
+    PID pid = new PID(kp, ki, kd, 0);
 
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
@@ -55,7 +56,7 @@ public class DriveForTime extends Command {
         gyroResult += 360;
       }
 
-      double correction = pid.calcPid(gyroResult, 0, kp, ki, kd);
+      double correction = pid.pid(gyroResult);
 
       float leftPower = (float) (power + correction);
       float rightPower = (float) (power - correction);

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.MotorGroup;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import org.firstinspires.ftc.teamcode.commands.PidController;
 
 @TeleOp(name = "PID OpMode", group = "Test OpMode")
 public class PID_OpMode extends LinearOpMode {

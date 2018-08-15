@@ -37,7 +37,6 @@ import org.firstinspires.ftc.teamcode.MotorGroup;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.ServoGroup;
-import org.firstinspires.ftc.teamcode.commands.PidController;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 
 /**

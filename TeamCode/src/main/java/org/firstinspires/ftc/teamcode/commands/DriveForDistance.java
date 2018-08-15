@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import android.os.AsyncTask;
+import com.nathanvarner.pid.PID;
 import com.nathanvarner.units.Unit;
 import com.nathanvarner.units.Units;
 import opmodes.LinearOpMode;
@@ -77,14 +78,14 @@ public class DriveForDistance extends Command {
   boolean execute() {
     gyro.calibrate();
 
-    PidController pid = new PidController();
+    PID pid = new PID(kp, ki, kd, 0);
 
     robot.getTurnMotor(1).goForDistance(distance, this.unit, power);
     robot.getTurnMotor(0).goForDistance(distance, this.unit, power);
 
     while (robot.forwardMotors.isBusy()) {
       int gyroResult = (int) gyro.read();
-      double error = pid.calcPid(gyroResult, 0, kp, ki, kd);
+      double error = pid.pid(gyroResult);
 
 //      robot.getTurnMotor(0).disableEncoders();
 //      robot.getTurnMotor(1).disableEncoders();
