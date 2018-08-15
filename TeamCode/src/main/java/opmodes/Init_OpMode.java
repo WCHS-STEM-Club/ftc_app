@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import org.firstinspires.ftc.teamcode.RobotGetter;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode". An OpMode is a 'program'

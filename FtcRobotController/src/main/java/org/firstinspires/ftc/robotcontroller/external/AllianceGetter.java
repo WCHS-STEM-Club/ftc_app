@@ -8,7 +8,7 @@ public class AllianceGetter {
     UNKNOWN
   }
 
-  private static Alliance alliance=Alliance.UNKNOWN;
+  private static Alliance alliance = Alliance.UNKNOWN;
 
   public static void setAlliance(Alliance newAlliance) {
     alliance = newAlliance;

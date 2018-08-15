@@ -32,7 +32,6 @@ package opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.RobotGetter;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 
 @Autonomous(name = "Color Calibrate", group = "Sensor")
