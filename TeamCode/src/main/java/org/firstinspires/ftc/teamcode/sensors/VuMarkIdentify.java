@@ -59,6 +59,10 @@ public class VuMarkIdentify implements Sensor {
     return RelicRecoveryVuMark.from(this.template);
   }
 
+  /**
+   * This cannot be calibrated, therefore nothing happens.
+   * @return True; no calibration can occur
+   */
   @Override
   public boolean calibrate() {
     return true;
@@ -66,5 +70,24 @@ public class VuMarkIdentify implements Sensor {
 
   public void changeDirection(VuforiaLocalizer.CameraDirection newDirection){
     direction = newDirection;
+  }
+
+  /**
+   * As this sensor cannot be calibrated, the calibration cannot be saved
+   * @return An empty string; there is no calibration
+   */
+  @Override
+  public String saveCalibration() {
+    return "";
+  }
+
+  /**
+   * As this sensor cannot be calibrated, the calibration cannot be saved
+   * @param calibration An empty string; there is no calibration
+   * @return True; there is no calibration
+   */
+  @Override
+  public boolean loadCalibration(String calibration) {
+    return true;
   }
 }

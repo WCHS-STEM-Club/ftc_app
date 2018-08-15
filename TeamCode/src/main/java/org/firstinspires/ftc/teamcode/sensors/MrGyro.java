@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.sensors;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /**
  * Modern Robotics gyro, detects heading, orientation, and rotational velocity

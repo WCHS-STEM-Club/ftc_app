@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
  * The 2017-2018 season robot.
  */
 public class Robot2017 extends Robot {
-
   /**
    * Constructor
    *

@@ -49,4 +49,23 @@ public abstract class Gyro implements Sensor {
   public float getHeading() {
     return getOrientation(Units.degree).thirdAngle;
   }
+
+  /**
+   * The calibration of a gyroscope cannot be saved. Instead, calibrate the gyroscope in the init period before a match.
+   * @return An empty string; the calibration cannot be saved
+   */
+  @Override
+  public String saveCalibration() {
+    return "";
+  }
+
+  /**
+   * The calibration of a gyroscope cannot be saved. Instead, calibrate the gyroscope in the init period before a match.
+   * @param calibration An empty stringl the calibration cannot be saved
+   * @return False; the calibration cannot be saved
+   */
+  @Override
+  public boolean loadCalibration(String calibration) {
+    return false;
+  }
 }
