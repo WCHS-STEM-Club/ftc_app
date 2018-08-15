@@ -155,29 +155,32 @@ public class MotorGroup {
    *
    * @param distance Distance in unit
    * @param unit Unit for distance
-   * @param power Power from 1 to 0
+   * @param power The power at which the motors rotate
    */
   public void setDistance(double distance, Unit unit, double power) {
     int clicks = (int) unit.to(distance, encoderUnit);
+    setClicks(clicks, power);
+  }
 
+  /**
+   * Set the motors to go some number of clicks
+   * @param clicks The number of clicks to rotate
+   * @param power The power at which the motors rotate
+   */
+  private void setClicks(int clicks, double power) {
     for (DcMotor motor : this.motors) {
       motor.setTargetPosition(clicks);
-
-      motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      motor.setMode(RunMode.RUN_TO_POSITION);
     }
-
     setPower(power);
   }
 
-  public void setClicks(int clicks, double power) {
-    for (DcMotor motor : this.motors) {
-      motor.setTargetPosition(clicks);
-      motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
+  // TODO: Make this method private. Public users should use getAverageDistance
 
-    setPower(power);
-  }
-
+  /**
+   * Get the average number of clicks turned in the group. Mostly used in groups with a single motor.
+   * @return The average number of clicks
+   */
   public int getAverageClicks() {
     int total = 0;
 
@@ -185,9 +188,14 @@ public class MotorGroup {
       total += motor.getCurrentPosition();
     }
 
-    return total / motors.length; // Average
+    return total / motors.length;
   }
 
+  /**
+   * Get the average distance traveled by this group. Mostly used in groups with a single motor.
+   * @param resultUnit The unit the result should be in.
+   * @return The average distance
+   */
   public double getAverageDistance(Unit resultUnit) {
     int clicks = getAverageClicks();
     return encoderUnit.to(clicks, resultUnit);
