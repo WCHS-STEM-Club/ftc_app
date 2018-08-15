@@ -5,50 +5,40 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /**
- * Sensor that detects orientation.
+ * Modern Robotics gyro, detects heading, orientation, and rotational velocity
  */
-public class MrGyro implements Sensor {
+public class MrGyro extends Gyro implements Sensor {
 
-  public enum ReturnType {
-    HEADING,
-    ANGULAR_VELOCITY
-  }
-
-  private ReturnType returnType;
-  private ModernRoboticsI2cGyro gyro;
-
-  public MrGyro(ModernRoboticsI2cGyro gyro, ReturnType returnType) {
-    this.gyro = gyro;
-    this.returnType = returnType;
-  }
-
-  public MrGyro(HardwareMap hwMap, String deviceName, ReturnType returnType) {
-    this.gyro = hwMap.get(ModernRoboticsI2cGyro.class, deviceName);
-    this.returnType = returnType;
+  /**
+   * Create an MrGyro from an instance of {@link ModernRoboticsI2cGyro}.
+   * @param gyro The gyroscope to use for the MrGyro
+   */
+  public MrGyro(ModernRoboticsI2cGyro gyro) {
+    this.m_gyro = gyro;
   }
 
   /**
-   * Get the gyroscope's readings, based on the return type in the constructor
-   *
-   * @return Return value
+   * Create an MrGyro from a hardware map and device name.
+   * @param hwMap The hardware map containing the gyroscope.
+   * @param deviceName The name of the gyroscope as per the configuration on the robot.
    */
-  public Number read() { // TODO: Put constructor params into this function or, better, make two functions
-    switch (returnType) {
-      case HEADING:
-        return gyro.getHeading();
-      case ANGULAR_VELOCITY:
-        return gyro.getAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-    }
-
-    return 0.0f;
+  public MrGyro(HardwareMap hwMap, String deviceName) {
+    this.m_gyro = hwMap.get(ModernRoboticsI2cGyro.class, deviceName);
   }
 
+  /**
+   * Calibrate the gyroscope so that the current heading is 0. Note that the gyroscope must not be rotating at all or
+   * else the measurements will drift significantly.I would recommend not moving the robot at all while the gyro is
+   * calibrating.
+   * @return True if the calibration was a success, false if it failed
+   */
   @Override
   public boolean calibrate() {
-    gyro.calibrate();
-    while (gyro.isCalibrating()) {
+    ((ModernRoboticsI2cGyro)m_gyro).calibrate();
+    while (((ModernRoboticsI2cGyro)m_gyro).isCalibrating()) {
+      // TODO: Work through the code to make sure that this is correct
       Thread.yield();
     }
-    return !gyro.isCalibrating(); // False if it didn't work right
+    return !((ModernRoboticsI2cGyro)m_gyro).isCalibrating(); // False if it didn't work right
   }
 }

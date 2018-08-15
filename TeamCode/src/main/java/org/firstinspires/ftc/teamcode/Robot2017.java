@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.sensors.MrGyro.ReturnType.ANGULAR_VELOCITY;
-import static org.firstinspires.ftc.teamcode.sensors.MrGyro.ReturnType.HEADING;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
@@ -52,8 +49,7 @@ public class Robot2017 extends Robot {
 
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
-    addSensor("gyro", new MrGyro(hwMap, "gyro", HEADING));
-    addSensor("gyroAngular", new MrGyro(hwMap, "gyro", ANGULAR_VELOCITY));
+    addSensor("gyro", new MrGyro(hwMap, "gyro"));
     addSensor("color", new ColorSensor(hwMap, "color_sensor", true));
 
     // Servos

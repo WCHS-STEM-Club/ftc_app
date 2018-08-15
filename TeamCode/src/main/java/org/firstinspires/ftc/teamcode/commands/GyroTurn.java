@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import android.os.AsyncTask;
 import com.nathanvarner.pid.PID;
 import com.nathanvarner.units.Unit;
+import com.nathanvarner.units.Units;
 import opmodes.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -59,24 +60,25 @@ public class GyroTurn extends Command {
     ElapsedTime runtime = new ElapsedTime();
     runtime.reset();
 
-    int gyroValue = (int) gyro.read();
+    // TODO: Make sure that I really want z here
+    float heading = gyro.getOrientation(Units.degree).thirdAngle;
 
-    while (!(gyroValue > min && gyroValue < max)) {
-      // TODO: Find out if gyro.read() really returns an integer
-      double error = pid.pid((int)gyro.read());
+    while (heading < min || heading > max) {
+      // TODO: Still make sure I want z...
+      heading = gyro.getOrientation(Units.degree).thirdAngle;
 
-      telemetry.addData("MrGyro", gyro.read());
+      double error = pid.pid(heading);
+
+      telemetry.addData("MrGyro", heading);
       telemetry.addData("Min", min);
       telemetry.addData("Max", max);
-      telemetry.addData("Current value", gyro.read());
+      telemetry.addData("Current value", heading);
       telemetry.addData("Target", angle);
       telemetry.addData("Error", error);
       telemetry.update();
 
       robot.getTurnMotor(0).setPower(error);
       robot.getTurnMotor(1).setPower(-error);
-
-      gyroValue = (int) gyro.read();
     }
 
     robot.getTurnMotor(0).brake();

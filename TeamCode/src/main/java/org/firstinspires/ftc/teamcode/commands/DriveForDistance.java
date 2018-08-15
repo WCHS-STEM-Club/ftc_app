@@ -84,9 +84,10 @@ public class DriveForDistance extends Command {
     robot.getTurnMotor(0).goForDistance(distance, this.unit, power);
 
     while (robot.forwardMotors.isBusy()) {
-      int gyroResult = (int) gyro.read();
+      float gyroResult = gyro.getOrientation(Units.degree).thirdAngle;
       double error = pid.pid(gyroResult);
 
+      // TODO: Debug the below code to make the PID work
 //      robot.getTurnMotor(0).disableEncoders();
 //      robot.getTurnMotor(1).disableEncoders();
 

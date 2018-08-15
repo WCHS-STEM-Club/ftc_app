@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.nathanvarner.pid.PID;
+import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
@@ -33,7 +34,8 @@ public class DriveForTime extends Command {
   @Override
   boolean execute() {
     // This is like calibration in that it will be used to reset the gyro to 0
-    int gyroStart = (int) gyro.read();
+    // TODO:  Figure out if I really don't want to just calibrate here instead.
+    float gyroStart = gyro.getHeading();
 
     double kp = 0.01;
     double ki = 0;
@@ -48,7 +50,7 @@ public class DriveForTime extends Command {
 
     // Run while we still have time to wait
     while (runtime.milliseconds() / 1000 < this.seconds) {
-      int gyroResult = (int) gyro.read() - gyroStart;
+      float gyroResult = gyro.getOrientation(Units.degree).thirdAngle - gyroStart;
       while (gyroResult > 180) {
         gyroResult -= 360;
       }
