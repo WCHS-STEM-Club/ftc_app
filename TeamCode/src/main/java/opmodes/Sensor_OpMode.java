@@ -23,7 +23,7 @@ public class Sensor_OpMode extends LinearOpMode {
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("MrGyro angle 1", gyro.read());
+      telemetry.addData("MrGyro angle 1", gyro.getHeading());
       telemetry.addData("Motor encoders lift", lift.getAverageClicks());
       telemetry.update();
     }

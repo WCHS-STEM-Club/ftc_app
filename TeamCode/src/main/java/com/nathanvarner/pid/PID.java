@@ -118,4 +118,8 @@ public class PID {
     double derivative = deltaError / deltaTime;
     return m_kd * derivative;
   }
+
+  public void setSetpoint(double newSetpoint) {
+    m_setpoint = newSetpoint;
+  }
 }

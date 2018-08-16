@@ -29,6 +29,7 @@
 
 package opmodes;
 
+import com.nathanvarner.pid.PID;
 import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -59,7 +60,7 @@ public class Competition_TeleOp extends OpMode {
   // The robot is set up such that there are two drive motors in the back
   private ElapsedTime runtime = new ElapsedTime();
   private Robot robot;
-  private PidController pid;
+  private PID pid;
 
   private MotorGroup lift;
   private ServoGroup claw;
@@ -85,7 +86,7 @@ public class Competition_TeleOp extends OpMode {
     lift = robot.getOtherMotor("lift");
     claw = robot.getServo("claw");
     knock = robot.getServo("knock");
-    gyro = (MrGyro) robot.getSensor("gyroAngular");
+    gyro = (MrGyro) robot.getSensor("gyro");
 
     lift.useEncoders();
     claw.converge();
@@ -108,7 +109,7 @@ public class Competition_TeleOp extends OpMode {
   public void start() {
     runtime.reset();
     lift.resetEncoders();
-    pid = new PidController();
+    pid = new PID(kp, ki, kd, 0);
   }
 
   /*
@@ -157,27 +158,40 @@ public class Competition_TeleOp extends OpMode {
    */
   @Override
   public void stop() {
-    robot.forwardMotors.setPower(0);
-    lift.setPower(0);
+    robot.forwardMotors.brake();
+    lift.brake();
   }
 
+  /**
+   * This method is called once per loop to control the motors
+   */
   private void driveLoop() {
-    double gyroResult = (double) gyro.read();
+    // TODO: Check that I want z
+    // Store the robot's current rate of rotation
+    float gyroResult = gyro.getAngularVelocity(Units.degree).zRotationRate;
 
+    // Store the speed to go forward and turn
     float drive = gamepad1.left_stick_y;
     float turn = gamepad1.right_stick_x;
 
     telemetry.addData("Drive", drive);
     telemetry.addData("Turn", turn);
 
+    // Set the desired angular velocity based on the joystick. This behavior should be more reliable than setting the
+    // motors to run in opposite directions because the turning speed will be the same for any joystick position
+    // regardless or motor output.
     float targetAngularVelocity = turn * 20;
 
-    double correction = pid.calcPid(gyroResult, targetAngularVelocity, kp, ki, kd);
+    // Use PID to try to hit target velocity
+    pid.setSetpoint(targetAngularVelocity);
+    double correction = pid.pid(gyroResult);
 
-    float leftPower = (float) (drive + correction);
-    float rightPower = (float) (drive - correction);
+    // Combine the drive and turning correction into individual power for the motors
+    double leftPower = drive + correction;
+    double rightPower = drive - correction;
 
-    float max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+    // Prevent power from
+    double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
     if (max > 1) {
       leftPower /= max;
       rightPower /= max;
