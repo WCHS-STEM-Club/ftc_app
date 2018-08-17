@@ -301,6 +301,10 @@ public class FtcRobotControllerActivity extends Activity
     ServiceController.startService(FtcRobotControllerWatchdogService.class);
     bindToService();
     logPackageVersions();
+
+    // This code was created by STEM Club, not FTC
+    // Load the persistence file
+    Persistence.loadFile(context, "persistence.json");
   }
 
   protected UpdateUI createUpdateUI() {
@@ -380,6 +384,10 @@ public class FtcRobotControllerActivity extends Activity
 
     preferencesHelper.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener);
     RobotLog.cancelWriteLogcatToDisk();
+
+    // Added by STEM Club, not FTC
+    // Save the persistence file to disk before the app ends
+    Persistence.saveFile(context, "persistence.json");
   }
 
   protected void bindToService() {

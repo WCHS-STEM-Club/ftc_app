@@ -62,9 +62,6 @@ public class FtcOpModeRegister implements OpModeRegister {
      * @see com.qualcomm.robotcore.eventloop.opmode.Autonomous
      */
     public void register(OpModeManager manager) {
-
-        /**
-         * Any manual OpMode class registrations should go here.
-         */
+      // Add manual registrations here
     }
 }
