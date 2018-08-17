@@ -139,6 +139,10 @@ public class Unit {
     return newUnit.fromBaseUnit(toBaseUnit(numberInUnit));
   }
 
+  public double toManual(double numberInUnit, double xThisUnits, double xThoseUnits) {
+    return (xThoseUnits / xThisUnits) * numberInUnit;
+  }
+
   /**
    * Formats the number with three decimal places and the unit abbreviation.
    * @param numberInUnit The number to format.

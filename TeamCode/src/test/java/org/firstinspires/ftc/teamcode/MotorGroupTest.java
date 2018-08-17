@@ -24,12 +24,10 @@ SOFTWARE.
 
 package org.firstinspires.ftc.teamcode;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static junit.framework.Assert.*;
+import static org.mockito.Mockito.*;
 
+import com.nathanvarner.units.Unit;
 import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
@@ -69,6 +67,36 @@ public class MotorGroupTest {
     MotorGroup motorGroup = new MotorGroup(Units.decimeter, motor);
     if (!(motorGroup.encoderUnit == Units.decimeter)) {
       fail("MotorGroup didn't save encoder units");
+    }
+  }
+
+  @Test
+  public void MotorGroup_encoderUnit_nullMotors() {
+    try {
+      MotorGroup m = new MotorGroup(mock(Unit.class), (DcMotor[])null);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void MotorGroup_encoderUnit_nullMotor() {
+    try {
+      MotorGroup m = new MotorGroup(mock(Unit.class), mock(DcMotor.class), null);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void MotorGroup_encoderUnit_nullEncoderUnit() {
+    try {
+      MotorGroup m = new MotorGroup((Unit)null, mock(DcMotor.class));
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
     }
   }
 
@@ -212,5 +240,49 @@ public class MotorGroupTest {
     if (runModeArg.getValue() != RunMode.RUN_USING_ENCODER) {
       fail("Did not use encoders mode");
     }
+  }
+
+  // TODO: Tests below here are only checking that the methods don't throw anything.
+  // TODO: Write better tests that check that the robot really does what it should.
+  @Test
+  public void goForDistance() {
+    MotorGroup m = new MotorGroup(mock(DcMotor.class));
+    m.setPower(0); // Make the encoders not reset
+    m.goForDistance(0, Units.decimeter, 1);
+  }
+
+  @Test
+  public void setDistance() {
+    MotorGroup m = new MotorGroup(mock(DcMotor.class));
+    m.setPower(0); // Make the encoders not reset
+    m.setDistance(0, Units.decimeter, 1);
+  }
+
+  @Test
+  public void getAverageClicks() {
+    MotorGroup m = new MotorGroup(mock(DcMotor.class));
+    assertEquals(0, m.getAverageClicks());
+  }
+
+  @Test
+  public void getAverageDistance() {
+    MotorGroup m = new MotorGroup(mock(DcMotor.class));
+    assertEquals(0, m.getAverageDistance(Units.decimeter), 0.01);
+  }
+
+  @Test
+  public void resetEncoders() {
+    DcMotor motor = mock(DcMotor.class);
+    when(motor.getCurrentPosition()).thenReturn(1).thenReturn(0);
+    MotorGroup m = new MotorGroup(motor);
+    m.resetEncoders();
+  }
+
+  @Test
+  public void isBusy() {
+    DcMotor motor = mock(DcMotor.class);
+    when(motor.isBusy()).thenReturn(true);
+    MotorGroup m = new MotorGroup(motor);
+    assertTrue(m.isBusy());
   }
 }

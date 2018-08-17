@@ -61,6 +61,10 @@ public class MotorGroup {
       throw new IllegalArgumentException("There may be no null motors in a MotorGroup.");
     }
 
+    if (ParamCheck.isNull(encoderUnit)) {
+      throw new IllegalArgumentException("The encoderUnit may not be null");
+    }
+
     this.encoderUnit = encoderUnit;
     this.motors = motors;
 
@@ -138,7 +142,10 @@ public class MotorGroup {
       resetEncoders();
     }
 
-    int clicks = (int) unit.to(distance, encoderUnit);
+    double dm = unit.to(distance, Units.decimeter);
+    // TODO: Add parameters to convert between linear and rotational units instead of these defaults
+    double rotations = Units.decimeter.toManual(dm, 2, 1);
+    int clicks = (int) Units.rotation.to(rotations, encoderUnit);
 
     for (DcMotor motor : this.motors) {
       int target = motor.getCurrentPosition() + clicks;
@@ -158,7 +165,10 @@ public class MotorGroup {
    * @param power The power at which the motors rotate
    */
   public void setDistance(double distance, Unit unit, double power) {
-    int clicks = (int) unit.to(distance, encoderUnit);
+    double dm = unit.to(distance, Units.decimeter);
+    // TODO: Add parameters to convert between linear and rotational units instead of these defaults
+    double rotations = Units.decimeter.toManual(dm, 2, 1);
+    int clicks = (int) Units.rotation.to(rotations, encoderUnit);
     setClicks(clicks, power);
   }
 
@@ -198,7 +208,10 @@ public class MotorGroup {
    */
   public double getAverageDistance(Unit resultUnit) {
     int clicks = getAverageClicks();
-    return encoderUnit.to(clicks, resultUnit);
+    // TODO: Add parameters to convert between linear and rotational units instead of these defaults
+    double rotations = encoderUnit.toManual(clicks, 1, 2);
+    double dm = resultUnit.to(rotations, Units.decimeter);
+    return dm;
   }
 
   /**
