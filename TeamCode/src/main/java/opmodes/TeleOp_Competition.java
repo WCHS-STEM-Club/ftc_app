@@ -54,8 +54,8 @@ import org.firstinspires.ftc.teamcode.sensors.MrGyro;
  * list
  */
 
-@TeleOp(name = "Competition TeleOp", group = "TeleOp")
-public class Competition_TeleOp extends OpMode {
+@TeleOp(name = "Competition", group = "TeleOp")
+public class TeleOp_Competition extends OpMode {
 
   // The robot is set up such that there are two drive motors in the back
   private ElapsedTime runtime = new ElapsedTime();

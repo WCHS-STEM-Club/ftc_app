@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
+import opmodes.Utils_CalibrateColor;
 import org.firstinspires.ftc.robotcontroller.internal.Persistence;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.io.StringWriter;
 
 /**
  * Sensor that detects color. Its calibration can be saved, and because it must be calibrated with
- * {@link opmodes.CalibrateColor}, it should not be calibrated right before a match. Instead, it should be calibrated
+ * {@link Utils_CalibrateColor}, it should not be calibrated right before a match. Instead, it should be calibrated
  * ahead of time using the OpMode and then loaded back later because it is saved to {@link Persistence}.
  */
 public class ColorSensor implements Sensor {

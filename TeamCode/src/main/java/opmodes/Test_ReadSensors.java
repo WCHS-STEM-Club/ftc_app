@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 
-@Autonomous(name = "Sensor OpMode", group = "Test OpMode")
-public class Sensor_OpMode extends LinearOpMode {
+@Autonomous(name = "Test Read Sensors", group = "Test")
+public class Test_ReadSensors extends LinearOpMode {
 
   @Override
   public void runOpMode() throws InterruptedException {
@@ -23,7 +23,7 @@ public class Sensor_OpMode extends LinearOpMode {
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("MrGyro angle 1", gyro.getHeading());
+      telemetry.addData("MrGyro heading", gyro.getHeading());
       telemetry.addData("Motor encoders lift", lift.getAverageClicks());
       telemetry.update();
     }

@@ -33,8 +33,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.sensors.Sensor;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
-@Autonomous(name = "Vuforia OpMode", group = "Linear Opmode")
-public class Vuforia_OpMode extends LinearOpMode {
+@Autonomous(name = "Test Vuforia", group = "Test")
+public class Test_Vuforia extends LinearOpMode {
 
   @Override
   public void runOpMode() {

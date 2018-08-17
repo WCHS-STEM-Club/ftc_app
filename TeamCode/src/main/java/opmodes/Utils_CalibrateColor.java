@@ -36,8 +36,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 
-@Autonomous(name = "Color Calibrate", group = "Sensor")
-public class CalibrateColor extends LinearOpMode {
+@Autonomous(name = "Util Color Calibrate", group = "Util")
+public class Utils_CalibrateColor extends LinearOpMode {
 
 
   @Override

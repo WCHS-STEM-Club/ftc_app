@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
  * Created by rachel on 1/20/2018.
  */
 
-@Autonomous(name = "FieldPosOne", group = "Linear Opmode")
-public class FieldPosOne_OpMode extends LinearOpMode {
+@Autonomous(name="Field Position One", group="Auto")
+public class Auto_FieldPosOne extends LinearOpMode {
   @Override
 
   public void runOpMode() throws InterruptedException {

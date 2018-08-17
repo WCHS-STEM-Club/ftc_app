@@ -29,10 +29,10 @@
 
 package opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.firstinspires.ftc.robotcontroller.external.AllianceGetter;
-import org.firstinspires.ftc.robotcontroller.external.AllianceGetter.Alliance;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.MotorGroup;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode". An OpMode is a 'program'
@@ -48,20 +48,22 @@ import org.firstinspires.ftc.robotcontroller.external.AllianceGetter.Alliance;
  * list
  */
 
-@Autonomous(name = "WhatAllianceIsIt", group = "Test")
-public class WhatAllianceIsIt_OpMode extends OpMode {
+@TeleOp(name = "Test One Motor Control", group = "Test")
+public class Test_OneMotorControl extends OpMode {
+
+  private MotorGroup motor;
 
   /*
    * Code to run ONCE when the driver hits INIT
    */
   @Override
   public void init() {
-    telemetry.addData("Status", "Initializing");
+    telemetry.addData("Status", "Initializing...");
 
-    Alliance alliance = AllianceGetter.getAlliance();
-
+    motor = new MotorGroup(hardwareMap.get(DcMotor.class, "right_drive"));
+    motor.useEncoders();
     // Tell the driver that initialization is complete.
-    telemetry.addData("Alliance", alliance);
+    telemetry.addData("Status", "Ready");
   }
 
   /*
@@ -76,7 +78,6 @@ public class WhatAllianceIsIt_OpMode extends OpMode {
    */
   @Override
   public void start() {
-
   }
 
   /*
@@ -84,7 +85,8 @@ public class WhatAllianceIsIt_OpMode extends OpMode {
    */
   @Override
   public void loop() {
-    ;
+
+    motor.setPower(gamepad1.left_stick_y);
   }
 
   /*
@@ -92,5 +94,6 @@ public class WhatAllianceIsIt_OpMode extends OpMode {
    */
   @Override
   public void stop() {
+    motor.setPower(0);
   }
 }

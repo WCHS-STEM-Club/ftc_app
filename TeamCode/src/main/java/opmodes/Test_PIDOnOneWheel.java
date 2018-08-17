@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.MotorGroup;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 
-@TeleOp(name = "PID OpMode", group = "Test OpMode")
-public class PID_OpMode extends LinearOpMode {
+@TeleOp(name="Test PID On One Wheel", group="Test")
+public class Test_PIDOnOneWheel extends LinearOpMode {
 
   @Override
   public void runOpMode() throws InterruptedException {

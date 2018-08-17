@@ -30,66 +30,52 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import org.firstinspires.ftc.teamcode.commands.DriveForDistEst;
-import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
-import org.firstinspires.ftc.teamcode.commands.Grab;
-import org.firstinspires.ftc.teamcode.commands.GyroTurn;
-import org.firstinspires.ftc.teamcode.commands.Release;
-import org.firstinspires.ftc.teamcode.commands.DriveForTime;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
-import org.firstinspires.ftc.teamcode.sensors.Sensor;
-import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
-@Autonomous(name = "Test OpMode", group = "Linear Opmode")
-public class Test_OpMode extends LinearOpMode {
+/*
+ * This is an example LinearOpMode that shows how to use
+ * the REV Robotics Color-Distance Sensor.
+ *
+ * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
+ */
+@Autonomous(name="Test Read Color Sensor", group="Test")
+public class Test_ReadColorSensor extends LinearOpMode {
 
-  private ElapsedTime runtime = new ElapsedTime();
 
   @Override
   public void runOpMode() throws InterruptedException {
+
     Robot robot = new Robot2017(hardwareMap);
+    ColorSensor test = (ColorSensor)robot.getSensor("color");
 
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
-
-  waitForStart();
-    runtime.reset();
-
-    if (opModeIsActive()) {
-//      sleep(1000);
-//      robot.getServo("claw").converge();
-//      robot.getServo("claw").setDefaultPos();
-//      telemetry.addData("status", "should set to default pos");
-//      telemetry.update();
-//      sleep(1000);
-//
-//
-//      new Grab(robot).start();
-//      telemetry.addData("status", "a grab should happen");
-//      telemetry.update();
-//      sleep(1000);
-//
-//
-//      new Release(robot).start();
-//      telemetry.addData("status", "a release should happene");
-//      telemetry.update();
-//      sleep(1000);
-//
-//
-//      new GyroTurn(90, robot, telemetry).start();
-//      telemetry.addData("status", "turning");
-//      telemetry.update();
-//      sleep(1000);
-
-      new DriveForDistEst((float) 10, 6.223f, 1, robot).start();
-
-      telemetry.addData("should have gone", "about a meter");
+    while(opModeIsActive()) {
+      telemetry.addData("Status", "yes");
       telemetry.update();
 
+      String currentcolor = "";
+
+      NormalizedRGBA color = test.readColor();
+      if( color.blue > color.red )
+        currentcolor ="blue";
+      else{
+        currentcolor = "red";
+      }
+
+      telemetry.addData("red", color.red);
+      telemetry.addData("green", color.green);
+      telemetry.addData("blue", color.blue);
+      telemetry.addData("color sensed", currentcolor);
 
     }
+
+    telemetry.addData("status", "done");
+    telemetry.update();
+
   }
 }

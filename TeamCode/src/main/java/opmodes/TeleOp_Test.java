@@ -53,8 +53,8 @@ import org.firstinspires.ftc.teamcode.ServoGroup;
  * list
  */
 
-@TeleOp(name = "Test TeleOp", group = "TeleOp")
-public class Test_TeleOp extends OpMode {
+@TeleOp(name = "Test", group = "TeleOp")
+public class TeleOp_Test extends OpMode {
 
   // The robot is set up such that there are two drive motors in the back
   private ElapsedTime runtime = new ElapsedTime();
