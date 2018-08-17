@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcontroller.internal.Persistence;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.MrGyro;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
@@ -49,7 +50,10 @@ public class Robot2017 extends Robot {
     // Sensors
     addSensor("vuMarkPictograph", new VuMarkIdentify("RelicVuMark", hwMap, true));
     addSensor("gyro", new MrGyro(hwMap, "gyro"));
-    addSensor("color", new ColorSensor(hwMap, "color_sensor", true));
+    ColorSensor colorSensor = new ColorSensor(hwMap, "color_sensor", true);
+    colorSensor.loadCalibration(Persistence.getKey("colorSensorCalibration",
+        "{\"maxR\":1,\"maxG\":1,\"maxB\":1}"));
+    addSensor("color", colorSensor);
 
     // Servos
     addServo("claw", new ServoGroup(clawL, clawR));

@@ -31,6 +31,7 @@ package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.robotcontroller.internal.Persistence;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
@@ -51,11 +52,6 @@ public class CalibrateColor extends LinearOpMode {
     waitForStart();
 
     colorSensor.calibrate();
-    telemetry.addLine(colorSensor.saveCalibration());
-
-    long endTime = System.currentTimeMillis() + 10000;
-    while (System.currentTimeMillis() < endTime) {
-      Thread.yield();
-    }
+    Persistence.setKey("colorSensorCalibration", colorSensor.saveCalibration());
   }
 }

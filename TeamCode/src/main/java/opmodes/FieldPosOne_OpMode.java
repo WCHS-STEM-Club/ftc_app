@@ -2,7 +2,7 @@ package opmodes;
 
 import com.nathanvarner.units.Units;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcontroller.external.AllianceGetter;
 import org.firstinspires.ftc.robotcontroller.external.AllianceGetter.Alliance;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.commands.Grab;
 import org.firstinspires.ftc.teamcode.commands.GyroTurn;
 import org.firstinspires.ftc.teamcode.commands.MoveKnocker;
 import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -26,7 +27,7 @@ public class FieldPosOne_OpMode extends LinearOpMode {
 
     Alliance alliance = AllianceGetter.getAlliance();
     Robot robot = new Robot2017(hardwareMap);
-    ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
+    ColorSensor colorSensor = (ColorSensor)robot.getSensor("color");
 
     waitForStart();
 
@@ -42,18 +43,19 @@ public class FieldPosOne_OpMode extends LinearOpMode {
       telemetry.addData("currently: ", "knocker down");
       telemetry.update();
 
-      if ( (colorSensor.red() > colorSensor.blue() && alliance.equals(Alliance.BLUE)) ||
-              (colorSensor.red() < colorSensor.blue() && alliance.equals(Alliance.RED)) ) {
+      NormalizedRGBA color = colorSensor.readColor();
+      if ( (color.red > color.blue && alliance.equals(Alliance.BLUE)) ||
+              (color.red < color.blue && alliance.equals(Alliance.RED)) ) {
         //knock over sensed jewel
-        telemetry.addData("blue: ", colorSensor.blue());
-        telemetry.addData("red: ", colorSensor.red());
+        telemetry.addData("blue: ", color.blue);
+        telemetry.addData("red: ", color.red);
         telemetry.addLine("Going to knock this jewel");
         telemetry.update();
-      } else if( (colorSensor.red() > colorSensor.blue() && alliance.equals(Alliance.RED)) ||
-              (colorSensor.red() < colorSensor.blue() && alliance.equals(Alliance.BLUE)) ){
+      } else if( (color.red > color.blue && alliance.equals(Alliance.RED)) ||
+              (color.red < color.blue && alliance.equals(Alliance.BLUE)) ){
         //backward, knock over non sensed jewel
-        telemetry.addData("blue: ", colorSensor.blue());
-        telemetry.addData("red: ", colorSensor.red());
+        telemetry.addData("blue: ", color.blue);
+        telemetry.addData("red: ", color.red);
         telemetry.addLine("Going to knock the other jewel");
         telemetry.update();
 

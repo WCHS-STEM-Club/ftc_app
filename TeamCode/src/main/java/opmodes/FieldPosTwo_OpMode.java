@@ -1,20 +1,19 @@
 package opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcontroller.external.AllianceGetter.Alliance;
 import org.firstinspires.ftc.robotcontroller.external.AllianceGetter;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
 import org.firstinspires.ftc.teamcode.commands.DriveForDistEst;
-import org.firstinspires.ftc.teamcode.commands.DriveForDistance;
 import org.firstinspires.ftc.teamcode.commands.DriveForTime;
 import org.firstinspires.ftc.teamcode.commands.Grab;
-import org.firstinspires.ftc.teamcode.commands.GyroTurn;
 import org.firstinspires.ftc.teamcode.commands.MoveKnocker;
 import org.firstinspires.ftc.teamcode.commands.Release;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
 import org.firstinspires.ftc.teamcode.sensors.VuMarkIdentify;
 
 /**
@@ -29,7 +28,7 @@ public class FieldPosTwo_OpMode extends LinearOpMode {
 
     AllianceGetter.Alliance alliance = AllianceGetter.getAlliance();
     Robot robot = new Robot2017(hardwareMap);
-    ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
+    ColorSensor colorSensor = (org.firstinspires.ftc.teamcode.sensors.ColorSensor)robot.getSensor("color");
 
     waitForStart();
 
@@ -49,34 +48,34 @@ public class FieldPosTwo_OpMode extends LinearOpMode {
       telemetry.update();
       sleep(1000);
 
-      boolean isblue = colorSensor.blue() > colorSensor.red(); //if not blue. false >:) also it doesnt uh well whatever null i guess
-      float comphensation = 0;
+      NormalizedRGBA color = colorSensor.readColor();
 
+      boolean isBlue = color.blue > color.red; //if not blue. false >:) also it doesnt uh well whatever null i guess
+      double compensation = 0;
 
-      telemetry.addData("sensor blue content", colorSensor.blue());
-      telemetry.addData("sensor red content", colorSensor.red());
-      telemetry.addData("is blue?", isblue);
+      telemetry.addData("sensor blue content", color.blue);
+      telemetry.addData("sensor red content", color.red);
+      telemetry.addData("is blue?", isBlue);
 
-
-      if(alliance.equals(Alliance.BLUE) && isblue){
-        //jewel is blue, red is behind, back up to knock red, -.3f for comphensation
+      if(alliance.equals(Alliance.BLUE) && isBlue){
+        //jewel is blue, red is behind, back up to knock red, -.3f for compensation
         telemetry.addData(">", "jewel is blue, going to back up");
         telemetry.update();
         new DriveForDistEst( (float) 1 , 6.223f, (float) 1, robot).start();
-        comphensation += 1;
+        compensation += 1;
 
-      }else if(alliance.equals(Alliance.BLUE) && !isblue){
+      }else if(alliance.equals(Alliance.BLUE) && !isBlue){
         new DriveForDistEst( (float) 1 , 6.223f, (float) 1, robot).start();
 
 
         //oops nvm
-      }else if(alliance.equals(Alliance.RED) && isblue){
+      }else if(alliance.equals(Alliance.RED) && isBlue){
         telemetry.addData(">", "jewel is blue, going to go fwd");
         telemetry.update();
         new DriveForDistEst( (float) 1 , 6.223f, (float) 1, robot).start();
-        comphensation += 1;
+        compensation += 1;
 
-      }else if(alliance.equals(Alliance.RED) && !isblue){
+      }else if(alliance.equals(Alliance.RED) && !isBlue){
         new DriveForDistEst( (float) -1 , 6.223f, (float) 1, robot).start();
         //oops nvm
       }else{
@@ -111,7 +110,7 @@ public class FieldPosTwo_OpMode extends LinearOpMode {
       }
 
 
-      telemetry.addData("comphensation", comphensation);
+      telemetry.addData("compensation", compensation);
       telemetry.update();
 
       if(alliance.equals(Alliance.RED)){
@@ -127,7 +126,7 @@ public class FieldPosTwo_OpMode extends LinearOpMode {
       }
 
       telemetry.addData("alliance:", alliance);
-      telemetry.addData("distance traveled:", comphensation + cryptoboxdist );
+      telemetry.addData("distance traveled:", compensation + cryptoboxdist );
       telemetry.update();
 
       sleep(3000);

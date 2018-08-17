@@ -32,14 +32,14 @@ package opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Robot2017;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import org.firstinspires.ftc.teamcode.sensors.ColorSensor;
+
 /*
  * This is an example LinearOpMode that shows how to use
  * the REV Robotics Color-Distance Sensor.
- *
- * It assumes the sensor is configured with the name "sensor_color_distance".
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
@@ -52,25 +52,24 @@ public class Test_Color extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
 
     Robot robot = new Robot2017(hardwareMap);
-    ColorSensor test;
+    ColorSensor test = (ColorSensor)robot.getSensor("color");
 
     while(opModeIsActive()) {
       telemetry.addData("Status", "yes");
       telemetry.update();
 
-      test = hardwareMap.get(ColorSensor.class, "color_sensor");
-
       String currentcolor = "";
 
-      if( test.blue() > test.red() )
+      NormalizedRGBA color = test.readColor();
+      if( color.blue > color.red )
         currentcolor ="blue";
       else{
         currentcolor = "red";
       }
 
-      telemetry.addData("red", test.red());
-      telemetry.addData("green", test.green());
-      telemetry.addData("blue", test.blue());
+      telemetry.addData("red", color.red);
+      telemetry.addData("green", color.green);
+      telemetry.addData("blue", color.blue);
       telemetry.addData("color sensed", currentcolor);
 
     }
