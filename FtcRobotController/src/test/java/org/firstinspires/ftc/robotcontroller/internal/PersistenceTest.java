@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.robotcontroller.internal;
 
-import org.firstinspires.ftc.robotcontroller.internal.Persistence;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 // TODO: These tests aren't flexible with JSON formatting/ordering. Maybe parse the result to make sure it is valid and

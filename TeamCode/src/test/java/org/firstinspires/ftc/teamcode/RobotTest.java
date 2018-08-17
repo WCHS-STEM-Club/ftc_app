@@ -36,6 +36,9 @@ import org.firstinspires.ftc.teamcode.sensors.Sensor;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RobotTest {
 
   private Robot robot;
@@ -48,16 +51,70 @@ public class RobotTest {
     robot = new MockRobot();
   }
 
+  @Test
+  public void constructor_noOtherMotors() {
+    MotorGroup forwardMotors = mock(MotorGroup.class);
+    MotorGroup[] turnMotors = new MotorGroup[] { mock(MotorGroup.class), mock(MotorGroup.class) };
+    MotorGroup[] strafeMotors = new MotorGroup[] { mock(MotorGroup.class), mock(MotorGroup.class) };
+    robot = new MockRobot(forwardMotors, turnMotors, strafeMotors);
+
+    assertEquals(forwardMotors, robot.forwardMotors);
+    assertEquals(turnMotors[0], robot.getTurnMotor(0));
+    assertEquals(turnMotors[1], robot.getTurnMotor(1));
+    assertEquals(strafeMotors[0], robot.getStrafeMotor(0));
+    assertEquals(strafeMotors[1], robot.getStrafeMotor(1));
+    assertTrue(robot.canStrafe);
+  }
+
+  @Test
+  public void constructor_otherMotors() {
+    MotorGroup forwardMotors = mock(MotorGroup.class);
+    MotorGroup[] turnMotors = new MotorGroup[] { mock(MotorGroup.class), mock(MotorGroup.class) };
+    MotorGroup[] strafeMotors = new MotorGroup[] { mock(MotorGroup.class), mock(MotorGroup.class) };
+    Map<String, MotorGroup> otherMotors = new HashMap<>();
+    otherMotors.put("test_key", mock(MotorGroup.class));
+    robot = new MockRobot(forwardMotors, turnMotors, strafeMotors, otherMotors);
+
+    assertEquals(forwardMotors, robot.forwardMotors);
+    assertEquals(turnMotors[0], robot.getTurnMotor(0));
+    assertEquals(turnMotors[1], robot.getTurnMotor(1));
+    assertEquals(strafeMotors[0], robot.getStrafeMotor(0));
+    assertEquals(strafeMotors[1], robot.getStrafeMotor(1));
+    assertEquals(otherMotors.get("test_key"), robot.getOtherMotor("test_key"));
+    assertTrue(robot.canStrafe);
+    assertTrue(robot.otherMotorExists("test_key"));
+  }
+
   /**
    * Ensure that setForwardMotors sets the forward motors.
    */
   @Test
   public void setForwardMotors() {
-    MotorGroup forwardMotors = new MotorGroup(mock(DcMotor.class));
+    MotorGroup forwardMotors = mock(MotorGroup.class);
     robot.setForwardMotors(forwardMotors);
     robot.ready = true; // Don't do this in Commands/OpModes!
 
     assertEquals("Did not set the forward motors", forwardMotors, robot.forwardMotors);
+  }
+
+  @Test
+  public void setForwardMotors_null() {
+    try {
+      robot.setForwardMotors(null);
+      fail("Forward motors cannot be null");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception");
+    }
+  }
+
+  @Test
+  public void setForwardMotors_ready() {
+    robot.setTurnMotors(new MotorGroup[] { mock(MotorGroup.class), mock(MotorGroup.class) });
+    robot.setForwardMotors(mock(MotorGroup.class));
+    assertTrue(robot.ready);
   }
 
   /**
@@ -65,12 +122,10 @@ public class RobotTest {
    */
   @Test
   public void setTurnMotors() {
-    MotorGroup left = new MotorGroup(mock(DcMotor.class));
-    MotorGroup right = new MotorGroup(mock(DcMotor.class));
+    MotorGroup left = mock(MotorGroup.class);
+    MotorGroup right = mock(MotorGroup.class);
 
-    MotorGroup[] turnMotors = {
-        left, right
-    };
+    MotorGroup[] turnMotors = { left, right };
     robot.setTurnMotors(turnMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
 
@@ -78,19 +133,57 @@ public class RobotTest {
     assertEquals("Did not set the right turn motors", right, robot.getTurnMotor(1));
   }
 
+  @Test
+  public void setTurnMotors_null() {
+    try {
+      robot.setTurnMotors(null);
+      fail("Cannot be null");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void setTurnMotors_notLongEnough() {
+    try {
+      robot.setTurnMotors(new MotorGroup[]{ mock(MotorGroup.class) });
+      fail("Too few MotorGroups");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void setTurnMotors_tooLong() {
+    try {
+      robot.setTurnMotors(new MotorGroup[]{ mock(MotorGroup.class), mock(MotorGroup.class), mock(MotorGroup.class) });
+      fail("Too many MotorGroups");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void setTurnMotors_containsNull() {
+    try {
+      robot.setTurnMotors(new MotorGroup[]{ mock(MotorGroup.class), null });
+      fail("Null MotorGroup");
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
   /**
    * Ensure that setStrafeMotors sets the strafe motors
    */
   @Test
   public void setStrafeMotors() {
-    MotorGroup[] strafeMotors = {
-        new MotorGroup(mock(DcMotor.class)),
-        new MotorGroup(mock(DcMotor.class))
-    };
+    MotorGroup[] strafeMotors = { mock(MotorGroup.class), mock(MotorGroup.class) };
     robot.setStrafeMotors(strafeMotors);
     robot.ready = true; // Don't do this in OpModes/Commands!
 
-    assertEquals("Did not set the turn motors", strafeMotors, robot.strafeMotors);
+    assertEquals(strafeMotors[0], robot.getStrafeMotor(0));
+    assertEquals(strafeMotors[1], robot.getStrafeMotor(1));
   }
 
   /**
@@ -134,7 +227,7 @@ public class RobotTest {
   @Test
   public void otherMotor() {
     String key = "key";
-    MotorGroup motor = new MotorGroup(mock(DcMotor.class));
+    MotorGroup motor = mock(MotorGroup.class);
 
     robot.addOtherMotor(key, motor);
 
@@ -165,7 +258,7 @@ public class RobotTest {
 
     try {
       robot.addOtherMotor("test", mock(MotorGroup.class));
-      fail("Excaption expected");
+      fail("Exception expected");
     } catch (IllegalArgumentException e) {
       // Expected
     } catch (Exception e) {
@@ -248,6 +341,44 @@ public class RobotTest {
     } catch (Exception e) {
       e.printStackTrace();
       fail("Wrong exception thrown");
+    }
+  }
+
+  @Test
+  public void addServo_getServo() {
+    ServoGroup test = mock(ServoGroup.class);
+    robot.addServo("test_key", test);
+    assertEquals(test, robot.getServo("test_key"));
+  }
+
+  @Test
+  public void addServo_nullValue() {
+    try {
+      robot.addServo("test_key", null);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void addServo_keyExists() {
+    robot.addServo("test_key", mock(ServoGroup.class));
+    try {
+      robot.addServo("test_key", mock(ServoGroup.class));
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
+  @Test
+  public void getServo_noSuchKey() {
+    try {
+      robot.getServo("nonexistent_key");
+      fail();
+    } catch (IllegalArgumentException e) {
+      // Expected
     }
   }
 }

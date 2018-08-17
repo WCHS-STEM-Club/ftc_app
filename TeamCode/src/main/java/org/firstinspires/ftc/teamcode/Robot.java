@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.firstinspires.ftc.teamcode.sensors.Sensor;
 
 /**
@@ -45,7 +47,7 @@ public abstract class Robot {
    * elements. Be sure to check {@link Robot#ready} and {@link Robot#canStrafe} before accessing. Do
    * not write to this variable! Instead, use {@link Robot#setStrafeMotors(MotorGroup[])}.
    */
-  public MotorGroup[] strafeMotors;
+  private MotorGroup[] strafeMotors;
 
   /**
    * All motors not related to driving the robot. Don't access this directly; use {@link
@@ -56,7 +58,7 @@ public abstract class Robot {
    * key</td> </tr> </thead> <tbody> <tr> <td>Main lift motor</td> <td>lift</td> </tr> </tbody>
    * </table>
    */
-  private HashMap<String, MotorGroup> otherMotors = new HashMap<>();
+  private Map<String, MotorGroup> otherMotors = new HashMap<>();
 
   /**
    * All sensors on board the robot should be added here.
@@ -89,7 +91,7 @@ public abstract class Robot {
    * </tbody>
    * </table>
    */
-  private HashMap<String, Sensor> sensors = new HashMap<>();
+  private Map<String, Sensor> sensors = new HashMap<>();
 
   /**
    * All servos on the robot should be added here.
@@ -114,7 +116,7 @@ public abstract class Robot {
    * </tbody>
    * </table>
    */
-  private HashMap<String, ServoGroup> servos = new HashMap<>();
+  private Map<String, ServoGroup> servos = new HashMap<>();
 
   /**
    * Main constructor without other motors.
@@ -139,11 +141,11 @@ public abstract class Robot {
      *                   backward.
      * @param strafeMotors A list of MotorGroups. On a strafe right, element 0 goes forward and 1
      *                     goes backward.
-     * @param otherMotors A HashMap of MotorGroups. Any can be accessed at any time and are not used
+     * @param otherMotors A Map of MotorGroups. HashMap is recommended. Any can be accessed at any time and are not used
      *                    for movement.
      */
   public Robot(MotorGroup forwardMotors, MotorGroup[] turnMotors, MotorGroup[] strafeMotors,
-      HashMap<String, MotorGroup> otherMotors) {
+      Map<String, MotorGroup> otherMotors) {
     setForwardMotors(forwardMotors);
     setTurnMotors(turnMotors);
     setStrafeMotors(strafeMotors);
@@ -236,6 +238,10 @@ public abstract class Robot {
     this.strafeMotors = strafeMotors;
 
     canStrafe = true;
+  }
+
+  public MotorGroup getStrafeMotor(int index) {
+    return strafeMotors[index];
   }
 
   /**
